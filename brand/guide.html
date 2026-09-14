@@ -2,10 +2,11 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Slice brand sheet</title>
+<title>Handsel brand sheet</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="fonts.css">
 <style>
-  @page { size: 1240px 4370px; margin: 0; }
+  @page { size: 1240px 4200px; margin: 0; }
   html, body { margin: 0; background: #fff; }
   body { font-family: var(--body); color: var(--ink); width: 1240px; }
   .page { width: 1240px; padding: 88px 96px 96px; box-sizing: border-box; }
@@ -21,16 +22,16 @@
   .marks .board { height: 220px; display: grid; place-items: center; }
   .marks img { width: 300px; }
   .marks .lbl { position: absolute; }
-  .board.milk { background: var(--milk); box-shadow: inset 0 0 0 1px rgba(42,33,64,0.06); }
-  .board.skymilk { background: var(--sky-milk); }
+  .board.milk { background: var(--paper); box-shadow: inset 0 0 0 1px rgba(17,17,20,0.06); }
+  .board.skymilk { background: var(--mist); }
   .board.night { background: var(--night); }
   .board.flow { background: var(--flow); }
 
-  .clear { position: relative; background: var(--milk); box-shadow: inset 0 0 0 1px rgba(42,33,64,0.06); height: 420px; display: grid; place-items: center; }
+  .clear { position: relative; background: var(--paper); box-shadow: inset 0 0 0 1px rgba(17,17,20,0.06); height: 420px; display: grid; place-items: center; }
   .clear img { width: 420px; }
   /* mark drawn at 420 px wide = scale 0.568; one radius = 107 px at that scale */
-  .clear .box { position: absolute; left: 50%; top: 50%; width: 634px; height: 357px; transform: translate(-50%,-50%); border: 1.5px dashed rgba(246,118,153,0.9); border-radius: 6px; }
-  .clear .r { position: absolute; font: 400 12px/1 var(--mono); color: var(--pink); }
+  .clear .box { position: absolute; left: 50%; top: 50%; width: 634px; height: 357px; transform: translate(-50%,-50%); border: 1.5px dashed rgba(75,59,232,0.8); border-radius: 6px; }
+  .clear .r { position: absolute; font: 400 12px/1 var(--mono); color: var(--indigo); }
   .note { margin-top: 14px; font: 400 15px/1.5 var(--body); color: #4A4560; max-width: 60ch; }
 
   .swatches { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
@@ -38,7 +39,7 @@
   .sw b { font: 700 16px/1 var(--body); }
   .sw span { font: 400 12px/1.4 var(--mono); opacity: 0.85; }
   .sw.dark { color: #fff; }
-  .sw.light { color: var(--ink); box-shadow: inset 0 0 0 1px rgba(42,33,64,0.08); }
+  .sw.light { color: var(--ink); box-shadow: inset 0 0 0 1px rgba(17,17,20,0.08); }
 
   .ramp { height: 96px; border-radius: 14px; background: var(--flow); position: relative; margin-top: 20px; }
   .stops { display: grid; grid-template-columns: repeat(7, 1fr); margin-top: 10px; font: 400 12px/1.4 var(--mono); color: #6B6780; }
@@ -49,11 +50,11 @@
   .wash .cap { position: absolute; left: 16px; bottom: 12px; font: 400 12px/1 var(--mono); }
 
   .type .spec { display: grid; gap: 34px; }
-  .type .row { display: grid; grid-template-columns: 1fr 200px; gap: 20px; align-items: baseline; border-top: 1px solid rgba(42,33,64,0.08); padding-top: 20px; }
+  .type .row { display: grid; grid-template-columns: 1fr 200px; gap: 20px; align-items: baseline; border-top: 1px solid rgba(17,17,20,0.08); padding-top: 20px; }
   .type .row .who { font: 400 12px/1.6 var(--mono); color: #6B6780; text-align: right; }
-  .disp { font: 900 92px/0.92 var(--display); letter-spacing: -0.035em; }
-  .word { font: 900 46px/1 var(--display); letter-spacing: 0.42em; color: var(--pink); }
-  .voice { font: 400 40px/1.15 var(--voice); }
+  .disp { font: 800 92px/0.9 var(--display); letter-spacing: -0.045em; }
+  .word { font: 800 64px/1 var(--display); letter-spacing: -0.045em; }
+  .grad-text { background: var(--flow-text); -webkit-background-clip: text; background-clip: text; color: transparent; }
   .bodyt { font: 400 17px/1.5 var(--body); max-width: 62ch; }
   .monot { font: 400 15px/1.6 var(--mono); }
 
@@ -66,7 +67,7 @@
 
   .geo { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: center; }
   .geo table { border-collapse: collapse; font: 400 14px/1.6 var(--mono); }
-  .geo td { padding: 4px 18px 4px 0; border-bottom: 1px solid rgba(42,33,64,0.08); }
+  .geo td { padding: 4px 18px 4px 0; border-bottom: 1px solid rgba(17,17,20,0.08); }
   .geo td:first-child { color: #6B6780; }
 </style>
 </head>
@@ -74,9 +75,9 @@
 <div class="page">
 
   <img src="logo/slice-mark.svg" alt="" style="width:330px;display:block;margin-bottom:40px">
-  <h1>Slice<br>brand sheet</h1>
-  <p class="lede">Six pieces of one cake. A mark built from geometry, one gradient that flows through everything it touches, and heavy type that stays quiet around it. This is the sheet a brand team hands over; everything on it is also a rule the gate can score.</p>
-  <div class="meta">exploration 01 · 2026-09-14 · source: brand/tokens.json, brand/rules.md, brand/build_mark.py</div>
+  <h1>Handsel<br>brand sheet</h1>
+  <p class="lede">Six pieces of one thing. A mark built from geometry, one gradient that flows through everything it touches, glass and grain where there is depth, and heavy type that stays quiet around it. This is the sheet a brand team hands over; everything on it is also a rule the gate can score.</p>
+  <div class="meta">exploration 02 · 2026-09-14 · Slice mark on Direction A · source: brand/tokens.json, brand/rules.md, brand/build_mark.py</div>
 
   <section>
     <h2>The mark<small>Six pie slices, apex down, apex up, in a 3:1 band. The flow runs through all six as one field.</small></h2>
@@ -102,41 +103,43 @@
   </section>
 
   <section>
-    <h2>Colour<small>Three grounds, one ink, six gradient stops. The stops are for the flow; only pink and sky ever appear as flat accents.</small></h2>
+    <h2>Colour<small>Three grounds, one ink, five gradient stops. Indigo is the only flat accent. No stop is ever text.</small></h2>
     <div>
       <div class="swatches">
-        <div class="sw dark" style="background:#2A2140"><b>Ink</b><span>#2A2140<br>text, mono mark</span></div>
-        <div class="sw light" style="background:#F7FAFC"><b>Milk</b><span>#F7FAFC<br>default ground</span></div>
-        <div class="sw light" style="background:#B1D9F0"><b>Sky-milk</b><span>#B1D9F0<br>poster, social</span></div>
-        <div class="sw dark" style="background:#161228"><b>Night</b><span>#161228<br>dark ground</span></div>
-        <div class="sw light" style="background:#F67699;color:#fff"><b>Pink</b><span>#F67699<br>wordmark, accent</span></div>
+        <div class="sw dark" style="background:#111114"><b>Ink</b><span>#111114<br>text, mono mark</span></div>
+        <div class="sw light" style="background:#FAFAF8"><b>Paper</b><span>#FAFAF8<br>default ground</span></div>
+        <div class="sw light" style="background:#ECEAF6"><b>Mist</b><span>#ECEAF6<br>flat surfaces</span></div>
+        <div class="sw dark" style="background:#0D0B18"><b>Night</b><span>#0D0B18<br>dark ground</span></div>
+        <div class="sw dark" style="background:#4A4A55"><b>Graphite</b><span>#4A4A55<br>secondary text</span></div>
       </div>
       <div class="swatches" style="margin-top:14px">
-        <div class="sw light" style="background:#62E6CD"><b>Mint</b><span>#62E6CD</span></div>
-        <div class="sw light" style="background:#4FD0FF"><b>Sky</b><span>#4FD0FF<br>links on light</span></div>
-        <div class="sw light" style="background:#B99BE8"><b>Lilac</b><span>#B99BE8<br>the seam</span></div>
-        <div class="sw light" style="background:#F6A882"><b>Peach</b><span>#F6A882</span></div>
-        <div class="sw light" style="background:#E9E25A"><b>Lemon</b><span>#E9E25A<br>never as text</span></div>
+        <div class="sw dark" style="background:#1E1A5C"><b>Deep</b><span>#1E1A5C<br>flow start</span></div>
+        <div class="sw dark" style="background:#4B3BE8"><b>Indigo</b><span>#4B3BE8<br>the one flat accent</span></div>
+        <div class="sw dark" style="background:#7A4FE0"><b>Violet</b><span>#7A4FE0<br>the seam</span></div>
+        <div class="sw dark" style="background:#B44C9E"><b>Magenta</b><span>#B44C9E<br>flow, never flat</span></div>
+        <div class="sw dark" style="background:#D9628A"><b>Rose</b><span>#D9628A<br>flow end, never text</span></div>
       </div>
     </div>
   </section>
 
   <section>
-    <h2>The flow<small>One gradient, left to right, cool to warm. Raw on the mark and on display type. Softened when it is a ground.</small></h2>
+    <h2>The flow<small>One gradient, left to right, deep indigo to rose. Raw on the mark. Display type takes the text variant, which starts from ink. Softened to a wash when it is a ground.</small></h2>
     <div>
       <div class="ramp"></div>
-      <div class="stops"><div>mint 0</div><div>sky 20</div><div>lilac 36</div><div>pink 50</div><div>pink 66</div><div>peach 82</div><div>lemon 100</div></div>
+      <div class="stops" style="grid-template-columns:repeat(5,1fr)"><div>deep 0</div><div>indigo 28</div><div>violet 50</div><div>magenta 74</div><div>rose 100</div></div>
       <div class="washes">
-        <div class="wash" style="background:var(--milk)">
-          <div class="orb" style="width:260px;height:260px;left:-60px;top:-90px;background:rgba(98,230,205,0.8)"></div>
-          <div class="orb" style="width:240px;height:240px;left:160px;top:-40px;background:rgba(185,155,232,0.75)"></div>
-          <div class="orb" style="width:280px;height:280px;right:-80px;top:-20px;background:rgba(246,118,153,0.8)"></div>
-          <div class="orb" style="width:220px;height:220px;right:-40px;bottom:-120px;background:rgba(233,226,90,0.75)"></div>
-          <div class="cap" style="color:var(--ink)">ground wash, milk</div>
+        <div class="wash" style="background:var(--paper)">
+          <div class="orb" style="width:260px;height:260px;left:-60px;top:-90px;background:rgba(99,84,246,0.55)"></div>
+          <div class="orb" style="width:280px;height:280px;right:-80px;top:-20px;background:rgba(240,120,190,0.45)"></div>
+          <div class="orb" style="width:240px;height:200px;left:120px;bottom:-110px;background:rgba(86,164,248,0.4)"></div>
+          <div style="position:absolute;inset:0;background:linear-gradient(180deg, rgba(250,250,248,0.7), rgba(250,250,248,0.2) 45%, rgba(250,250,248,0.7))"></div>
+          <div class="grain"></div>
+          <div class="cap" style="color:var(--ink)">ground wash, paper: orbs, veil, grain</div>
         </div>
         <div class="wash" style="background:var(--night)">
-          <div class="orb" style="width:260px;height:260px;left:-80px;bottom:-120px;background:rgba(79,208,255,0.4)"></div>
-          <div class="orb" style="width:260px;height:260px;right:-60px;top:-100px;background:rgba(246,118,153,0.4)"></div>
+          <div class="orb" style="width:260px;height:260px;left:-80px;top:-100px;background:rgba(108,86,255,0.55)"></div>
+          <div class="orb" style="width:260px;height:260px;right:-60px;bottom:-120px;background:rgba(236,86,168,0.4)"></div>
+          <div class="grain"></div>
           <div class="cap" style="color:#fff">ground wash, night</div>
         </div>
       </div>
@@ -144,12 +147,11 @@
   </section>
 
   <section class="type">
-    <h2>Type<small>Alpino for everything that is read. Nagoda only where the brand speaks in one line.</small></h2>
+    <h2>Type<small>Archivo for everything that is read. IBM Plex Mono for labels and data.</small></h2>
     <div class="spec">
-      <div class="row"><div class="disp">Cut it into pieces you can ship.</div><div class="who">Alpino Black<br>display, -0.035 em<br>two lines max</div></div>
-      <div class="row"><div class="word">SLICE</div><div class="who">Alpino Black<br>wordmark, 0.42 em<br>pink or ink or white</div></div>
-      <div class="row"><div class="voice">Slices of birthday cake inspiration</div><div class="who">Nagoda Regular<br>voice line only<br>never body</div></div>
-      <div class="row"><div class="bodyt">A brand that stays itself across a hero, a story card, a Slack avatar and a printed poster, and still has room to move. Body copy sets in Alpino Regular at 17 px with a line height of 1.5, under 75 characters a line.</div><div class="who">Alpino Regular<br>body, 17 / 1.5</div></div>
+      <div class="row"><div class="disp">Six pieces of one thing.</div><div class="who">Archivo 800<br>display, -0.045 em<br>two lines max</div></div>
+      <div class="row"><div class="word grad-text">Handsel</div><div class="who">Archivo 800<br>wordmark, title case<br>text gradient or ink</div></div>
+      <div class="row"><div class="bodyt">A brand that stays itself across a hero, a story card, a Slack avatar and a printed poster, and still has room to move. Body copy sets in Archivo at 17 px with a line height of 1.5, under 75 characters a line.</div><div class="who">Archivo 400<br>body, 17 / 1.5</div></div>
       <div class="row"><div class="monot">gate: on_brand=0.91 novelty=0.42 seed=118234</div><div class="who">IBM Plex Mono<br>code and data only</div></div>
     </div>
   </section>
@@ -159,16 +161,16 @@
     <div>
       <div class="dd">
         <div>
-          <div class="board skymilk yes" data-v="yes"><div style="font:400 30px/1.1 var(--voice);color:var(--ink);text-align:center;padding:0 24px">Slices of birthday cake inspiration</div></div>
-          <p class="why">Voice line in ink on sky-milk. Readable at any size.</p>
+          <div class="board skymilk yes" data-v="yes"><div style="font:400 22px/1.4 var(--body);color:var(--graphite);text-align:center;padding:0 28px">Tools built for one person, kept in public.</div></div>
+          <p class="why">Secondary text in graphite on mist. Readable at any size.</p>
         </div>
         <div>
-          <div class="board skymilk no" data-v="no"><div style="font:400 30px/1.1 var(--voice);color:var(--pink);text-align:center;padding:0 24px">Slices of birthday cake inspiration</div></div>
-          <p class="why">Pastel on pastel for text a reader has to parse. Contrast fails.</p>
+          <div class="board skymilk no" data-v="no"><div style="font:400 22px/1.4 var(--body);color:var(--rose);text-align:center;padding:0 28px">Tools built for one person, kept in public.</div></div>
+          <p class="why">A gradient stop used as text. Rose on mist fails contrast.</p>
         </div>
         <div>
-          <div class="board milk yes" data-v="yes"><div style="font:900 60px/1 var(--display);letter-spacing:-0.04em;background:var(--flow);-webkit-background-clip:text;background-clip:text;color:transparent">Slice</div></div>
-          <p class="why">Gradient on display type, two lines or fewer, on milk.</p>
+          <div class="board milk yes" data-v="yes"><div class="grad-text" style="font:800 60px/1 var(--display);letter-spacing:-0.045em">Handsel</div></div>
+          <p class="why">The text gradient on display type, two lines or fewer, on paper.</p>
         </div>
         <div>
           <div class="board milk no" data-v="no"><div style="width:200px;height:90px;border-radius:20px;background:var(--flow)"></div></div>
@@ -187,7 +189,7 @@
   </section>
 
   <section>
-    <h2>Geometry<small>Measured off the PSD and regenerated by brand/build_mark.py, so the anime.js ident and the gate read the same numbers.</small></h2>
+    <h2>Geometry<small>Measured off the PSD and regenerated by brand/build_mark.py, so the ident and the gate read the same numbers.</small></h2>
     <div class="geo">
       <img src="logo/slice-mark-blank.svg" alt="" style="width:100%">
       <table>

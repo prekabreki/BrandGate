@@ -1,4 +1,4 @@
-"""Build the Slice mark procedurally: six pie slices, one gradient flowing through them.
+"""Build the Handsel mark procedurally: six pie slices, one gradient flowing through them.
 
 The mark is geometry plus a gradient, nothing else, so it is generated rather than drawn.
 Geometry was measured off lookdev/brand_lookdev_01.psd (six 'Triangle 1' shapes,
@@ -82,13 +82,11 @@ def bbox() -> tuple[float, float, float, float]:
 
 # --- paint ----------------------------------------------------------------
 FLOW_STOPS = [  # left to right, the one gradient the whole brand shares
-    (0.00, "#62E6CD"),  # mint
-    (0.20, "#4FD0FF"),  # sky
-    (0.36, "#B99BE8"),  # lilac, the seam where cool turns warm
-    (0.50, "#F67699"),  # pink
-    (0.66, "#F67699"),
-    (0.82, "#F6A882"),  # peach
-    (1.00, "#E9E25A"),  # lemon
+    (0.00, "#1E1A5C"),  # deep indigo, almost ink
+    (0.28, "#4B3BE8"),  # indigo, Direction A primary
+    (0.50, "#7A4FE0"),  # violet, the seam
+    (0.74, "#B44C9E"),  # magenta, Direction A secondary
+    (1.00, "#D9628A"),  # rose, the only warmth
 ]
 
 
@@ -126,9 +124,9 @@ def flow_defs() -> str:
     return (
         f'<linearGradient id="flow" gradientUnits="userSpaceOnUse" x1="{x0:.1f}" y1="0" x2="{x1:.1f}" y2="0">{stops}</linearGradient>'
         f'<radialGradient id="warm" gradientUnits="userSpaceOnUse" cx="{x1 - 60:.1f}" cy="{y0 + 20:.1f}" r="{(x1 - x0) * 0.55:.1f}">'
-        f'<stop offset="0" stop-color="#E9E25A" stop-opacity="0.85"/><stop offset="0.45" stop-color="#F6A882" stop-opacity="0.25"/><stop offset="1" stop-color="#F6A882" stop-opacity="0"/></radialGradient>'
+        f'<stop offset="0" stop-color="#F078BE" stop-opacity="0.55"/><stop offset="0.5" stop-color="#F078BE" stop-opacity="0.15"/><stop offset="1" stop-color="#F078BE" stop-opacity="0"/></radialGradient>'
         f'<radialGradient id="cool" gradientUnits="userSpaceOnUse" cx="{x0 + 200:.1f}" cy="{y1 - 20:.1f}" r="{(x1 - x0) * 0.42:.1f}">'
-        f'<stop offset="0" stop-color="#4FD0FF" stop-opacity="0.75"/><stop offset="1" stop-color="#4FD0FF" stop-opacity="0"/></radialGradient>'
+        f'<stop offset="0" stop-color="#56A4F8" stop-opacity="0.55"/><stop offset="1" stop-color="#56A4F8" stop-opacity="0"/></radialGradient>'
     )
 
 
@@ -138,7 +136,7 @@ FLOW_PAINTS = ["url(#flow)", "url(#warm)", "url(#cool)"]
 def main() -> None:
     LOGO.mkdir(exist_ok=True)
     (LOGO / "slice-mark.svg").write_text(svg(FLOW_PAINTS, flow_defs()), encoding="utf-8")
-    (LOGO / "slice-mark-ink.svg").write_text(svg(["#2A2140"]), encoding="utf-8")
+    (LOGO / "slice-mark-ink.svg").write_text(svg(["#111114"]), encoding="utf-8")
     (LOGO / "slice-mark-white.svg").write_text(svg(["#FFFFFF"]), encoding="utf-8")
     (LOGO / "slice-mark-blank.svg").write_text(svg(["#E5E5E5"]), encoding="utf-8")
     # One slice on its own: the avatar and favicon unit.

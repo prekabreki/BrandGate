@@ -1,26 +1,35 @@
-/* Local faces first. Alpino (Pangram Pangram) and Nagoda are installed per user on the
-   Windows box; nothing here is served from the repo until the licences are confirmed. */
-@font-face { font-family: "Alpino"; font-weight: 900; src: local("Alpino Black"), local("Alpino-Black"), local("AlpinoVariable-Black"); }
-@font-face { font-family: "Alpino"; font-weight: 700; src: local("Alpino Bold"), local("Alpino-Bold"); }
-@font-face { font-family: "Alpino"; font-weight: 500; src: local("Alpino Medium"), local("Alpino-Medium"); }
-@font-face { font-family: "Alpino"; font-weight: 400; src: local("Alpino Regular"), local("Alpino-Regular"), local("Alpino"); }
-@font-face { font-family: "Alpino"; font-weight: 300; src: local("Alpino Light"), local("Alpino-Light"); }
-@font-face { font-family: "Nagoda"; font-weight: 400; src: local("Nagoda"), local("NagodaRegular"), local("Nagoda Regular"); }
-
+/* Handsel type: Archivo for everything read, IBM Plex Mono for labels and data.
+   Both are Google Fonts under the OFL, so the public repo can serve them.
+   Pages include the Google Fonts link; this file holds the tokens. */
 :root {
-  --ink: #2A2140;
-  --milk: #F7FAFC;
-  --sky-milk: #B1D9F0;
-  --night: #161228;
-  --mint: #62E6CD;
-  --sky: #4FD0FF;
-  --lilac: #B99BE8;
-  --pink: #F67699;
-  --peach: #F6A882;
-  --lemon: #E9E25A;
-  --flow: linear-gradient(90deg, #62E6CD 0%, #4FD0FF 20%, #B99BE8 36%, #F67699 50%, #F67699 66%, #F6A882 82%, #E9E25A 100%);
-  --display: "Alpino", "Archivo Black", "Arial Black", sans-serif;
-  --voice: "Nagoda", "Alpino", sans-serif;
-  --body: "Alpino", Inter, system-ui, sans-serif;
+  --ink: #111114;
+  --paper: #FAFAF8;
+  --mist: #ECEAF6;
+  --night: #0D0B18;
+  --graphite: #4A4A55;
+  --indigo: #4B3BE8;
+  --deep: #1E1A5C;
+  --violet: #7A4FE0;
+  --magenta: #B44C9E;
+  --rose: #D9628A;
+  --sky: #56A4F8;
+  --pink: #F078BE;
+  --flow: linear-gradient(90deg, #1E1A5C 0%, #4B3BE8 28%, #7A4FE0 50%, #B44C9E 74%, #D9628A 100%);
+  --flow-text: linear-gradient(120deg, #111114 10%, #4B3BE8 55%, #B44C9E 95%);
+  --display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --body: "Archivo", system-ui, sans-serif;
   --mono: "IBM Plex Mono", Consolas, monospace;
+  --glass-bg: rgba(255,255,255,0.52);
+  --glass-shadow: inset 0 1px 0 rgba(255,255,255,0.95), inset 0 -1px 0 rgba(17,17,20,0.04), 0 1px 2px rgba(17,17,20,0.04), 0 12px 28px -8px rgba(40,32,110,0.14), 0 40px 80px -32px rgba(40,32,110,0.20);
+}
+.grain {
+  position: absolute; inset: 0; pointer-events: none; mix-blend-mode: overlay; opacity: 0.38;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  border: 1px solid rgba(255,255,255,0.75);
+  box-shadow: var(--glass-shadow);
 }

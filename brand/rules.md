@@ -1,14 +1,14 @@
-# Slice, the rules the gate reads
+# Handsel, the rules the gate reads
 
-Exploration 01, 2026-09-14.
-Not yet decided against Direction A (Handsel).
+Exploration 02, 2026-09-14.
+Decided: the name is Handsel, the mark is the six slices, the palette and gravity are Direction A.
 Every line here is a check something can score.
 
 ## Mark
 
 - Six pie slices in a 3:1 band, alternating apex down and apex up, the geometry in `tokens.json` under `mark`.
-- One gradient flows through all six left to right, cool to warm: mint, sky, lilac, pink, peach, lemon.
-- Solid variants are ink on light ground and white on dark ground, never a pastel.
+- One gradient flows through all six left to right, deep indigo to rose.
+- Solid variants are ink on light ground and white on dark ground.
 - Clear space is one slice radius on every side.
 - Minimum width is 96 px on screen.
 - The mark is never rotated, mirrored, outlined, or shown with a drop shadow.
@@ -16,31 +16,44 @@ Every line here is a check something can score.
 
 ## Colour
 
-- Grounds are milk `#F7FAFC`, sky-milk `#B1D9F0`, or night `#161228`.
-- Text is ink `#2A2140` on light grounds and white on night.
-- Pastel on pastel is allowed only for the wordmark and for display type of two lines or fewer.
-- Lemon is never used as text at any size.
+- Grounds are paper `#FAFAF8`, mist `#ECEAF6`, or night `#0D0B18`.
+- Text is ink `#111114` on light grounds and white on night. Secondary text is graphite `#4A4A55`.
+- Indigo `#4B3BE8` is the one flat accent: links, the primary button, a chip border. Magenta is never a flat accent.
+- No gradient stop is ever used as text.
 
 ## Gradient
 
 - There is one gradient, the flow, and it runs left to right on every surface.
 - The flow appears on the mark, on display type, and as a ground wash. Nothing else carries it.
-- When it is a ground, it is softened: blurred orbs or a low-opacity wash, never the raw ramp.
+- As a ground it is softened: three blurred orbs in indigo, magenta and sky over paper or night, with a paper veil and film grain over that. Never the raw ramp.
+- Display type takes the text variant, which starts from ink so the first word reads as text before it turns.
+
+## Surface
+
+- Where there is depth, cards are glass: white at 52 percent, backdrop blur, a one pixel inset specular, the Direction A shadow stack.
+- Where the surface must survive as a flat PNG, cards are paper with a hairline border and no shadow.
+- Film grain at 38 percent overlay on every ground with a wash. None on flat surfaces.
 
 ## Type
 
-- Display is Alpino Black, tracking -0.03 em, two lines or fewer.
-- The wordmark is SLICE in Alpino Black, upper case, tracking 0.42 em.
-- Nagoda carries taglines and one-line asides only, never body copy.
-- Body is Alpino Regular at 17 px, line height 1.5, under 75 characters a line.
-- IBM Plex Mono is for code and data labels only.
+- Display is Archivo 800, tracking -0.045 em, line height 0.9, two lines or fewer.
+- The wordmark is Handsel in Archivo 800, title case, in the text gradient or in ink.
+- Body is Archivo 400 at 17 px, line height 1.5, under 75 characters a line.
+- IBM Plex Mono 400 carries labels, code and data, at 10 to 13 px with 0.14 em tracking when set in caps.
 
 ## Motif
 
 - The slice is the only motif. No other geometric shape is used decoratively.
 - One gesture per surface: the mark, or gradient type, or a slice field. Not two.
 
+## Motion
+
+- One orchestrated entrance per surface, a rise of 14 px over 900 ms on a soft curve, staggered by 120 ms.
+- Ground orbs drift for 26 to 38 seconds, alternate, and never faster.
+- Nothing else moves without a user action.
+
 ## Tone
 
 - Plain sentences, sentence case, present tense.
-- Playful in the image, calm in the words. The candy is in the colour, not the copy.
+- Says what the thing does and why it was built. No adjectives about itself.
+- "Tools built for one person, kept in public."
