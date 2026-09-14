@@ -30,13 +30,18 @@
     background: var(--mesh-night); -webkit-background-clip: text; background-clip: text; color: transparent; }
   .t2 p { position: absolute; left: 60px; bottom: 72px; margin: 0; font: 400 19px/1.5 var(--body); color: #B9B6C9; max-width: 36ch; }
 
-  /* T3 flat README banner, mist */
-  .t3 { background: var(--mist); }
-  .t3 .frame { position: absolute; left: 60px; right: 60px; top: 60px; bottom: 60px; background: var(--paper); border: 1px solid rgba(17,17,20,0.08); border-radius: 14px; }
-  .t3 .mark { position: absolute; left: 124px; top: 150px; width: 470px; }
-  .t3 .word { position: absolute; left: 124px; top: 420px; font: 800 60px/1 var(--display); letter-spacing: -0.045em; color: var(--ink); }
-  .t3 .tag { position: absolute; left: 124px; top: 498px; font: 400 20px/1.4 var(--body); color: var(--graphite); }
-  .t3 .lbl { position: absolute; left: 124px; bottom: 100px; }
+  /* T3 flat README banner: a 3:1 banner on paper with a baked wash, shown on the
+     GitHub page ground it will actually sit on */
+  .t3 { background: #FFFFFF; }
+  .t3 .gh { position: absolute; left: 60px; right: 60px; top: 60px; font: 400 11px/1 var(--mono); letter-spacing: 0.16em; text-transform: uppercase; color: #6E6E78; display: flex; justify-content: space-between; }
+  .t3 .banner { position: absolute; left: 60px; right: 60px; top: 260px; height: 200px; border-radius: 12px; overflow: hidden; background: var(--paper); border: 1px solid rgba(17,17,20,0.08); }
+  .t3 .banner .orb { filter: blur(40px); }
+  .t3 .banner .mark { position: absolute; left: 34px; top: 40px; width: 190px; }
+  .t3 .banner .word { position: absolute; left: 258px; top: 56px; font: 800 52px/1 var(--display); letter-spacing: -0.045em; color: var(--ink); }
+  .t3 .banner .tag { position: absolute; left: 260px; top: 122px; font: 400 16px/1.4 var(--body); color: var(--graphite); }
+  .t3 .md { position: absolute; left: 60px; right: 60px; top: 490px; font: 400 15px/1.6 var(--body); color: var(--graphite); }
+  .t3 .md b { color: var(--ink); font-weight: 700; }
+  .t3 .md code { font: 400 13px/1 var(--mono); background: rgba(17,17,20,0.05); padding: 3px 6px; border-radius: 5px; }
 
   /* T4 glass on the wash */
   .t4 { background: var(--paper); }
@@ -97,12 +102,18 @@
   </div><div class="cap">T2 · night, gradient headline, white mark</div></div>
 
   <div class="cap-wrap"><div class="take t3">
-    <div class="frame"></div>
-    <img class="mark" src="../../brand/logo/slice-mark.svg" alt="">
-    <div class="word">Handsel</div>
-    <div class="tag">Tools built for one person, kept in public.</div>
-    <div class="mono lbl">Readme banner · flat, no glass, no grain</div>
-  </div><div class="cap">T3 · flat-safe README banner on mist</div></div>
+    <div class="gh"><span>github.com/prekabreki/coldread</span><span>Readme</span></div>
+    <div class="banner">
+      <div class="orb" style="width:300px;height:300px;left:-90px;top:-120px;background:radial-gradient(circle, rgba(99,84,246,0.42), rgba(99,84,246,0) 70%)"></div>
+      <div class="orb" style="width:340px;height:340px;right:-120px;top:-60px;background:radial-gradient(circle, rgba(217,98,138,0.30), rgba(217,98,138,0) 70%)"></div>
+      <div class="orb" style="width:300px;height:220px;left:220px;bottom:-140px;background:radial-gradient(circle, rgba(86,164,248,0.28), rgba(86,164,248,0) 70%)"></div>
+      <div class="veil" style="background:linear-gradient(180deg, rgba(250,250,248,0.55), rgba(250,250,248,0.15) 45%, rgba(250,250,248,0.6))"></div>
+      <img class="mark" src="../../brand/logo/slice-mark.svg" alt="">
+      <div class="word">ColdRead</div>
+      <div class="tag">Turns a script into something you can read aloud at a microphone.</div>
+    </div>
+    <div class="md"><b>ColdRead</b> is part of Handsel, tools built for one person and kept in public. Install with <code>uv tool install coldread</code>, then point it at a script.</div>
+  </div><div class="cap">T3 · flat-safe README banner: baked wash, no glass, no grain, on GitHub white</div></div>
 
   <div class="cap-wrap"><div class="take t4">
     <div class="orb" style="width:520px;height:520px;left:-140px;top:-120px;background:radial-gradient(circle, rgba(99,84,246,0.55), rgba(99,84,246,0) 70%)"></div>
