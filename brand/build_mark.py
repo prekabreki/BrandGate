@@ -189,9 +189,15 @@ def main() -> None:
         "aspect": round((x1 - x0) / (y1 - y0), 3),
         "slices": [{"cx": cx, "cy": cy, "down": d} for cx, cy, d in slices()],
     }
+    def css(stops):
+        return "linear-gradient(90deg, " + ", ".join(f"{c} {o*100:.0f}%" for o, c in stops) + ")"
+    tokens["mark"]["seam"] = SEAM
+    tokens["mark"]["seam_note"] = "Gap between slices in band units; 1.2 px at the 96 px minimum width."
+    # Both gradients live here so a rebuild never drops one the way the 09-14 seam change did.
     tokens["gradient"] = {
-        "flow": {"angle_deg": 90, "stops": [{"offset": o, "color": c} for o, c in FLOW_STOPS]},
-        "css": "linear-gradient(90deg, " + ", ".join(f"{c} {o*100:.0f}%" for o, c in FLOW_STOPS) + ")",
+        "flow": {"angle_deg": 90, "stops": [{"offset": o, "color": c} for o, c in FLOW_STOPS], "css": css(FLOW_STOPS)},
+        "css": css(FLOW_STOPS),
+        "flow_night": {"stops": [{"offset": o, "color": c} for o, c in FLOW_STOPS_NIGHT], "css": css(FLOW_STOPS_NIGHT)},
     }
     TOKENS.write_text(json.dumps(tokens, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     print("wrote", sorted(p.name for p in LOGO.glob("*.svg")), "viewBox", tokens["mark"]["viewBox"])
