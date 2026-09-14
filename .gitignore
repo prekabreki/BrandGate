@@ -6,3 +6,7 @@ runs/
 # Photoshop sources stay out of git; commit the PNG/SVG exports beside them.
 *.psd
 lookdev/_render*
+
+# Vercel link state and pulled env; the project is 'handsel' on Pétur's account.
+.vercel/
+.env*

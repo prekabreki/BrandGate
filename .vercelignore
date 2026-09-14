@@ -1,0 +1,5 @@
+# Only the static site is uploaded. Nothing under brand/, pipeline/, lookdev/ or _local/ leaves the repo.
+*
+!site
+!site/**
+!vercel.json
