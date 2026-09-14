@@ -7,6 +7,13 @@
 
 [verdict]
 # A frame passes when it clears both bars.
+#
+# on_brand_min stays at 0.75 by decision (2026-09-14), not by neglect. On the
+# ten-image set the aggregate separates cleanly (every pass 0.99+, every
+# failure 0.95-), so a bar at 0.97 would bite. Fitting it to ten images of my
+# own making is exactly the overfitting this gate is supposed to be honest
+# about, so the per-rule verdict does the work until twenty labelled images
+# exist and the bar can be set from data.
 on_brand_min = 0.75
 novelty_min = 0.12
 

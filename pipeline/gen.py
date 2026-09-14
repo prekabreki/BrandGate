@@ -233,6 +233,19 @@ class ComfyBackend:
 # the run
 
 
+def _repo_relative(path: str) -> str:
+    """Repo-relative path for the ledger, or the bare filename if the output
+    landed outside the repo.
+
+    A plain relpath to somewhere outside ROOT produces `../../../../../tmp/...`
+    carrying the machine's username, which is meaningless to any other reader
+    and is a leak in a file that ships when the repo goes public. Outputs land
+    inside the repo in real use; outside it only ever happens under test.
+    """
+    rel = os.path.relpath(path, ROOT).replace(os.sep, "/")
+    return os.path.basename(path) if rel.startswith("../") else rel
+
+
 def generate(name, *, seed, model=None, tier=None, width=None, height=None,
              dest_dir=None, prompt_dir=None, ledger_path=None,
              backend=None, timeout=1800):
@@ -275,7 +288,7 @@ def generate(name, *, seed, model=None, tier=None, width=None, height=None,
     record = ledger.row(
         run_id=run_id, model=model, tier=tier, prompt_id=spec.prompt_id,
         prompt_text=spec.text, params=params, seed=seed, lora=meta["lora"],
-        output_path=os.path.relpath(paths[0], ROOT).replace(os.sep, "/") if paths else None,
+        output_path=_repo_relative(paths[0]) if paths else None,
         latency_s=latency, error=error)
     ledger.append(record, ledger_path)
     return paths, record

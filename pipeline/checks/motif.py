@@ -35,6 +35,11 @@ def _overlaps_mark(box, hits, img) -> bool:
     mark itself. Counted naively that makes every correct surface carrying one
     gradient mark score two gestures and fail the one-gesture rule: the check
     would reject the brand for wearing itself.
+
+    RULED 2026-09-14 by the designer, on take 1, which carries the mark and the
+    wordmark in the flow: a mark and the wordmark together are ONE lockup, so
+    the overlap merge stands. This is a taste call that was put to him and
+    answered, not an assumption. Changing it changes what motif.02 means.
     """
     x, y, w, h = box
     cx, cy = x + w / 2, y + h / 2

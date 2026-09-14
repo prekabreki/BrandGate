@@ -8,6 +8,9 @@ runs/*
 
 # Hunting frames. Only a chosen surface graduates out of _scratch into the repo.
 surfaces/_scratch/
+# Calibration frames: many, large, and regenerable from the ledger's seeds. The
+# LABELS in docs/ are the durable artifact, not the pixels.
+surfaces/_calibration/
 # Photoshop sources stay out of git; commit the PNG/SVG exports beside them.
 *.psd
 lookdev/_render*
