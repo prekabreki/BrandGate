@@ -16,6 +16,14 @@
   --pink: #F078BE;
   --flow: linear-gradient(90deg, #1E1A5C 0%, #4B3BE8 28%, #7A4FE0 50%, #B44C9E 74%, #D9628A 100%);
   --flow-text: linear-gradient(120deg, #111114 10%, #4B3BE8 55%, #B44C9E 95%);
+  /* Mesh for display type on night: stacked radial pools over a white base, ending at
+     lilac. No pink. Reads as one lit surface, not a ramp. */
+  --mesh-night:
+    radial-gradient(60% 90% at 12% 20%, #FFFFFF 0%, rgba(255,255,255,0) 60%),
+    radial-gradient(45% 70% at 42% 85%, #8C7BFF 0%, rgba(140,123,255,0) 65%),
+    radial-gradient(40% 60% at 70% 15%, #56A4F8 0%, rgba(86,164,248,0) 60%),
+    radial-gradient(55% 80% at 92% 70%, #B9A6FF 0%, rgba(185,166,255,0) 65%),
+    linear-gradient(120deg, #F2F0FF 0%, #A99BFF 100%);
   --display: "Archivo", "Helvetica Neue", Arial, sans-serif;
   --body: "Archivo", system-ui, sans-serif;
   --mono: "IBM Plex Mono", Consolas, monospace;
