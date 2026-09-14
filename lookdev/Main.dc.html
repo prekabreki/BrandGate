@@ -1,0 +1,82 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap">
+  <style>
+    body { margin:0; font-family:'Archivo','Helvetica Neue',sans-serif; }
+    a { color:#4B3BE8; } a:hover { color:#3528C4; }
+    @keyframes driftA { 0%{transform:translate3d(0,0,0) scale(1)} 100%{transform:translate3d(6%,-4%,0) scale(1.18)} }
+    @keyframes driftB { 0%{transform:translate3d(0,0,0) scale(1.1)} 100%{transform:translate3d(-7%,5%,0) scale(0.94)} }
+    @keyframes driftC { 0%{transform:translate3d(0,0,0)} 100%{transform:translate3d(4%,6%,0)} }
+    @keyframes rise { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:none} }
+    .orb { position:absolute; border-radius:50%; filter:blur(64px); will-change:transform; }
+    .glass {
+      background:rgba(255,255,255,0.52);
+      backdrop-filter:blur(28px) saturate(180%);
+      -webkit-backdrop-filter:blur(28px) saturate(180%);
+      border:1px solid rgba(255,255,255,0.75);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.95),
+        inset 0 -1px 0 rgba(17,17,20,0.04),
+        0 1px 2px rgba(17,17,20,0.04),
+        0 12px 28px -8px rgba(40,32,110,0.14),
+        0 40px 80px -32px rgba(40,32,110,0.20);
+    }
+    .grain {
+      position:absolute; inset:0; pointer-events:none; mix-blend-mode:overlay; opacity:0.38;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+  </style>
+</helmet>
+
+<div style="position:relative;width:760px;height:980px;background:#FAFAF8;color:#111114;overflow:hidden;">
+
+  <div class="orb" style="width:520px;height:520px;left:-140px;top:-120px;background:radial-gradient(circle at 50% 50%, rgba(99,84,246,0.55), rgba(99,84,246,0) 70%);animation:driftA 26s ease-in-out infinite alternate;"></div>
+  <div class="orb" style="width:600px;height:600px;right:-190px;top:40px;background:radial-gradient(circle at 50% 50%, rgba(240,120,190,0.44), rgba(240,120,190,0) 70%);animation:driftB 32s ease-in-out infinite alternate;"></div>
+  <div class="orb" style="width:660px;height:460px;left:60px;bottom:-200px;background:radial-gradient(circle at 50% 50%, rgba(86,164,248,0.40), rgba(86,164,248,0) 70%);animation:driftC 38s ease-in-out infinite alternate;"></div>
+  <div style="position:absolute;inset:0;background:linear-gradient(180deg, rgba(250,250,248,0.78) 0%, rgba(250,250,248,0.18) 38%, rgba(250,250,248,0.72) 100%);"></div>
+  <div class="grain"></div>
+
+  <div style="position:relative;height:100%;display:flex;flex-direction:column;padding:44px 48px 40px 48px;">
+
+    <div style="display:flex;justify-content:space-between;align-items:baseline;">
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:#6E6E78;">Direction A</span>
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:#6E6E78;">Refined</span>
+    </div>
+
+    <div style="margin-top:70px;animation:rise 900ms cubic-bezier(.2,.8,.2,1) both;">
+      <div style="font-size:82px;font-weight:800;letter-spacing:-0.048em;line-height:0.9;background:linear-gradient(120deg,#111114 18%,#4B3BE8 62%,#B44C9E 96%);-webkit-background-clip:text;background-clip:text;color:transparent;">Handsel</div>
+      <div style="margin-top:20px;font-size:19px;line-height:1.45;color:#4A4A55;max-width:30ch;">Tools built for one person, kept in public.</div>
+    </div>
+
+    <div class="glass" style="margin-top:52px;border-radius:18px;padding:24px;animation:rise 900ms 120ms cubic-bezier(.2,.8,.2,1) both;">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.14em;color:#7A7A88;text-transform:uppercase;">Readme header</div>
+      <div style="margin-top:14px;font-size:31px;font-weight:700;letter-spacing:-0.032em;">ColdRead</div>
+      <div style="margin-top:10px;font-size:15px;line-height:1.55;color:#4A4A55;">Turns a script into something you can actually read aloud at a microphone. Built because every teleprompter I tried was designed for news anchors.</div>
+      <div style="margin-top:18px;display:flex;gap:8px;">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;padding:5px 11px;border-radius:999px;background:rgba(75,59,232,0.10);color:#4B3BE8;border:1px solid rgba(75,59,232,0.18);">python</span>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;padding:5px 11px;border-radius:999px;background:rgba(17,17,20,0.05);color:#4A4A55;border:1px solid rgba(17,17,20,0.08);">135 commits</span>
+      </div>
+    </div>
+
+    <div style="margin-top:26px;display:flex;gap:10px;animation:rise 900ms 220ms cubic-bezier(.2,.8,.2,1) both;">
+      <div style="flex-grow:1;"><div style="height:52px;border-radius:11px;background:#111114;box-shadow:0 6px 16px -6px rgba(17,17,20,0.5);"></div><div style="margin-top:7px;font-family:'IBM Plex Mono',monospace;font-size:10px;color:#7A7A88;">111114</div></div>
+      <div style="flex-grow:1;"><div style="height:52px;border-radius:11px;background:linear-gradient(140deg,#6354F6,#4B3BE8);box-shadow:0 6px 16px -6px rgba(75,59,232,0.55);"></div><div style="margin-top:7px;font-family:'IBM Plex Mono',monospace;font-size:10px;color:#7A7A88;">4B3BE8</div></div>
+      <div style="flex-grow:1;"><div style="height:52px;border-radius:11px;background:linear-gradient(140deg,#F078BE,#B44C9E);box-shadow:0 6px 16px -6px rgba(180,76,158,0.45);"></div><div style="margin-top:7px;font-family:'IBM Plex Mono',monospace;font-size:10px;color:#7A7A88;">B44C9E</div></div>
+      <div class="glass" style="flex-grow:1;"><div style="height:52px;border-radius:11px;"></div><div style="margin-top:7px;font-family:'IBM Plex Mono',monospace;font-size:10px;color:#7A7A88;">glass</div></div>
+    </div>
+
+    <div style="margin-top:auto;font-size:13.5px;line-height:1.5;color:#6E6E78;">
+      <strong style="color:#111114;font-weight:600;">Treatment 1.</strong> Mesh gradient ground, real frosted glass with an inset specular, film grain, slow drift. Depth without decoration.
+    </div>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap">
+  <style>
+    body { margin:0; font-family:'Archivo','Helvetica Neue',sans-serif; }
+    a { color:#4B3BE8; } a:hover { color:#3528C4; }
+  </style>
+</helmet>
+
+<div style="width:760px;height:980px;background:#FFFFFF;color:#111114;display:flex;flex-direction:column;padding:44px 48px 40px 48px;">
+
+  <div style="display:flex;justify-content:space-between;align-items:baseline;">
+    <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:#6E6E78;">The constraint</span>
+    <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:#6E6E78;">Flat-safe</span>
+  </div>
+
+  <div style="margin-top:30px;padding:18px 20px;background:#FFF8ED;border:1px solid #F0DFC4;border-radius:10px;">
+    <div style="font-size:14px;line-height:1.6;color:#6B5A3E;"><strong style="color:#4A3E28;">A GitHub README is static markdown.</strong> No CSS, no glass, no motion, and GitHub strips styles. So the gradient work lives on the docs page, the social card and the demo UI. The README needs its own flat expression, or the identity falls apart exactly where people meet it.</div>
+  </div>
+
+  <div style="margin-top:34px;border:1px solid #E4E4E9;border-radius:12px;overflow:hidden;">
+    <div style="height:200px;background:linear-gradient(125deg,#111114 0%,#3A2E9E 42%,#8B4A9E 78%,#C96FA0 100%);position:relative;display:flex;flex-direction:column;justify-content:flex-end;padding:26px 28px;">
+      <div style="position:absolute;inset:0;background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E&quot;);mix-blend-mode:overlay;opacity:0.4;"></div>
+      <div style="position:relative;font-size:44px;font-weight:800;letter-spacing:-0.04em;color:#FFFFFF;line-height:1;">ColdRead</div>
+      <div style="position:relative;margin-top:10px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.1em;color:rgba(255,255,255,0.72);">HANDSEL &middot; 004</div>
+    </div>
+    <div style="padding:24px 28px;">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.14em;color:#8A8A93;text-transform:uppercase;">Rendered on GitHub</div>
+      <div style="margin-top:12px;font-size:15.5px;line-height:1.6;color:#3A3A44;">Turns a script into something you can actually read aloud at a microphone. Built because every teleprompter I tried was designed for news anchors.</div>
+      <div style="margin-top:16px;height:1px;background:#E4E4E9;"></div>
+      <div style="margin-top:16px;font-size:15.5px;line-height:1.6;color:#3A3A44;">It runs on a Raspberry Pi in the corner of the room and has never once been deployed on purpose.</div>
+    </div>
+  </div>
+
+  <div style="margin-top:30px;display:flex;gap:14px;">
+    <div style="flex-grow:1;padding:16px 18px;border:1px solid #E4E4E9;border-radius:10px;">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.12em;color:#8A8A93;text-transform:uppercase;">Carries over</div>
+      <div style="margin-top:10px;font-size:13.5px;line-height:1.55;color:#3A3A44;">One banner image per repo, baked as a PNG. The gradient survives as a picture even where CSS cannot go.</div>
+    </div>
+    <div style="flex-grow:1;padding:16px 18px;border:1px solid #E4E4E9;border-radius:10px;">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.12em;color:#8A8A93;text-transform:uppercase;">Does not</div>
+      <div style="margin-top:10px;font-size:13.5px;line-height:1.55;color:#3A3A44;">Glass, motion, custom type, custom colour. Markdown gives you a heading, a paragraph and an image. That is the whole toolkit.</div>
+    </div>
+  </div>
+
+  <div style="margin-top:auto;font-size:13.5px;line-height:1.5;color:#6E6E78;">
+    <strong style="color:#111114;font-weight:600;">Treatment 3.</strong> Not a rival direction. This is what A has to degrade into on GitHub, and the banner is the one piece that carries the identity across.
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

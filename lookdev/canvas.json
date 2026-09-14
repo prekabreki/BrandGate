@@ -1,0 +1,19 @@
+{
+  "pages": [
+    { "id": "page-1", "name": "Direction A · treatments" },
+    { "id": "page-2", "name": "Earlier directions" }
+  ],
+  "artboards": [
+    { "file": "Main.dc.html",     "x": 0,    "y": 0, "w": 760, "h": 980, "title": "A1 · Refined, light",  "page": "page-1" },
+    { "file": "Glass.dc.html",    "x": 860,  "y": 0, "w": 760, "h": 980, "title": "A2 · Glass, dark",     "page": "page-1" },
+    { "file": "Flat.dc.html",     "x": 1720, "y": 0, "w": 760, "h": 980, "title": "A3 · Flat-safe README", "page": "page-1" },
+    { "file": "Workshop.dc.html", "x": 0,    "y": 0, "w": 760, "h": 980, "title": "B · Workshop", "page": "page-2" },
+    { "file": "Terminal.dc.html", "x": 860,  "y": 0, "w": 760, "h": 980, "title": "C · Terminal", "page": "page-2" },
+    { "file": "Cassette.dc.html", "x": 1720, "y": 0, "w": 760, "h": 980, "title": "D · Cassette", "page": "page-2" }
+  ],
+  "annotations": [
+    { "id": "brief", "x": 0, "y": -210, "w": 900, "text": "You picked A and said it read flat. All three here are A, not new directions.\n\nA1 and A2 are the same identity on light and dark grounds: layered mesh gradients, real backdrop-filter glass with an inset specular, SVG film grain, slow drift. Glass needs something behind it to bend, which is why A2 exists.\n\nA3 is the constraint, not an option. GitHub READMEs are static markdown, so a baked banner PNG is the only part of this that survives there.\n\n\"Handsel\" is still a placeholder name.", "page": "page-1" },
+    { "id": "note-earlier", "x": 0, "y": -150, "w": 760, "text": "Kept for reference. B, C and D from the first pass.", "page": "page-2" }
+  ],
+  "launch": { "view": "canvas", "page": "page-1" }
+}
