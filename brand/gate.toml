@@ -1,0 +1,69 @@
+# Gate thresholds. These live here and not in code because the sameness run
+# (#10) tightens them mechanically, and because a number a designer might want
+# to argue with should sit in a file a designer can open.
+#
+# Every threshold below was set by hand before the calibration set existed and
+# is therefore a guess. docs/calibration.md is where they stop being guesses.
+
+[verdict]
+# A frame passes when it clears both bars.
+on_brand_min = 0.75
+novelty_min = 0.12
+
+[palette]
+# Max CIE76 distance in Lab from a dominant colour to its nearest allowed
+# colour before that colour counts as off-palette. ~12 is a just-noticeable
+# shift to a trained eye; 25 is "that is a different colour".
+tolerance_lab = 22.0
+# Ignore colours occupying less than this share of the frame: a stray pixel is
+# not a palette violation.
+min_mass = 0.02
+# A forbidden colour (magenta as a flat accent) fails once it holds this much
+# of the frame as a flat region.
+forbid_mass = 0.04
+
+[band]
+# Normalised cross-correlation over the mark template, across a scale pyramid.
+# Measured separation on the takes sheets: marks score 0.79 to 0.97, a frame
+# with no mark scores 0.30. The bar sits between them with room on both sides.
+present_min = 0.55
+# How much better a rotated match must be than the level one before the frame
+# is called rotated rather than merely noisy.
+rotation_margin = 0.05
+# Fraction of the frame width to try the mark at. The mark appears from a
+# favicon slice to a hero lockup, so three scales cannot cover it; marks in the
+# takes sheets were found at 0.15 to 0.27 and a coarse pyramid missed all of
+# them.
+scale_min = 0.06
+scale_max = 0.45
+scale_steps = 18
+# Gaussian blur applied to both edge maps before matching. Solid-shape edges
+# are one or two pixels wide, so without this a two-pixel scale error destroys
+# the correlation. Above about 2.0 the template stops discriminating.
+edge_blur = 1.5
+# A candidate window must carry at least this fraction of the template's edge
+# energy. THIS IS LOAD-BEARING: a smooth gradient wash has almost no edge
+# energy, and normalised correlation between two near-empty patches returns a
+# confident 1.00 on nothing at all. Without this floor the detector reported a
+# perfect match on blank areas of every frame tested.
+energy_floor = 0.35
+
+[contrast]
+# WCAG 2.1 contrast ratio. 4.5 is AA for body text; the brand's own rule that
+# text is only ever ink or white is stricter than this in practice.
+ratio_min = 4.5
+# Below this area a detected blob is treated as noise, not type.
+min_region_px = 120
+
+[motif]
+# One gesture per surface. Two is the failure this counts.
+max_gestures = 1
+# Two matches closer than this fraction of the frame width are one gesture
+# seen twice, not two gestures.
+merge_distance = 0.08
+
+[novelty]
+# Perceptual-hash distance, normalised by hash length, to the nearest accepted
+# frame. CLIP distance is averaged in when open_clip is installed.
+phash_bits = 64
+clip_weight = 0.5

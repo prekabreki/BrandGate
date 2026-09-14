@@ -1,0 +1,342 @@
+{
+  "source": "brand/rules.md",
+  "generated_from_prose": true,
+  "parser": "899b75b6d6d5ace1",
+  "counts": {
+    "total": 40,
+    "checked": 11,
+    "manual": 29
+  },
+  "rules": [
+    {
+      "id": "mark.01",
+      "section": "mark",
+      "prose": "Six pie slices in a 3:1 band, alternating apex down and apex up, the geometry in `tokens.json` under `mark`.",
+      "check": "band",
+      "params": {
+        "forbid_transforms": []
+      }
+    },
+    {
+      "id": "mark.02",
+      "section": "mark",
+      "prose": "One gradient flows through all six left to right, deep indigo to rose.",
+      "check": "manual",
+      "params": {}
+    },
+    {
+      "id": "mark.03",
+      "section": "mark",
+      "prose": "Solid variants are ink on light ground and white on dark ground.",
+      "check": "manual",
+      "params": {}
+    },
+    {
+      "id": "mark.04",
+      "section": "mark",
+      "prose": "On night the gradient mark uses the lifted night flow, indigo 6C56FF to pink EC56A8; the paper flow starts too deep to read on black.",
+      "check": "manual",
+      "params": {}
+    },
+    {
+      "id": "mark.05",
+      "section": "mark",
+      "prose": "A lone slice always carries the whole flow across its own width, never a cut of the band.",
+      "check": "band",
+      "params": {
+        "forbid_transforms": []
+      }
+    },
+    {
+      "id": "mark.06",
+      "section": "mark",
+      "prose": "Clear space is one slice radius on every side.",
+      "check": "manual",
+      "params": {}
+    },
+    {
+      "id": "mark.07",
+      "section": "mark",
+      "prose": "Minimum width is 96 px on screen. The seam between slices is 9 units of the 739 unit band, which is 1.2 px at that size; below it, use the lone slice.",
+      "check": "band",
+      "params": {
+        "min_px": 1.2,
+        "forbid_transforms": []
+      }
+    },
+    {
+      "id": "mark.08",
+      "section": "mark",
+      "prose": "The mark is never rotated, mirrored, outlined, or shown with a drop shadow.",
+      "check": "band",
+      "params": {
+        "forbid_transforms": [
+          "rotated",
+          "mirrored",
+          "outlined",
+          "drop shadow"
+        ]
+      }
+    },
+    {
+      "id": "mark.09",
+      "section": "mark",
+      "prose": "A single slice may stand alone as the avatar or favicon unit.",
+      "check": "manual",
+      "params": {}
+    },
+    {
+      "id": "colour.01",
+      "section": "colour",
+      "prose": "Grounds are paper `#FAFAF8`, mist `#ECEAF6`, or night `#0D0B18`.",
+      "check": "palette",
+      "params": {
+        "hex": [
+          "#FAFAF8",
+          "#ECEAF6",
+          "#0D0B18"
+        ],
+        "role": "ground",
+        "allow": [
+          "#FAFAF8",
+          "#ECEAF6",
+          "#0D0B18"
+        ],
+        "forbid_hex": [],
+        "forbid": false
+      }
+    },
+    {
+      "id": "colour.02",
+      "section": "colour",
+      "prose": "Text is ink `#111114` on light grounds and white on night. Secondary text is graphite `#4A4A55`.",
+      "check": "contrast",
+      "params": {
+        "hex": [
+          "#111114",
+          "#4A4A55"
+        ],
+        "forbid": false
+      }
+    },
+    {
+      "id": "colour.03",
+      "section": "colour",
+      "prose": "Indigo `#4B3BE8` is the one flat accent: links, the primary button, a chip border. Magenta is never a flat accent.",
+      "check": "palette",
+      "params": {
+        "hex": [
+          "#4B3BE8"
+        ],
+        "role": "accent",
+        "allow": [
+          "#4B3BE8"
+        ],
+        "forbid_hex": [
+          "#B44C9E"
+        ],
+        "forbid": false
+      }
+    },
+    {
+      "id": "colour.04",
+      "section": "colour",
+      "prose": "No gradient stop is ever used as text.",
+      "check": "contrast",
+      "params": {
+        "forbid": true
+      }
+    },
+    {
+      "id": "gradient.01",
+      "section": "gradient",
+      "prose": "There is one gradient, the flow, and it runs left to right on every surface.",
+      "check": "manual",
+      "params": {}
+    },
+    {
+      "id": "gradient.02",
+      "section": "gradient",
+      "prose": "The flow appears on the mark, on display type, and as a ground wash. Nothing else carries it.",
+      "check": "manual",
+      "params": {}
+    },
+    {
+      "id": "gradient.03",
+      "section": "gradient",
+      "prose": "As a ground it is softened: three blurred orbs in indigo, magenta and sky over paper or night, with a paper veil and film grain over that. Never the raw ramp.",
+      "check": "manual",
+      "params": {}
+    },
+    {
+      "id": "gradient.04",
+      "section": "gradient",
+      "prose": "Display type takes the text variant, which starts from ink so the first word reads as text before it turns.",
+      "check": "manual",
+      "params": {}
+    },
+    {
+      "id": "surface.01",
+      "section": "surface",
+      "prose": "Where there is depth, cards are glass: white at 52 percent, backdrop blur, a one pixel inset specular, the Direction A shadow stack.",
+      "check": "manual",
+      "params": {}
+    },
+    {
+      "id": "surface.02",
+      "section": "surface",
+      "prose": "Where the surface must survive as a flat PNG, cards are paper with a hairline border and no shadow.",
+      "check": "manual",
+      "params": {}
+    },
+    {
+      "id": "surface.03",
+      "section": "surface",
+      "prose": "Film grain at 38 percent overlay on every ground with a wash. None on flat surfaces.",
+      "check": "manual",
+      "params": {}
+    },
+    {
+      "id": "type.01",
+      "section": "type",
+      "prose": "Display is Archivo 800, tracking -0.045 em, line height 0.9, two lines or fewer.",
+      "check": "manual",
+      "params": {}
+    },
+    {
+      "id": "type.02",
+      "section": "type",
+      "prose": "The wordmark is Handsel in Archivo 800, title case, in the text gradient or in ink.",
+      "check": "manual",
+      "params": {}
+    },
+    {
+      "id": "type.03",
+      "section": "type",
+      "prose": "Body is Archivo 400 at 17 px, line height 1.5, under 75 characters a line.",
+      "check": "contrast",
+      "params": {
+        "forbid": false
+      }
+    },
+    {
+      "id": "type.04",
+      "section": "type",
+      "prose": "IBM Plex Mono 400 carries labels, code and data, at 10 to 13 px with 0.14 em tracking when set in caps.",
+      "check": "manual",
+      "params": {}
+    },
+    {
+      "id": "motif.01",
+      "section": "motif",
+      "prose": "The slice is the only motif. No other geometric shape is used decoratively.",
+      "check": "motif",
+      "params": {}
+    },
+    {
+      "id": "motif.02",
+      "section": "motif",
+      "prose": "One gesture per surface: the mark, or gradient type, or a slice field. Not two.",
+      "check": "motif",
+      "params": {}
+    },
+    {
+      "id": "motion.01",
+      "section": "motion",
+      "prose": "One orchestrated entrance per surface, a rise of 14 px over 900 ms on a soft curve, staggered by 120 ms.",
+      "check": "manual",
+      "params": {}
+    },
+    {
+      "id": "motion.02",
+      "section": "motion",
+      "prose": "Ground orbs drift for 26 to 38 seconds, alternate, and never faster.",
+      "check": "manual",
+      "params": {}
+    },
+    {
+      "id": "motion.03",
+      "section": "motion",
+      "prose": "Nothing else moves without a user action.",
+      "check": "manual",
+      "params": {}
+    },
+    {
+      "id": "what-handsel-is.01",
+      "section": "what-handsel-is",
+      "prose": "A one-person software studio that builds tools for its own work and keeps them in public.",
+      "check": "manual",
+      "params": {}
+    },
+    {
+      "id": "what-handsel-is.02",
+      "section": "what-handsel-is",
+      "prose": "The word means a gift given at the start of something. Every public tool is one.",
+      "check": "manual",
+      "params": {}
+    },
+    {
+      "id": "what-handsel-is.03",
+      "section": "what-handsel-is",
+      "prose": "The audience is other makers who would rather read the code than a pitch.",
+      "check": "manual",
+      "params": {}
+    },
+    {
+      "id": "what-handsel-is.04",
+      "section": "what-handsel-is",
+      "prose": "The proof is the repos themselves: ColdRead, the ck3 chronicler, the rest of the public set. The brand exists to make them read as one studio.",
+      "check": "manual",
+      "params": {}
+    },
+    {
+      "id": "what-handsel-is-not.01",
+      "section": "what-handsel-is-not",
+      "prose": "Not a SaaS, a platform, or a product with a pricing page.",
+      "check": "manual",
+      "params": {}
+    },
+    {
+      "id": "what-handsel-is-not.02",
+      "section": "what-handsel-is-not",
+      "prose": "Not a team, an agency, or a company that hires.",
+      "check": "manual",
+      "params": {}
+    },
+    {
+      "id": "what-handsel-is-not.03",
+      "section": "what-handsel-is-not",
+      "prose": "Not enterprise, not compliance, not a dashboard for buyers.",
+      "check": "manual",
+      "params": {}
+    },
+    {
+      "id": "what-handsel-is-not.04",
+      "section": "what-handsel-is-not",
+      "prose": "Not playful for its own sake. The colour carries the energy, the words stay plain.",
+      "check": "manual",
+      "params": {}
+    },
+    {
+      "id": "tone.01",
+      "section": "tone",
+      "prose": "Plain sentences, sentence case, present tense.",
+      "check": "manual",
+      "params": {}
+    },
+    {
+      "id": "tone.02",
+      "section": "tone",
+      "prose": "Says what the thing does and why it was built. No adjectives about itself.",
+      "check": "manual",
+      "params": {}
+    },
+    {
+      "id": "tone.03",
+      "section": "tone",
+      "prose": "\"Tools built for one person, kept in public.\"",
+      "check": "manual",
+      "params": {}
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+[project]
+name = "brandgate"
+version = "0.1.0"
+description = "A designed brand and the pipeline that keeps generated output on it."
+requires-python = ">=3.13"
+dependencies = [
+    "pillow>=11",
+    "numpy>=2",
+    "cairosvg>=2.7",
+    "opencv-python-headless>=4.10",
+]
+
+[project.optional-dependencies]
+# Novelty's semantic half. Pulls torch, so it stays optional: without it the
+# gate still scores novelty from perceptual hashes and says so in the output,
+# rather than refusing to run.
+clip = ["open-clip-torch>=2.24", "torch>=2.4"]
+
+[dependency-groups]
+dev = ["pytest>=8"]
+
+[tool.pytest.ini_options]
+testpaths = ["pipeline/tests"]
