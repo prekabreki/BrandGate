@@ -132,22 +132,53 @@ def flow_defs() -> str:
 
 FLOW_PAINTS = ["url(#flow)", "url(#warm)", "url(#cool)"]
 
+# On night grounds the flow's deep start disappears into the black. Direction A2
+# already answered this with a lifted pair, indigo 6C56FF to pink EC56A8, so the
+# night variant of the mark uses those.
+FLOW_STOPS_NIGHT = [
+    (0.00, "#6C56FF"),
+    (0.45, "#8E63FF"),
+    (0.75, "#C25CCB"),
+    (1.00, "#EC56A8"),
+]
+
+
+def flow_defs_for(stops, x0, x1, y0, y1, gid="flow"):
+    """A flow spanning exactly x0..x1, with the two washes scaled to that span."""
+    st = "".join(f'<stop offset="{o:.2f}" stop-color="{c}"/>' for o, c in stops)
+    w = x1 - x0
+    return (
+        f'<linearGradient id="{gid}" gradientUnits="userSpaceOnUse" x1="{x0:.1f}" y1="0" x2="{x1:.1f}" y2="0">{st}</linearGradient>'
+        f'<radialGradient id="warm" gradientUnits="userSpaceOnUse" cx="{x1 - w*0.08:.1f}" cy="{y0 + (y1-y0)*0.1:.1f}" r="{w*0.55:.1f}">'
+        f'<stop offset="0" stop-color="#F078BE" stop-opacity="0.5"/><stop offset="0.5" stop-color="#F078BE" stop-opacity="0.15"/><stop offset="1" stop-color="#F078BE" stop-opacity="0"/></radialGradient>'
+        f'<radialGradient id="cool" gradientUnits="userSpaceOnUse" cx="{x0 + w*0.27:.1f}" cy="{y1 - (y1-y0)*0.1:.1f}" r="{w*0.42:.1f}">'
+        f'<stop offset="0" stop-color="#56A4F8" stop-opacity="0.45"/><stop offset="1" stop-color="#56A4F8" stop-opacity="0"/></radialGradient>'
+    )
+
 
 def main() -> None:
     LOGO.mkdir(exist_ok=True)
+    x0, y0, x1, y1 = bbox()
     (LOGO / "slice-mark.svg").write_text(svg(FLOW_PAINTS, flow_defs()), encoding="utf-8")
+    (LOGO / "slice-mark-night.svg").write_text(
+        svg(FLOW_PAINTS, flow_defs_for(FLOW_STOPS_NIGHT, x0, x1, y0, y1)), encoding="utf-8")
     (LOGO / "slice-mark-ink.svg").write_text(svg(["#111114"]), encoding="utf-8")
     (LOGO / "slice-mark-white.svg").write_text(svg(["#FFFFFF"]), encoding="utf-8")
     (LOGO / "slice-mark-blank.svg").write_text(svg(["#E5E5E5"]), encoding="utf-8")
-    # One slice on its own: the avatar and favicon unit.
-    x0, y0, x1, y1 = bbox()
+
+    # One slice on its own: the avatar and favicon unit. The whole flow runs across
+    # this one slice, so it never inherits only the dark end of the band.
     single = [(0.0, 0.0, True)]
-    one = (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="-110 -110 220 220" width="220" height="220">'
-           f'<defs>{flow_defs()}<mask id="one" maskUnits="userSpaceOnUse" x="-110" y="-110" width="220" height="220">{silhouette("#fff", single)}</mask></defs>'
-           + silhouette(FLOW_PAINTS[0], single)
-           + "".join(f'<rect x="-110" y="-110" width="220" height="220" fill="{p}" mask="url(#one)"/>' for p in FLOW_PAINTS[1:])
-           + "</svg>\n")
-    (LOGO / "slice-one.svg").write_text(one, encoding="utf-8")
+    a = math.radians(HALF_DEG)
+    hw = R * math.sin(a) + ROUND / 2
+    for name, stops in (("slice-one.svg", FLOW_STOPS), ("slice-one-night.svg", FLOW_STOPS_NIGHT)):
+        one = (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="-110 -110 220 220" width="220" height="220">'
+               f'<defs>{flow_defs_for(stops, -hw, hw, -R/2 - ROUND/2, R/2 + ROUND/2)}'
+               f'<mask id="one" maskUnits="userSpaceOnUse" x="-110" y="-110" width="220" height="220">{silhouette("#fff", single)}</mask></defs>'
+               + silhouette(FLOW_PAINTS[0], single)
+               + "".join(f'<rect x="-110" y="-110" width="220" height="220" fill="{p}" mask="url(#one)"/>' for p in FLOW_PAINTS[1:])
+               + "</svg>" + chr(10))
+        (LOGO / name).write_text(one, encoding="utf-8")
 
     tokens = json.loads(TOKENS.read_text(encoding="utf-8")) if TOKENS.exists() else {}
     x0, y0, x1, y1 = bbox()

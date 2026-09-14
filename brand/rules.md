@@ -9,6 +9,8 @@ Every line here is a check something can score.
 - Six pie slices in a 3:1 band, alternating apex down and apex up, the geometry in `tokens.json` under `mark`.
 - One gradient flows through all six left to right, deep indigo to rose.
 - Solid variants are ink on light ground and white on dark ground.
+- On night the gradient mark uses the lifted night flow, indigo 6C56FF to pink EC56A8; the paper flow starts too deep to read on black.
+- A lone slice always carries the whole flow across its own width, never a cut of the band.
 - Clear space is one slice radius on every side.
 - Minimum width is 96 px on screen.
 - The mark is never rotated, mirrored, outlined, or shown with a drop shadow.
