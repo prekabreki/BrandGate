@@ -1,0 +1,26 @@
+/* Local faces first. Alpino (Pangram Pangram) and Nagoda are installed per user on the
+   Windows box; nothing here is served from the repo until the licences are confirmed. */
+@font-face { font-family: "Alpino"; font-weight: 900; src: local("Alpino Black"), local("Alpino-Black"), local("AlpinoVariable-Black"); }
+@font-face { font-family: "Alpino"; font-weight: 700; src: local("Alpino Bold"), local("Alpino-Bold"); }
+@font-face { font-family: "Alpino"; font-weight: 500; src: local("Alpino Medium"), local("Alpino-Medium"); }
+@font-face { font-family: "Alpino"; font-weight: 400; src: local("Alpino Regular"), local("Alpino-Regular"), local("Alpino"); }
+@font-face { font-family: "Alpino"; font-weight: 300; src: local("Alpino Light"), local("Alpino-Light"); }
+@font-face { font-family: "Nagoda"; font-weight: 400; src: local("Nagoda"), local("NagodaRegular"), local("Nagoda Regular"); }
+
+:root {
+  --ink: #2A2140;
+  --milk: #F7FAFC;
+  --sky-milk: #B1D9F0;
+  --night: #161228;
+  --mint: #62E6CD;
+  --sky: #4FD0FF;
+  --lilac: #B99BE8;
+  --pink: #F67699;
+  --peach: #F6A882;
+  --lemon: #E9E25A;
+  --flow: linear-gradient(90deg, #62E6CD 0%, #4FD0FF 20%, #B99BE8 36%, #F67699 50%, #F67699 66%, #F6A882 82%, #E9E25A 100%);
+  --display: "Alpino", "Archivo Black", "Arial Black", sans-serif;
+  --voice: "Nagoda", "Alpino", sans-serif;
+  --body: "Alpino", Inter, system-ui, sans-serif;
+  --mono: "IBM Plex Mono", Consolas, monospace;
+}
