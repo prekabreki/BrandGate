@@ -2,7 +2,12 @@ _local/
 .venv/
 __pycache__/
 *.pyc
-runs/
+# The ledger is the provenance artifact and is tracked; nothing else in runs/ is.
+runs/*
+!runs/ledger.jsonl
+
+# Hunting frames. Only a chosen surface graduates out of _scratch into the repo.
+surfaces/_scratch/
 # Photoshop sources stay out of git; commit the PNG/SVG exports beside them.
 *.psd
 lookdev/_render*
