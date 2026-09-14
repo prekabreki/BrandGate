@@ -19,11 +19,14 @@
   /* Mesh for display type on night: stacked radial pools over a white base, ending at
      lilac. No pink. Reads as one lit surface, not a ramp. */
   --mesh-night:
-    radial-gradient(60% 90% at 12% 20%, #FFFFFF 0%, rgba(255,255,255,0) 60%),
-    radial-gradient(45% 70% at 42% 85%, #8C7BFF 0%, rgba(140,123,255,0) 65%),
-    radial-gradient(40% 60% at 70% 15%, #56A4F8 0%, rgba(86,164,248,0) 60%),
-    radial-gradient(55% 80% at 92% 70%, #B9A6FF 0%, rgba(185,166,255,0) 65%),
-    linear-gradient(120deg, #F2F0FF 0%, #A99BFF 100%);
+    radial-gradient(22% 42% at 8% 10%, #FFFFFF 0%, rgba(255,255,255,0) 60%),
+    radial-gradient(20% 40% at 56% 92%, #FFFFFF 0%, rgba(255,255,255,0) 60%),
+    radial-gradient(24% 40% at 96% 12%, #F1EDFF 0%, rgba(241,237,255,0) 60%),
+    radial-gradient(22% 45% at 32% 82%, #3B2CC4 0%, rgba(59,44,196,0) 62%),
+    radial-gradient(24% 50% at 80% 58%, #4B3BE8 0%, rgba(75,59,232,0) 62%),
+    radial-gradient(18% 34% at 44% 36%, #D9D1FF 0%, rgba(217,209,255,0) 60%),
+    radial-gradient(20% 40% at 18% 50%, #6A55EE 0%, rgba(106,85,238,0) 60%),
+    linear-gradient(100deg, #A091F2 0%, #8B78EC 100%);
   --display: "Archivo", "Helvetica Neue", Arial, sans-serif;
   --body: "Archivo", system-ui, sans-serif;
   --mono: "IBM Plex Mono", Consolas, monospace;
