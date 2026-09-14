@@ -12,7 +12,7 @@ Every line here is a check something can score.
 - On night the gradient mark uses the lifted night flow, indigo 6C56FF to pink EC56A8; the paper flow starts too deep to read on black.
 - A lone slice always carries the whole flow across its own width, never a cut of the band.
 - Clear space is one slice radius on every side.
-- Minimum width is 96 px on screen.
+- Minimum width is 96 px on screen. The seam between slices is 9 units of the 739 unit band, which is 1.2 px at that size; below it, use the lone slice.
 - The mark is never rotated, mirrored, outlined, or shown with a drop shadow.
 - A single slice may stand alone as the avatar or favicon unit.
 

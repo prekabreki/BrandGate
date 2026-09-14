@@ -25,7 +25,7 @@ PITCH = 209.0        # horizontal distance between same-orientation slices
 STAGGER_X = 104.5    # up-slices sit half a pitch to the right
 STAGGER_Y = 40.0     # and 40 lower
 ROUND = 22.0         # stroke width used to round the corners (same paint as the fill)
-SEAM = 6.0           # visible gap between neighbouring slices after rounding
+SEAM = 9.0           # visible gap between neighbouring slices after rounding; 6 vanished below 120 px
 # Adjacent straight edges are parallel and 13.5 units apart in the measured layout.
 # The rounding stroke grows each shape by ROUND/2, so every edge is drawn inset by
 # this much and the stroke brings it back out, leaving exactly SEAM between them.
