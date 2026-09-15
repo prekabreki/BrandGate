@@ -12,8 +12,6 @@
   --violet: #7A4FE0;
   --magenta: #B44C9E;
   --rose: #D9628A;
-  --sky: #56A4F8;
-  --pink: #F078BE;
   --flow: linear-gradient(90deg, #1E1A5C 0%, #4B3BE8 28%, #7A4FE0 50%, #B44C9E 74%, #D9628A 100%);
   --flow-text: linear-gradient(120deg, #111114 10%, #4B3BE8 55%, #B44C9E 95%);
   /* Mesh for display type on night: stacked radial pools over a white base, ending at

@@ -1,7 +1,7 @@
 {
   "source": "brand/rules.md",
   "generated_from_prose": true,
-  "parser": "0b7220c8f44e41c1",
+  "parser": "3c51928fe9ecfa3c",
   "counts": {
     "total": 40,
     "checked": 11,
@@ -164,7 +164,7 @@
     {
       "id": "gradient.03",
       "section": "gradient",
-      "prose": "As a ground it is softened: blurred orbs over paper or night, indigo at the left and magenta warming to rose at the right, with a paper veil and film grain over that. On paper a faint sky bloom may sit low in the frame as an undertone, never as a stop; night carries none. Never the raw ramp.",
+      "prose": "As a ground it is softened: blurred orbs over paper or night, indigo at the left and magenta warming to rose at the right, bleeding into one another, with a paper veil and film grain over that. No other colour enters the wash. Never the raw ramp.",
       "check": "manual",
       "params": {}
     },

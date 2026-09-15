@@ -35,6 +35,15 @@ parked under `surfaces/_calibration-v1-skyright` and its ledger rows stand.
 Lesson for the gate: nothing in it could have caught this, because every check
 reads the rules, and the rules were wrong.
 
+**Ruled later the same day: sky and pink leave the palette.** Neither was a
+colour the designer remembered approving; both were leftovers of exploration 01.
+`tokens.json`, `fonts.css`, the guide's wash and rule 30 lost them, the prompt
+moved to `hero-ground@3` without its cool bloom, and the guide re-rendered as
+`guide_04`. The 27 labelled frames were re-scored against the reduced palette:
+**19 of 27, unchanged.** The v2 bloom was too faint for the palette check to
+see, which is consistent with the finding above that the gate's misses are not
+about hue.
+
 | # | image | model / tier | label | gate | on-brand | rule fired | agreed | designer's note |
 |---|---|---|---|---|---|---|---|---|
 | 1 | raw 1001 | krea2 raw | off | fail | 0.69 | `colour.03` | yes | too much separation between colours, not enough bleed |
