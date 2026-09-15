@@ -119,13 +119,21 @@ def labelled_frames(labels_path: str = LABELS, calib_dir: str = CALIB_DIR,
     return frames
 
 
-def score_pool(paths: list[str], cfg: dict, doc: dict, log=print) -> tuple[list[dict], list[str]]:
+def score_pool(paths: list[str], cfg: dict, doc: dict, log=print,
+               ctxs: dict | None = None) -> tuple[list[dict], list[str]]:
     """Score the pool in seed order. Novelty is measured against what this
     step has accepted so far, from an empty set, so the run is self-contained
-    and no earlier session's accepted frames leak in."""
+    and no earlier session's accepted frames leak in.
+
+    `ctxs` maps a frame path to its measurement cache and is kept across steps:
+    the mark detector, text regions and novelty features do not depend on the
+    thresholds a step moves, so they are measured once per frame and judged
+    five times. The accepted set is NOT in the cache; it is rebuilt per step."""
     accepted, rows = [], []
+    ctxs = {} if ctxs is None else ctxs
     for i, p in enumerate(paths, start=1):
-        r = gate.score_image(gate.load_image(p), cfg, doc, accepted_paths=list(accepted))
+        r = gate.score_image(gate.load_image(p), cfg, doc, accepted_paths=list(accepted),
+                             ctx=ctxs.setdefault(p, {}))
         rows.append({"path": _rel(p), "verdict": r["verdict"], "on_brand": r["on_brand"],
                      "novelty": r["novelty"], "failed_rules": r["failed_rules"],
                      "errored": [e["rule"] for e in r["errored"]]})
@@ -147,14 +155,17 @@ def mean_pairwise_novelty(paths: list[str], cfg: dict) -> float | None:
     return float(sum(ds) / len(ds))
 
 
-def designer_agreement(frames: list[dict], cfg: dict, doc: dict) -> dict:
+def designer_agreement(frames: list[dict], cfg: dict, doc: dict,
+                       ctxs: dict | None = None) -> dict:
     """Re-score the labelled frames on this step's brand bars alone (an empty
     accepted set, so novelty is 1.0 and cannot decide the verdict) and count
-    where the gate and the designer agree."""
+    where the gate and the designer agree. `ctxs` as in score_pool, keyed on
+    the frame id because six of the frames are tiles of one sheet."""
     tp = fp = fn = tn = 0
+    ctxs = {} if ctxs is None else ctxs
     for f in frames:
         r = gate.score_image(gate.load_image(f["path"], f["crop"]), cfg, doc,
-                             accepted_paths=[])
+                             accepted_paths=[], ctx=ctxs.setdefault(f["id"], {}))
         passed = r["verdict"] == "pass"
         if passed and f["on"]:
             tp += 1
@@ -185,12 +196,14 @@ def run(pool_dir: str = POOL_DIR, steps: int = 5, out_dir: str = OUT_DIR,
         f"novelty {'hash + CLIP' if clip_on else 'HASH ONLY, open_clip not installed'}")
 
     results = []
+    pool_ctxs: dict = {}
+    label_ctxs: dict = {}
     for k, thresholds in enumerate(build_steps(steps)):
         t0 = time.monotonic()
         cfg = override(base_cfg, thresholds)
         log(f"step {k}: " + ", ".join(f"{a}={b}" for a, b in thresholds.items()))
-        rows, accepted = score_pool(paths, cfg, doc, log)
-        designer = designer_agreement(frames, cfg, doc)
+        rows, accepted = score_pool(paths, cfg, doc, log, pool_ctxs)
+        designer = designer_agreement(frames, cfg, doc, label_ctxs)
         results.append({
             "step": k, "thresholds": thresholds,
             "pool": {"n": len(paths), "accepted_n": len(accepted),

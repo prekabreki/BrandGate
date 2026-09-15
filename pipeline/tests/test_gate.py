@@ -361,6 +361,7 @@ def test_an_empty_accepted_set_yields_full_novelty(cfg, doc):
 
 def test_a_frame_is_not_novel_against_itself(cfg, tmp_path):
     import cv2
+
     from pipeline import novelty
     img = gate.load_image(TAKES, "t3")
     acc = tmp_path / "accepted"
@@ -398,3 +399,60 @@ def test_cli_json_is_machine_readable(capsys):
     r = json.loads(capsys.readouterr().out)
     assert r["verdict"] == "pass"
     assert r["breakdown"] and "novelty_detail" in r
+
+
+# -- the measurement cache (#20) ---------------------------------------------
+
+def _half(img):
+    import cv2
+    return cv2.resize(img, (img.shape[1] // 2, img.shape[0] // 2), interpolation=cv2.INTER_AREA)
+
+
+@needs_cairo
+def test_a_shared_ctx_runs_the_mark_detector_once_across_threshold_sets(cfg, doc, monkeypatch):
+    import copy
+
+    from pipeline.checks import band
+    calls = []
+    real = band.locate
+    monkeypatch.setattr(band, "locate", lambda img, c, *a, **k: calls.append(1) or real(img, c, *a, **k))
+    img = _half(gate.load_image(TAKES, "t3"))
+    ctx: dict = {}
+    loose, tight = copy.deepcopy(cfg), copy.deepcopy(cfg)
+    tight["verdict"]["on_brand_min"] = 0.99
+    gate.score_image(img, loose, doc, accepted_glob=ACCEPTED_NONE, ctx=ctx)
+    gate.score_image(img, tight, doc, accepted_glob=ACCEPTED_NONE, ctx=ctx)
+    # six band and motif rules, two threshold sets, one detector run
+    assert len(calls) == 1, f"the mark detector ran {len(calls)} times"
+
+
+@needs_cairo
+def test_a_shared_ctx_is_refreshed_when_the_section_it_read_changes(cfg, doc, monkeypatch):
+    import copy
+
+    from pipeline.checks import band
+    calls = []
+    real = band.locate
+    monkeypatch.setattr(band, "locate", lambda img, c, *a, **k: calls.append(1) or real(img, c, *a, **k))
+    img = _half(gate.load_image(TAKES, "t3"))
+    ctx: dict = {}
+    a, b = copy.deepcopy(cfg), copy.deepcopy(cfg)
+    b["band"]["scale_steps"] = int(cfg["band"]["scale_steps"]) - 1
+    gate.score_image(img, a, doc, accepted_glob=ACCEPTED_NONE, ctx=ctx)
+    gate.score_image(img, b, doc, accepted_glob=ACCEPTED_NONE, ctx=ctx)
+    assert len(calls) == 2, "a changed [band] section must not be served the old detection"
+
+
+@needs_cairo
+def test_scores_are_identical_with_and_without_a_shared_ctx(cfg, doc):
+    import copy
+    img = _half(gate.load_image(TAKES, "t3"))
+    sets = []
+    for on_brand_min in (0.5, cfg["verdict"]["on_brand_min"], 0.999):
+        c = copy.deepcopy(cfg)
+        c["verdict"]["on_brand_min"] = on_brand_min
+        sets.append(c)
+    cold = [_score(img, c, doc) for c in sets]
+    ctx: dict = {}
+    warm = [gate.score_image(img, c, doc, accepted_glob=ACCEPTED_NONE, ctx=ctx) for c in sets]
+    assert cold == warm

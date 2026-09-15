@@ -113,7 +113,7 @@ def _distance_parts(a: tuple, b: tuple, cfg: dict) -> tuple[float, dict]:
 
 
 def score(img: np.ndarray, cfg: dict, pattern: str | None = None,
-          paths: list[str] | None = None) -> dict:
+          paths: list[str] | None = None, ctx: dict | None = None) -> dict:
     """Distance to the nearest accepted frame, 0 (identical) to 1 (unlike all).
 
     The accepted set is `paths` when given (the sameness run hands over what
@@ -127,7 +127,12 @@ def score(img: np.ndarray, cfg: dict, pattern: str | None = None,
                 "reason": "the accepted set is empty, so every frame is novel"}
 
     bits = cfg["novelty"]["phash_bits"]
-    mine = features_of(img, bits)
+    if ctx is None:
+        mine = features_of(img, bits)
+    else:
+        from pipeline.checks import memo
+        mine = memo(ctx, "novelty_features", (bits, clip_available()),
+                    lambda: features_of(img, bits))
     best, best_path, best_parts = 1.0, None, {}
     for p in paths:
         d, parts = _distance_parts(mine, features(p, bits), cfg)

@@ -13,8 +13,9 @@ from __future__ import annotations
 
 import numpy as np
 
-from pipeline.checks import Finding, register
+from pipeline.checks import Finding, memo, register
 from pipeline.checks.band import locate
+from pipeline.checks.contrast import text_regions
 
 
 def _merge(hits, width, frac):
@@ -89,8 +90,8 @@ def gradient_type_present(img: np.ndarray, boxes, hits=()) -> bool:
 
 @register("motif")
 def check(img: np.ndarray, rule: dict, cfg: dict, ctx: dict) -> Finding:
-    level, rotated, hits = ctx.setdefault("band", locate(img, cfg))
-    boxes = ctx.get("text_regions", [])
+    level, rotated, hits = memo(ctx, "band", cfg["band"], lambda: locate(img, cfg))
+    boxes = memo(ctx, "text_regions", cfg["contrast"], lambda: text_regions(img, cfg))
     merged = _merge(hits, img.shape[1], cfg["motif"]["merge_distance"])
 
     gestures = []

@@ -14,7 +14,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from pipeline.checks import Finding, not_applicable, register
+from pipeline.checks import Finding, memo, not_applicable, register
 from pipeline.checks.colour import contrast_ratio
 
 
@@ -83,7 +83,7 @@ def _ink_and_ground(img: np.ndarray, box, pad: int = 6):
 
 @register("contrast")
 def check(img: np.ndarray, rule: dict, cfg: dict, ctx: dict) -> Finding:
-    boxes = ctx.setdefault("text_regions", text_regions(img, cfg))
+    boxes = memo(ctx, "text_regions", cfg["contrast"], lambda: text_regions(img, cfg))
     if not boxes:
         return not_applicable(rule["id"], "contrast",
                               "no text region detected, nothing to measure")

@@ -70,12 +70,22 @@ def crop_tile(img: np.ndarray, spec: str) -> np.ndarray:
 def score_image(img: np.ndarray, cfg: dict | None = None,
                 rules_doc: dict | None = None,
                 accepted_glob: str | None = None,
-                accepted_paths: list[str] | None = None) -> dict:
+                accepted_paths: list[str] | None = None,
+                ctx: dict | None = None) -> dict:
     """`accepted_paths`, when given, is the accepted set novelty is measured
-    against, instead of whatever `accepted_glob` matches on disk."""
+    against, instead of whatever `accepted_glob` matches on disk.
+
+    `ctx` is the frame's measurement cache. Checks share their expensive
+    measurements through it (the mark detector, text regions, the novelty
+    features), each keyed on the config section it read. A caller scoring the
+    same frame at several threshold sets, as the sameness sweep does, hands
+    in one ctx per frame and pays for each measurement once; the verdicts are
+    identical to scoring cold, because thresholds are applied after the memo.
+    Left as None, the cache lives and dies with this call."""
     cfg = cfg or load_config()
     doc = rules_doc or rules_mod.load()
-    ctx: dict = {}
+    if ctx is None:
+        ctx = {}
 
     findings, errored, manual = [], [], []
     for rule in doc["rules"]:
@@ -97,7 +107,7 @@ def score_image(img: np.ndarray, cfg: dict | None = None,
     scored = [f for f in findings if f.applicable]
     skipped = [f for f in findings if not f.applicable]
     failed = [f for f in scored if not f.passed]
-    nov = novelty_mod.score(img, cfg, accepted_glob, paths=accepted_paths)
+    nov = novelty_mod.score(img, cfg, accepted_glob, paths=accepted_paths, ctx=ctx)
 
     if not scored:
         on_brand = None

@@ -43,6 +43,32 @@ def not_applicable(rule_id, check, reason) -> "Finding":
     return Finding(rule_id, check, 1.0, True, reason, applicable=False)
 
 
+def _freeze(value):
+    if isinstance(value, dict):
+        return tuple(sorted((k, _freeze(v)) for k, v in value.items()))
+    if isinstance(value, (list, tuple)):
+        return tuple(_freeze(v) for v in value)
+    return value
+
+
+def memo(ctx: dict, name: str, depends_on, compute):
+    """A measurement shared between checks, computed once per frame.
+
+    `ctx` is the per-frame scratch dict the gate hands every check. The key
+    carries `depends_on` (the config section the measurement read), so a caller
+    holding one ctx across threshold sets gets a fresh measurement the moment
+    the section it depends on changes, and a stale one never.
+
+    This exists because `ctx.setdefault("band", locate(img, cfg))` evaluates
+    `locate` BEFORE setdefault looks at the dict: the six band and motif rules
+    each ran the mark detector in full, and nothing was memoised at all.
+    """
+    key = (name, _freeze(depends_on))
+    if key not in ctx:
+        ctx[key] = compute()
+    return ctx[key]
+
+
 def register(name):
     def wrap(fn):
         REGISTRY[name] = fn

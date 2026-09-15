@@ -25,7 +25,13 @@ import os
 
 import numpy as np
 
-from pipeline.checks import CheckDependencyError, Finding, not_applicable, register
+from pipeline.checks import (
+    CheckDependencyError,
+    Finding,
+    memo,
+    not_applicable,
+    register,
+)
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 MARK_SVG = os.path.join(ROOT, "brand", "logo", "slice-mark-blank.svg")
@@ -133,7 +139,7 @@ def locate(img: np.ndarray, cfg: dict, svg_path: str | None = None):
 
 @register("band")
 def check(img: np.ndarray, rule: dict, cfg: dict, ctx: dict) -> Finding:
-    level, rotated, hits = ctx.setdefault("band", locate(img, cfg))
+    level, rotated, hits = memo(ctx, "band", cfg["band"], lambda: locate(img, cfg))
     present_min = cfg["band"]["present_min"]
     margin = cfg["band"]["rotation_margin"]
     forbidden = rule["params"].get("forbid_transforms") or []
