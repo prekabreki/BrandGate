@@ -33,8 +33,10 @@ from __future__ import annotations
 import cv2
 import numpy as np
 
-from pipeline.checks import Finding, not_applicable, register
+from pipeline.checks import CheckDependencyError, Finding, memo, not_applicable, register
+from pipeline.checks.band import locate
 from pipeline.checks.colour import hex_to_rgb
+from pipeline.checks.contrast import text_regions
 
 WORK_W = 512  # measurements are made on a copy this wide, whatever came in
 
@@ -53,24 +55,65 @@ def _stop_lab(hex_colour: str) -> np.ndarray:
     return np.array([L[0, 0], a[0, 0], b[0, 0]], dtype=np.float32)
 
 
-def measure(img_rgb: np.ndarray, stops: list[str], cfg: dict) -> dict:
-    """The raw numbers, before any threshold is applied."""
+def foreground_mask(shape: tuple, boxes: list[tuple], pad_frac: float = 0.04) -> np.ndarray:
+    """True where a coded foreground sits: the located mark and the detected
+    type, each box grown by a little of the frame width so a blurred edge does
+    not leak back in. Boxes are (x, y, w, h) in the frame's own pixels."""
+    mask = np.zeros(shape[:2], dtype=bool)
+    pad = int(round(shape[1] * pad_frac))
+    for x, y, w, h in boxes:
+        x0, y0 = max(0, int(x) - pad), max(0, int(y) - pad)
+        x1, y1 = min(shape[1], int(x + w) + pad), min(shape[0], int(y + h) + pad)
+        mask[y0:y1, x0:x1] = True
+    return mask
+
+
+def measure(img_rgb: np.ndarray, stops: list[str], cfg: dict,
+            foreground: np.ndarray | None = None) -> dict:
+    """The raw numbers, before any threshold is applied.
+
+    `foreground`, when given, is a boolean mask of the frame's own size marking
+    the coded foreground: the mark and the type. Those pixels are left out of
+    every measurement, because a hero is judged on its wash and not on its
+    letters, and a gradient wordmark is a steep chromatic edge that reads as
+    "the orbs separate" when nothing about the orbs has changed. The composed
+    hero (#4) failed the wash its own ground passed until this existed.
+    """
     h = max(1, int(img_rgb.shape[0] * WORK_W / img_rgb.shape[1]))
     im = cv2.resize(img_rgb, (WORK_W, h), interpolation=cv2.INTER_AREA)
     L, a, b = _lab(im)
     C = np.sqrt(a * a + b * b)
+    if foreground is not None and foreground.any():
+        fg = cv2.resize(foreground.astype(np.uint8), (WORK_W, h),
+                        interpolation=cv2.INTER_NEAREST).astype(bool)
+    else:
+        fg = np.zeros((h, WORK_W), dtype=bool)
+    keep = ~fg
 
-    chrom = C > cfg["chroma_floor"]
-    achrom = ~chrom
-    ground_L = float(np.median(L[achrom])) if achrom.any() else float(np.median(L))
+    chrom = (C > cfg["chroma_floor"]) & keep
+    # The ground is whatever holds most of the frame, tinted or not: a night
+    # ground is dark under its indigo, a paper ground is light under its wash.
+    # It used to be the median of the ACHROMATIC pixels only, which on a night
+    # take with white type split near evenly between black and white and
+    # flipped from 34 to 89 when a few thousand dark pixels were masked.
+    ground_L = float(np.median(L[keep])) if keep.any() else float(np.median(L))
 
-    dark = L < 50.0
+    dark = (L < 50.0) & keep
     dark_chroma = float(C[dark].mean()) if dark.any() else 0.0
 
     blur = cv2.GaussianBlur(C, (0, 0), WORK_W / cfg["blur_divisor"])
     gx = cv2.Sobel(blur, cv2.CV_32F, 1, 0, ksize=3)
     gy = cv2.Sobel(blur, cv2.CV_32F, 0, 1, ksize=3)
-    edge_p99 = float(np.percentile(np.sqrt(gx * gx + gy * gy), 99))
+    grad = np.sqrt(gx * gx + gy * gy)
+    # The blur smears a masked edge a few pixels past the mask, so the edge
+    # measurement keeps a margin of three sigma around the foreground too.
+    if fg.any():
+        sigma = WORK_W / cfg["blur_divisor"]
+        k = int(round(3 * sigma)) * 2 + 1
+        keep_edge = ~cv2.dilate(fg.astype(np.uint8), np.ones((k, k), np.uint8)).astype(bool)
+    else:
+        keep_edge = keep
+    edge_p99 = float(np.percentile(grad[keep_edge], 99)) if keep_edge.any() else 0.0
 
     # Stops are matched on HUE alone. A wash is a tint of its stop under a paper
     # veil: the luminance and chroma move with the veil, the hue does not. A
@@ -85,7 +128,9 @@ def measure(img_rgb: np.ndarray, stops: list[str], cfg: dict) -> dict:
         for i, s in enumerate(stops):
             share[s] = float((nearest == i).mean())
 
-    return {"ground_L": round(ground_L, 2), "chroma_frac": round(float(chrom.mean()), 4),
+    chroma_frac = float(chrom.sum() / keep.sum()) if keep.any() else 0.0
+    return {"ground_L": round(ground_L, 2), "chroma_frac": round(chroma_frac, 4),
+            "foreground_frac": round(float(fg.mean()), 4),
             "dark_chroma": round(dark_chroma, 3), "edge_p99": round(edge_p99, 3),
             "stop_share": {k: round(v, 4) for k, v in share.items()}}
 
@@ -108,7 +153,24 @@ def check(img: np.ndarray, rule: dict, cfg: dict, ctx: dict) -> Finding:
     if not stops:
         return not_applicable(rule["id"], "wash", "the rule names no gradient stops to look for")
 
-    m = measure(img, stops, c)
+    boxes = list(memo(ctx, "text_regions", cfg["contrast"], lambda: text_regions(img, cfg)))
+    try:
+        _, _, hits = memo(ctx, "band", cfg["band"], lambda: locate(img, cfg))
+    except CheckDependencyError:
+        # The mark box is a refinement of this measurement, not its subject.
+        # A dead detector is reported by the mark rules; the wash is still
+        # judged, on the whole frame.
+        hits = []
+    for hit in hits:
+        boxes.append((hit["x"] - hit["w"] / 2, hit["y"] - hit["h"] / 2, hit["w"], hit["h"]))
+    fg = foreground_mask(img.shape, boxes)
+    declared = ctx.get(("foreground", None))
+    if declared is not None:
+        # A composed surface knows its own foreground better than any detector
+        # does: the composer renders the same page with the ground hidden and
+        # hands the gate that mask. Detection stays for frames that arrive alone.
+        fg |= declared
+    m = measure(img, stops, c, fg)
     if m["ground_L"] < c["night_below_L"]:
         return not_applicable(rule["id"], "wash",
                               f"night ground (L {m['ground_L']:.0f}): the wash bar is set on "

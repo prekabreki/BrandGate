@@ -456,3 +456,35 @@ def test_scores_are_identical_with_and_without_a_shared_ctx(cfg, doc):
     ctx: dict = {}
     warm = [gate.score_image(img, c, doc, accepted_glob=ACCEPTED_NONE, ctx=ctx) for c in sets]
     assert cold == warm
+
+
+# -- the declared foreground (#4) -------------------------------------------
+
+HERO_GROUND = "surfaces/hero/accepted/ground.png"
+
+
+@pytest.mark.skipif(not os.path.exists(HERO_GROUND), reason="the hero ground is not in this checkout")
+def test_a_declared_foreground_is_left_out_of_the_wash(cfg, doc):
+    """The hero's ground passes the wash rule. A flat indigo block on it is a
+    steep chromatic edge and fails the rule as 'the orbs separate'. Declaring the block
+    as foreground, the way the hero composer does for its type and mark, hands
+    the verdict back to the wash."""
+    img = gate.load_image(HERO_GROUND)
+    h, w = img.shape[:2]
+    block = img.copy()
+    y0, y1, x0, x1 = int(h * 0.55), int(h * 0.75), int(w * 0.05), int(w * 0.5)
+    block[y0:y1, x0:x1] = colour.hex_to_rgb("#4B3BE8")
+    fg = np.zeros((h, w), dtype=bool)
+    fg[y0:y1, x0:x1] = True
+
+    def wash_rule(r):
+        return _rule_named(r, "gradient.03")
+
+    clean = wash_rule(_score(img, cfg, doc))
+    assert clean is not None and clean["passed"], clean
+    hard = wash_rule(gate.score_image(block, cfg, doc, accepted_paths=[]))
+    assert hard is not None and not hard["passed"] and "separate" in hard["reason"], hard
+    declared = wash_rule(gate.score_image(block, cfg, doc, accepted_paths=[], foreground=fg))
+    assert declared is not None and declared["passed"], declared
+    with pytest.raises(ValueError):
+        gate.score_image(block, cfg, doc, accepted_paths=[], foreground=fg[:100])

@@ -71,7 +71,8 @@ def score_image(img: np.ndarray, cfg: dict | None = None,
                 rules_doc: dict | None = None,
                 accepted_glob: str | None = None,
                 accepted_paths: list[str] | None = None,
-                ctx: dict | None = None) -> dict:
+                ctx: dict | None = None,
+                foreground: np.ndarray | None = None) -> dict:
     """`accepted_paths`, when given, is the accepted set novelty is measured
     against, instead of whatever `accepted_glob` matches on disk.
 
@@ -81,11 +82,21 @@ def score_image(img: np.ndarray, cfg: dict | None = None,
     same frame at several threshold sets, as the sameness sweep does, hands
     in one ctx per frame and pays for each measurement once; the verdicts are
     identical to scoring cold, because thresholds are applied after the memo.
-    Left as None, the cache lives and dies with this call."""
+    Left as None, the cache lives and dies with this call.
+
+    `foreground` is an optional boolean mask of the frame's own size marking
+    the coded foreground (mark, type) of a composed surface. The wash check
+    leaves those pixels out, so a hero is judged on its wash and not on its
+    letters. It is declared by the composer, which rendered them; the gate
+    cannot see layers in a PNG."""
     cfg = cfg or load_config()
     doc = rules_doc or rules_mod.load()
     if ctx is None:
         ctx = {}
+    if foreground is not None:
+        if foreground.shape[:2] != img.shape[:2]:
+            raise ValueError(f"foreground mask is {foreground.shape[:2]}, frame is {img.shape[:2]}")
+        ctx[("foreground", None)] = foreground.astype(bool)
 
     findings, errored, manual = [], [], []
     for rule in doc["rules"]:

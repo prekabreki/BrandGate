@@ -123,7 +123,8 @@ def locate(img: np.ndarray, cfg: dict, svg_path: str | None = None):
         level = max(level, s)
         if s >= c["present_min"]:
             hits.append({"scale": round(float(scale), 3), "score": s,
-                         "x": x + tpl.shape[1] / 2, "y": y + tpl.shape[0] / 2})
+                         "x": x + tpl.shape[1] / 2, "y": y + tpl.shape[0] / 2,
+                         "w": int(tpl.shape[1]), "h": int(tpl.shape[0])})
         # 90 degrees is the cheap, unambiguous rotation test. A mark tilted by
         # a few degrees is not caught here; that is named as a v1 limit in
         # docs/calibration.md rather than left for someone to discover.
