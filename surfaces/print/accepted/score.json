@@ -167,7 +167,7 @@
   "manual": 28,
   "errored": 0
  },
- "ground": "surfaces/_scratch/print-2006/ground.png",
+ "ground": "surfaces/print/accepted/ground.png",
  "ground_verdict": {
   "verdict": "pass",
   "on_brand": 0.9579,

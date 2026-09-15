@@ -1,7 +1,9 @@
 # The print one-pager
 
 A4, flat. Paper with a hairline border, no glass, no grain, the generated ground as a banner
-band and not full bleed. Type in points, body 10.5 pt Archivo. `onepager.pdf` is the print
+band and not full bleed. The band shows the right seven tenths of the ground, where the flow
+has already turned from indigo to rose: the full-width band read as blobby and dark to the
+designer, and print has no veil to soften it with. Type in points, body 10.5 pt Archivo. `onepager.pdf` is the print
 file; `onepager.png` is the same page at 2x for the gate.
 
 | accepted | refused ground |
