@@ -1,6 +1,6 @@
 {
  "verdict": "fail",
- "on_brand": 0.8599,
+ "on_brand": 0.8635,
  "novelty": 1.0,
  "thresholds": {
   "on_brand_min": 0.75,
@@ -18,7 +18,7 @@
    "passed": true,
    "reason": "the mark matches the artwork at 0.85",
    "detail": {
-    "level": 0.8538385033607483,
+    "level": 0.8538385629653931,
     "placements": 1
    }
   },
@@ -29,7 +29,7 @@
    "passed": true,
    "reason": "the mark matches the artwork at 0.85",
    "detail": {
-    "level": 0.8538385033607483,
+    "level": 0.8538385629653931,
     "placements": 1
    }
   },
@@ -40,7 +40,7 @@
    "passed": true,
    "reason": "the mark matches the artwork at 0.85",
    "detail": {
-    "level": 0.8538385033607483,
+    "level": 0.8538385629653931,
     "placements": 1
    }
   },
@@ -49,25 +49,25 @@
    "check": "band",
    "score": 1.0,
    "passed": true,
-   "reason": "the mark is level (level 0.85, rotated 0.29)",
+   "reason": "the mark is level (level 0.85, rotated 0.27)",
    "detail": {
-    "level": 0.8538385033607483,
-    "rotated": 0.2913082242012024
+    "level": 0.8538385629653931,
+    "rotated": 0.2703157067298889
    }
   },
   {
    "rule": "colour.01",
    "check": "palette",
-   "score": 0.9246,
+   "score": 0.9382,
    "passed": true,
    "reason": "the ground is #FAFAF8",
    "detail": {
     "ground_rgb": [
-     251,
+     250,
      246,
-     239
+     240
     ],
-    "distance": 3.3160810144333035,
+    "distance": 2.721032722432355,
     "tolerance_lab": 22.0
    }
   },
@@ -76,29 +76,29 @@
    "check": "palette",
    "score": 0.0,
    "passed": false,
-   "reason": "#B44C9E holds 7.6% of the frame as a flat area, over the 4% the rule allows",
+   "reason": "#B44C9E holds 7.7% of the frame as a flat area, over the 4% the rule allows",
    "detail": {
     "forbidden": "#B44C9E",
-    "mass": 0.0757,
+    "mass": 0.076575,
     "limit": 0.04
    }
   },
   {
    "rule": "gradient.03",
    "check": "wash",
-   "score": 0.8148,
+   "score": 0.8337,
    "passed": false,
-   "reason": "the darks are saturated (chroma 53, a wash stays under 45)",
+   "reason": "the darks are saturated (chroma 52, a wash stays under 45)",
    "detail": {
-    "ground_L": 92.94,
-    "chroma_frac": 0.3878,
+    "ground_L": 93.73,
+    "chroma_frac": 0.3811,
     "foreground_frac": 0.1613,
-    "dark_chroma": 53.332,
-    "edge_p99": 12.192,
+    "dark_chroma": 52.482,
+    "edge_p99": 12.167,
     "stop_share": {
-     "#4B3BE8": 0.1715,
-     "#B44C9E": 0.3061,
-     "#D9628A": 0.5224
+     "#4B3BE8": 0.1721,
+     "#B44C9E": 0.3112,
+     "#D9628A": 0.5167
     }
    }
   },

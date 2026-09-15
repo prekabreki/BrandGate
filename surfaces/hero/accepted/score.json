@@ -1,6 +1,6 @@
 {
  "verdict": "pass",
- "on_brand": 0.9921,
+ "on_brand": 0.9934,
  "novelty": 1.0,
  "thresholds": {
   "on_brand_min": 0.75,
@@ -15,7 +15,7 @@
    "passed": true,
    "reason": "the mark matches the artwork at 0.85",
    "detail": {
-    "level": 0.8527102470397949,
+    "level": 0.8527101874351501,
     "placements": 1
    }
   },
@@ -26,7 +26,7 @@
    "passed": true,
    "reason": "the mark matches the artwork at 0.85",
    "detail": {
-    "level": 0.8527102470397949,
+    "level": 0.8527101874351501,
     "placements": 1
    }
   },
@@ -37,7 +37,7 @@
    "passed": true,
    "reason": "the mark matches the artwork at 0.85",
    "detail": {
-    "level": 0.8527102470397949,
+    "level": 0.8527101874351501,
     "placements": 1
    }
   },
@@ -46,25 +46,25 @@
    "check": "band",
    "score": 1.0,
    "passed": true,
-   "reason": "the mark is level (level 0.85, rotated 0.29)",
+   "reason": "the mark is level (level 0.85, rotated 0.28)",
    "detail": {
-    "level": 0.8527102470397949,
-    "rotated": 0.28720995783805847
+    "level": 0.8527101874351501,
+    "rotated": 0.28014877438545227
    }
   },
   {
    "rule": "colour.01",
    "check": "palette",
-   "score": 0.9289,
+   "score": 0.9402,
    "passed": true,
    "reason": "the ground is #FAFAF8",
    "detail": {
     "ground_rgb": [
-     244,
-     241,
-     237
+     245,
+     243,
+     239
     ],
-    "distance": 3.1270223394591743,
+    "distance": 2.629875910984395,
     "tolerance_lab": 22.0
    }
   },
@@ -84,17 +84,17 @@
    "check": "wash",
    "score": 1.0,
    "passed": true,
-   "reason": "soft wash: darks at chroma 34, edges 10.1, every stop present",
+   "reason": "soft wash: darks at chroma 33, edges 10.1, every stop present",
    "detail": {
-    "ground_L": 91.76,
-    "chroma_frac": 0.3247,
+    "ground_L": 92.16,
+    "chroma_frac": 0.3173,
     "foreground_frac": 0.1613,
-    "dark_chroma": 34.084,
-    "edge_p99": 10.066,
+    "dark_chroma": 33.355,
+    "edge_p99": 10.051,
     "stop_share": {
-     "#4B3BE8": 0.3029,
-     "#B44C9E": 0.1874,
-     "#D9628A": 0.5097
+     "#4B3BE8": 0.3015,
+     "#B44C9E": 0.1918,
+     "#D9628A": 0.5066
     }
    }
   },

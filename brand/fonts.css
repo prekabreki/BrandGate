@@ -13,7 +13,7 @@
   --magenta: #B44C9E;
   --rose: #D9628A;
   --flow: linear-gradient(90deg, #1E1A5C 0%, #4B3BE8 28%, #7A4FE0 50%, #B44C9E 74%, #D9628A 100%);
-  --flow-text: linear-gradient(120deg, #111114 10%, #4B3BE8 55%, #B44C9E 95%);
+  --flow-text: linear-gradient(90deg, #111114 0%, #111114 10%, #4B3BE8 42%, #B44C9E 100%);
   /* Mesh for display type on night: stacked radial pools over a white base, ending at
      lilac. No pink. Reads as one lit surface, not a ramp. */
   --mesh-night:

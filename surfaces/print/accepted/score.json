@@ -29,11 +29,11 @@
    "check": "contrast",
    "score": 1.0,
    "passed": true,
-   "reason": "every text region clears 4.5:1 (worst 7.9:1)",
+   "reason": "every text region clears 4.5:1 (worst 15.0:1)",
    "detail": {
-    "worst_ratio": 7.878804580835572,
+    "worst_ratio": 15.006979643205735,
     "bar": 4.5,
-    "regions": 22
+    "regions": 21
    }
   },
   {
@@ -52,11 +52,11 @@
    "check": "contrast",
    "score": 1.0,
    "passed": true,
-   "reason": "every text region clears 4.5:1 (worst 7.9:1)",
+   "reason": "every text region clears 4.5:1 (worst 15.0:1)",
    "detail": {
-    "worst_ratio": 7.878804580835572,
+    "worst_ratio": 15.006979643205735,
     "bar": 4.5,
-    "regions": 22
+    "regions": 21
    }
   },
   {
@@ -64,11 +64,11 @@
    "check": "contrast",
    "score": 1.0,
    "passed": true,
-   "reason": "every text region clears 4.5:1 (worst 7.9:1)",
+   "reason": "every text region clears 4.5:1 (worst 15.0:1)",
    "detail": {
-    "worst_ratio": 7.878804580835572,
+    "worst_ratio": 15.006979643205735,
     "bar": 4.5,
-    "regions": 22
+    "regions": 21
    }
   },
   {
@@ -167,7 +167,7 @@
   "manual": 28,
   "errored": 0
  },
- "ground": "surfaces/print/accepted/ground.png",
+ "ground": "surfaces/_scratch/print-2006/ground.png",
  "ground_verdict": {
   "verdict": "pass",
   "on_brand": 0.9579,

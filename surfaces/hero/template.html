@@ -16,13 +16,13 @@
   /* The paper veil: heavy at the foot where the type sits, thin across the
      middle where the ground is the point. Same shape as take T1. */
   .veil { position: absolute; inset: 0;
-          background: linear-gradient(180deg, var(--paper-a70) 0%, var(--paper-a12) 38%, var(--paper-a76) 100%); }
+          background: linear-gradient(180deg, var(--paper-a70) 0%, var(--paper-a12) 38%, var(--paper-a88) 100%); }
   .grain { position: absolute; inset: 0; pointer-events: none; mix-blend-mode: overlay; opacity: 0.34;
            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
   .mark { position: absolute; left: 72px; top: 64px; width: 236px; }
   h1 { position: absolute; left: 66px; bottom: 236px; margin: 0; font: 800 176px/0.88 var(--display);
        letter-spacing: -0.05em; background: var(--flow-text); -webkit-background-clip: text;
-       background-clip: text; color: transparent; padding-right: 0.08em; }
+       background-clip: text; color: transparent; padding-right: 0.08em; width: max-content; max-width: 100%; }
   h2 { position: absolute; left: 72px; bottom: 150px; margin: 0; font: 800 44px/1.05 var(--display);
        letter-spacing: -0.035em; color: var(--ink); max-width: 18ch; }
   p  { position: absolute; left: 72px; bottom: 88px; margin: 0; font: 400 22px/1.4 var(--body);

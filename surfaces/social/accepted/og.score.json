@@ -1,6 +1,6 @@
 {
  "verdict": "pass",
- "on_brand": 0.9722,
+ "on_brand": 0.9925,
  "novelty": 1.0,
  "thresholds": {
   "on_brand_min": 0.75,
@@ -15,7 +15,7 @@
    "passed": true,
    "reason": "the mark matches the artwork at 0.85",
    "detail": {
-    "level": 0.8457956910133362,
+    "level": 0.8457955718040466,
     "placements": 1
    }
   },
@@ -26,7 +26,7 @@
    "passed": true,
    "reason": "the mark matches the artwork at 0.85",
    "detail": {
-    "level": 0.8457956910133362,
+    "level": 0.8457955718040466,
     "placements": 1
    }
   },
@@ -37,7 +37,7 @@
    "passed": true,
    "reason": "the mark matches the artwork at 0.85",
    "detail": {
-    "level": 0.8457956910133362,
+    "level": 0.8457955718040466,
     "placements": 1
    }
   },
@@ -46,25 +46,25 @@
    "check": "band",
    "score": 1.0,
    "passed": true,
-   "reason": "the mark is level (level 0.85, rotated 0.42)",
+   "reason": "the mark is level (level 0.85, rotated 0.38)",
    "detail": {
-    "level": 0.8457956910133362,
-    "rotated": 0.42451760172843933
+    "level": 0.8457955718040466,
+    "rotated": 0.3753208518028259
    }
   },
   {
    "rule": "colour.01",
    "check": "palette",
-   "score": 0.7499,
+   "score": 0.9329,
    "passed": true,
-   "reason": "the ground is #ECEAF6",
+   "reason": "the ground is #FAFAF8",
    "detail": {
     "ground_rgb": [
-     237,
-     218,
-     214
+     244,
+     242,
+     238
     ],
-    "distance": 11.0064001519705,
+    "distance": 2.953206945328011,
     "tolerance_lab": 22.0
    }
   },
@@ -75,7 +75,7 @@
    "passed": true,
    "reason": "no forbidden colour holds a flat area (#B44C9E under 4%)",
    "detail": {
-    "mass": 0.035275,
+    "mass": 0.0,
     "limit": 0.04
    }
   },
@@ -84,17 +84,17 @@
    "check": "wash",
    "score": 1.0,
    "passed": true,
-   "reason": "soft wash: darks at chroma 32, edges 10.4, every stop present",
+   "reason": "soft wash: darks at chroma 31, edges 10.1, every stop present",
    "detail": {
-    "ground_L": 87.84,
-    "chroma_frac": 0.4136,
-    "foreground_frac": 0.2778,
-    "dark_chroma": 32.258,
-    "edge_p99": 10.4,
+    "ground_L": 90.2,
+    "chroma_frac": 0.3656,
+    "foreground_frac": 0.1747,
+    "dark_chroma": 31.422,
+    "edge_p99": 10.1,
     "stop_share": {
-     "#4B3BE8": 0.338,
-     "#B44C9E": 0.2076,
-     "#D9628A": 0.4544
+     "#4B3BE8": 0.3289,
+     "#B44C9E": 0.2055,
+     "#D9628A": 0.4656
     }
    }
   },
@@ -352,7 +352,7 @@
    "errored": 0
   }
  },
- "foreground_frac": 0.247,
+ "foreground_frac": 0.1446,
  "headline": "Six pieces of one thing.",
  "size": "og"
 }

@@ -1,6 +1,6 @@
 {
  "verdict": "fail",
- "on_brand": 0.8652,
+ "on_brand": 0.8641,
  "novelty": 1.0,
  "thresholds": {
   "on_brand_min": 0.75,
@@ -51,22 +51,22 @@
    "reason": "the mark is level (level 0.85, rotated 0.42)",
    "detail": {
     "level": 0.8494518995285034,
-    "rotated": 0.4236000180244446
+    "rotated": 0.4235631227493286
    }
   },
   {
    "rule": "colour.01",
    "check": "palette",
-   "score": 0.7868,
+   "score": 0.7767,
    "passed": true,
    "reason": "the ground is #FAFAF8",
    "detail": {
     "ground_rgb": [
-     243,
-     232,
+     245,
+     234,
      218
     ],
-    "distance": 9.379575400311687,
+    "distance": 9.823841367231093,
     "tolerance_lab": 22.0
    }
   },
@@ -75,10 +75,10 @@
    "check": "palette",
    "score": 0.0,
    "passed": false,
-   "reason": "#B44C9E holds 4.1% of the frame as a flat area, over the 4% the rule allows",
+   "reason": "#B44C9E holds 4.6% of the frame as a flat area, over the 4% the rule allows",
    "detail": {
     "forbidden": "#B44C9E",
-    "mass": 0.041325,
+    "mass": 0.045925,
     "limit": 0.04
    }
   },
@@ -87,17 +87,17 @@
    "check": "wash",
    "score": 1.0,
    "passed": true,
-   "reason": "soft wash: darks at chroma 26, edges 9.4, every stop present",
+   "reason": "soft wash: darks at chroma 24, edges 9.3, every stop present",
    "detail": {
-    "ground_L": 92.94,
-    "chroma_frac": 0.3982,
+    "ground_L": 93.73,
+    "chroma_frac": 0.3944,
     "foreground_frac": 0.2778,
-    "dark_chroma": 25.816,
-    "edge_p99": 9.392,
+    "dark_chroma": 24.329,
+    "edge_p99": 9.273,
     "stop_share": {
-     "#4B3BE8": 0.2015,
-     "#B44C9E": 0.1348,
-     "#D9628A": 0.6637
+     "#4B3BE8": 0.1956,
+     "#B44C9E": 0.1432,
+     "#D9628A": 0.6612
     }
    }
   },

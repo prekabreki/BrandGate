@@ -1,6 +1,6 @@
 {
  "verdict": "pass",
- "on_brand": 0.9997,
+ "on_brand": 0.9996,
  "novelty": 1.0,
  "thresholds": {
   "on_brand_min": 0.75,
@@ -46,16 +46,16 @@
    "check": "band",
    "score": 1.0,
    "passed": true,
-   "reason": "the mark is level (level 0.82, rotated 0.40)",
+   "reason": "the mark is level (level 0.82, rotated 0.34)",
    "detail": {
     "level": 0.8192077279090881,
-    "rotated": 0.3979838490486145
+    "rotated": 0.33933529257774353
    }
   },
   {
    "rule": "colour.01",
    "check": "palette",
-   "score": 0.9975,
+   "score": 0.9969,
    "passed": true,
    "reason": "the ground is #FAFAF8",
    "detail": {
@@ -64,7 +64,7 @@
      249,
      247
     ],
-    "distance": 0.11206602949704916,
+    "distance": 0.13775653759556772,
     "tolerance_lab": 22.0
    }
   },
@@ -120,7 +120,7 @@
   {
    "rule": "gradient.03",
    "check": "wash",
-   "reason": "no wash to judge: colour covers 15% of the frame, under the 25% a ground has"
+   "reason": "no wash to judge: colour covers 14% of the frame, under the 25% a ground has"
   },
   {
    "rule": "type.03",
@@ -338,7 +338,7 @@
    "errored": 0
   }
  },
- "foreground_frac": 0.1121,
+ "foreground_frac": 0.0884,
  "headline": "Six pieces of one thing.",
  "size": "story"
 }

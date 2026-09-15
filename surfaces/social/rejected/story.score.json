@@ -1,6 +1,6 @@
 {
  "verdict": "fail",
- "on_brand": 0.7494,
+ "on_brand": 0.7493,
  "novelty": 1.0,
  "thresholds": {
   "on_brand_min": 0.75,
@@ -52,13 +52,13 @@
    "reason": "the mark is level (level 0.82, rotated 0.40)",
    "detail": {
     "level": 0.8192076086997986,
-    "rotated": 0.3979838490486145
+    "rotated": 0.3966594338417053
    }
   },
   {
    "rule": "colour.01",
    "check": "palette",
-   "score": 0.9953,
+   "score": 0.9946,
    "passed": true,
    "reason": "the ground is #FAFAF8",
    "detail": {
@@ -67,7 +67,7 @@
      249,
      247
     ],
-    "distance": 0.2072122706096594,
+    "distance": 0.2392694797470041,
     "tolerance_lab": 22.0
    }
   },
@@ -78,7 +78,7 @@
    "passed": true,
    "reason": "no forbidden colour holds a flat area (#B44C9E under 4%)",
    "detail": {
-    "mass": 0.020275,
+    "mass": 0.0,
     "limit": 0.04
    }
   },
