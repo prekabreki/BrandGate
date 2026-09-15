@@ -201,6 +201,18 @@ that separated them from turbo 1008 would be fitted to two frames, so the two
 false passes stand and are the honest residual. Turbo 1004 is still the one
 false fail, on `colour.03`'s 4% magenta limit, untouched here on purpose.
 
+**One tolerance was two, found by the sameness sweep (#19).** `palette.tolerance_lab` was
+read by both halves of a palette rule, and the halves want it in opposite senses. For the
+permission ("the ground is paper, mist or night") a smaller tolerance is stricter. For the
+prohibition ("magenta is never a flat accent") a smaller tolerance means fewer pixels count
+as magenta, so the forbidden mass shrinks and the rule gets easier. Measured on this set:
+at 28 turbo 1000, 1020 and 1024 fail `colour.03` with magenta at 6.8 to 7.6 percent of the
+frame; at 18 all three pass it. A designer tightening the palette to fix an off-palette
+ground would have switched the magenta prohibition off without a trace. The prohibition now
+reads its own key, `palette.forbid_tolerance_lab`, shipped at the same 22 so no verdict in
+the table above moved; `pipeline/tests/test_gate.py` pins both the independence and the
+new key's direction.
+
 Everything above is a regression against the labels, not a proof.
 `pipeline/tests/test_wash_calibration.py` holds the line at 24 of 27 with at
 most two false passes and prints the sweep. The next generated batch is the

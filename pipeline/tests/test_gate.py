@@ -1,10 +1,12 @@
 """Gate tests. Synthetic frames where possible so a failure names a cause, plus
 the repo's real takes, because every interesting bug so far lived in the gap
 between a clean synthetic case and an actual designed surface."""
+import os
+
 import numpy as np
 import pytest
 
-from pipeline import gate, rules
+from pipeline import checks, gate, rules
 from pipeline.checks import colour
 
 TAKES = "lookdev/archive/takes_02.png"
@@ -219,6 +221,60 @@ def test_a_forbidden_flat_accent_fails(cfg, doc):
     r = _score(img, cfg, doc)
     assert "colour.03" in r["failed_rules"], r["failed_rules"]
     assert "#B44C9E" in _rule_named(r, "colour.03")["reason"]
+
+
+# -- the two palette tolerances (#19) ----------------------------------------
+#
+# tolerance_lab serves the permission ("the ground is paper"), where lower is
+# stricter. forbid_tolerance_lab serves the prohibition ("magenta is never a
+# flat accent"), where lower is LOOSER, because fewer pixels then count as
+# magenta. They were one key until turbo 1000, 1020 and 1024 failed colour.03
+# at 28 and passed it at 18.
+
+CALIB = "surfaces/_calibration"
+FLIPPED = ["hero-ground_turbo_1000_1ae9f9dbd38f_00001_.png",
+           "hero-ground_turbo_1020_d873ab1c1fcf_00001_.png",
+           "hero-ground_turbo_1024_24848a2dc539_00001_.png"]
+
+needs_calibration = pytest.mark.skipif(
+    not all(os.path.exists(os.path.join(CALIB, f)) for f in FLIPPED),
+    reason=f"the three labelled frames are not in {CALIB} (ignored, generated on the 4080)")
+
+
+def _colour_03(img, cfg, doc):
+    """Run only the palette check for colour.03: the full gate also runs the
+    mark detector, which costs seconds a frame and has nothing to say here."""
+    import copy
+    rule = next(r for r in doc["rules"] if r["id"] == "colour.03")
+    return checks.REGISTRY["palette"](img, rule, copy.deepcopy(cfg), {})
+
+
+@needs_calibration
+@pytest.mark.parametrize("frame", FLIPPED)
+def test_the_permission_tolerance_does_not_move_the_prohibition(cfg, doc, frame):
+    import copy
+    img = gate.load_image(os.path.join(CALIB, frame))
+    verdicts = set()
+    for tol in (18.0, 22.0, 28.0):
+        c = copy.deepcopy(cfg)
+        c["palette"]["tolerance_lab"] = tol
+        verdicts.add(_colour_03(img, c, doc).passed)
+    assert len(verdicts) == 1, f"colour.03 flipped with tolerance_lab on {frame}: {verdicts}"
+
+
+@needs_calibration
+@pytest.mark.parametrize("frame", FLIPPED)
+def test_raising_the_prohibition_tolerance_only_tightens(cfg, doc, frame):
+    """The new key's sense, pinned: as forbid_tolerance_lab rises, the mass
+    counted as magenta never falls, so a fail at 18 is still a fail at 28."""
+    import copy
+    img = gate.load_image(os.path.join(CALIB, frame))
+    masses = []
+    for tol in (18.0, 22.0, 28.0):
+        c = copy.deepcopy(cfg)
+        c["palette"]["forbid_tolerance_lab"] = tol
+        masses.append(_colour_03(img, c, doc).detail["mass"])
+    assert masses == sorted(masses), f"forbidden mass fell as the tolerance rose: {masses}"
 
 
 def test_low_contrast_text_fails_on_a_contrast_rule(cfg, doc):

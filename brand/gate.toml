@@ -20,14 +20,20 @@ novelty_min = 0.12
 [palette]
 # Max CIE76 distance in Lab from a dominant colour to its nearest allowed
 # colour before that colour counts as off-palette. ~12 is a just-noticeable
-# shift to a trained eye; 25 is "that is a different colour".
+# shift to a trained eye; 25 is "that is a different colour". Lower is stricter.
+# The permission half only: the prohibition reads forbid_tolerance_lab.
 tolerance_lab = 22.0
 # Ignore colours occupying less than this share of the frame: a stray pixel is
 # not a palette violation.
 min_mass = 0.02
 # A forbidden colour (magenta as a flat accent) fails once it holds this much
-# of the frame as a flat region.
+# of the frame as a flat region. Lower is stricter.
 forbid_mass = 0.04
+# How near a dominant colour must sit to a forbidden hex before it counts as
+# that colour. The sense is the OPPOSITE of tolerance_lab: lower is LOOSER,
+# because fewer pixels then count as magenta and the forbidden mass shrinks.
+# Kept separate so tightening the palette never switches the prohibition off (#19).
+forbid_tolerance_lab = 22.0
 
 [band]
 # Normalised cross-correlation over the mark template, across a scale pyramid.

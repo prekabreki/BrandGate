@@ -45,12 +45,14 @@ TAKES = os.path.join(ROOT, "lookdev", "archive", "takes_02.png")
 # the file has it, because novelty is what this run measures, and a quantity
 # being measured is not also a knob in the same sweep.
 #
-# palette.tolerance_lab is deliberately NOT swept. It serves the permission
-# ("the ground is paper") and the prohibition ("magenta is never a flat
-# accent") with opposite senses: shrinking it tightens the first and LOOSENS
-# the second, because fewer pixels then count as magenta. Three labelled frames
-# failed colour.03 at a loose step and passed it at a tighter one before this
-# was caught. The palette knob that only tightens is forbid_mass (#19).
+# palette.tolerance_lab is NOT swept, and no longer needs to be avoided.
+# Until #19 it served the permission ("the ground is paper") and the
+# prohibition ("magenta is never a flat accent") with opposite senses, and
+# three labelled frames failed colour.03 at a loose step and passed it at a
+# tighter one. The prohibition now reads palette.forbid_tolerance_lab. The
+# sweep still tightens the palette through forbid_mass alone, because that is
+# the knob whose direction is unambiguous, and the run stays comparable with
+# the one recorded in runs/sameness/steps.md.
 KNOBS = ("verdict.on_brand_min", "palette.forbid_mass", "wash.dark_chroma_max",
          "wash.edge_max", "wash.stop_share_min")
 STEPS = [
@@ -289,6 +291,12 @@ def _rel(p: str) -> str:
     return os.path.relpath(p, ROOT).replace(os.sep, "/")
 
 
+def _log(msg: str) -> None:
+    """print with a flush, so a run redirected to a file shows progress while it
+    is still going: the first 200-frame sweep wrote nothing for half an hour."""
+    print(msg, flush=True)
+
+
 def main(argv=None):
     p = argparse.ArgumentParser(prog="python -m runs.sameness")
     p.add_argument("--pool", default=POOL_DIR)
@@ -303,7 +311,7 @@ def main(argv=None):
     a = p.parse_args(argv)
     try:
         results = run(a.pool, a.steps, a.out, a.limit, a.labels, a.calibration, a.takes,
-                      note=a.note)
+                      note=a.note, log=_log)
     except FileNotFoundError as e:
         print(f"ERROR: {e}", file=sys.stderr)
         return 2

@@ -52,7 +52,13 @@ def check(img: np.ndarray, rule: dict, cfg: dict, ctx: dict) -> Finding:
                               "no colour holds enough of the frame to judge")
 
     if forbid:
-        mass, which = _forbidden_mass(centres, weights, heavy, forbid, tol)
+        # The prohibition has its own tolerance, in the opposite sense to the
+        # permission's: shrinking tolerance_lab tightens "the ground is paper"
+        # but LOOSENS "magenta is never flat", because fewer pixels then count
+        # as magenta. One knob served both until three labelled frames flipped
+        # from fail to pass at a tighter setting (#19).
+        mass, which = _forbidden_mass(centres, weights, heavy, forbid,
+                                      c["forbid_tolerance_lab"])
         limit = c["forbid_mass"]
         if mass >= limit:
             return Finding(
