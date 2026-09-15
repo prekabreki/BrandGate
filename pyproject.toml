@@ -15,6 +15,8 @@ dependencies = [
 # gate still scores novelty from perceptual hashes and says so in the output,
 # rather than refusing to run.
 clip = ["open-clip-torch>=2.24", "torch>=2.4"]
+# The runs' figures (#9, #10). The gate and CI never draw anything.
+runs = ["matplotlib>=3.9"]
 
 [dependency-groups]
 dev = ["pytest>=8"]

@@ -69,7 +69,10 @@ def crop_tile(img: np.ndarray, spec: str) -> np.ndarray:
 
 def score_image(img: np.ndarray, cfg: dict | None = None,
                 rules_doc: dict | None = None,
-                accepted_glob: str | None = None) -> dict:
+                accepted_glob: str | None = None,
+                accepted_paths: list[str] | None = None) -> dict:
+    """`accepted_paths`, when given, is the accepted set novelty is measured
+    against, instead of whatever `accepted_glob` matches on disk."""
     cfg = cfg or load_config()
     doc = rules_doc or rules_mod.load()
     ctx: dict = {}
@@ -94,7 +97,7 @@ def score_image(img: np.ndarray, cfg: dict | None = None,
     scored = [f for f in findings if f.applicable]
     skipped = [f for f in findings if not f.applicable]
     failed = [f for f in scored if not f.passed]
-    nov = novelty_mod.score(img, cfg, accepted_glob)
+    nov = novelty_mod.score(img, cfg, accepted_glob, paths=accepted_paths)
 
     if not scored:
         on_brand = None
