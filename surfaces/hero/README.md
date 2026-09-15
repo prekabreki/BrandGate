@@ -5,11 +5,11 @@ One generated ground under a coded foreground, and the candidate the gate refuse
 | accepted | rejected |
 |---|---|
 | ![the accepted hero](accepted/hero.png) | ![the refused candidate, composed anyway](rejected/hero.png) |
-| ground `hero-ground_turbo_2083_033d4aebd9d4_00001_.png` | ground `hero-ground_turbo_2005_bd922599fd22_00001_.png` |
-| ground at the gate: **pass, on-brand 0.96** | ground at the gate: **fail, on-brand 0.74** |
-| composed hero: **pass, on-brand 0.99** | composed anyway: **fail, on-brand 0.84**, a text region at 404,517 sits at 1.6:1 against its ground, under the 4.5:1 bar (the gradient wordmark over a magenta wash) |
-| wash: soft wash: darks at chroma 31, edges 7.9, every stop present | #B44C9E holds 6.8% of the frame as a flat area, over the 4% the rule allows |
-| | the orbs separate: steepest edges 14.0, a bleed stays under 13 |
+| ground `ground.png` | ground `ground.png` |
+| ground at the gate: **pass, on-brand 0.96** | ground at the gate: **fail, on-brand 0.69** |
+| composed hero: **pass, on-brand 0.99** | composed anyway: **fail, on-brand 0.86**, colour.03, gradient.03 |
+| wash: soft wash: darks at chroma 34, edges 10.1, every stop present | #B44C9E holds 8.7% of the frame as a flat area, over the 4% the rule allows |
+| | the darks are saturated (chroma 60, a wash stays under 45); the orbs separate: steepest edges 13.8, a bleed stays under 13 |
 
 The ground is the only thing a model made: krea2 turbo, `hero-ground@3`, one seed each,
 both rows in `runs/ledger.jsonl`. Everything on top is code. `compose.py` reads
@@ -20,7 +20,10 @@ No colour is written in the script or the template; the template holds geometry.
 
 The gate scored the grounds first. The refused one carries flat magenta over the 4
 percent bar and separates into orbs where the rule asks for a bleed, and that is the
-verdict that kept it off the site. It is composed here anyway because a refusal you
+verdict that kept it off the site. It is also a frame the designer labelled off by hand,
+"too much separation, not enough gradient", so the gate and the eye agree on this pair.
+The first pair did not: the designer refused the ground the gate had accepted and liked
+the one it refused, both now in the calibration set (`docs/calibration.md`). It is composed here anyway because a refusal you
 cannot see is a claim, and side by side the difference is the whole argument: the same
 type, the same mark, the same veil, and one of them is Handsel.
 

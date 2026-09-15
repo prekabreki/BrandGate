@@ -170,7 +170,7 @@
  "ground": "surfaces/print/accepted/ground.png",
  "ground_verdict": {
   "verdict": "pass",
-  "on_brand": 0.9623,
+  "on_brand": 0.9579,
   "novelty": 1.0,
   "thresholds": {
    "on_brand_min": 0.75,
@@ -181,16 +181,16 @@
    {
     "rule": "colour.01",
     "check": "palette",
-    "score": 0.8117,
+    "score": 0.7896,
     "passed": true,
     "reason": "the ground is #FAFAF8",
     "detail": {
      "ground_rgb": [
-      236,
-      228,
-      220
+      234,
+      226,
+      216
      ],
-     "distance": 8.286417892477902,
+     "distance": 9.257586371141306,
      "tolerance_lab": 22.0
     }
    },
@@ -210,17 +210,17 @@
     "check": "wash",
     "score": 1.0,
     "passed": true,
-    "reason": "soft wash: darks at chroma 38, edges 11.4, every stop present",
+    "reason": "soft wash: darks at chroma 41, edges 11.5, every stop present",
     "detail": {
-     "ground_L": 84.71,
-     "chroma_frac": 0.4237,
+     "ground_L": 85.88,
+     "chroma_frac": 0.4011,
      "foreground_frac": 0.0,
-     "dark_chroma": 37.543,
-     "edge_p99": 11.403,
+     "dark_chroma": 41.232,
+     "edge_p99": 11.473,
      "stop_share": {
-      "#4B3BE8": 0.2849,
-      "#B44C9E": 0.1301,
-      "#D9628A": 0.585
+      "#4B3BE8": 0.3145,
+      "#B44C9E": 0.1798,
+      "#D9628A": 0.5057
      }
     }
    },

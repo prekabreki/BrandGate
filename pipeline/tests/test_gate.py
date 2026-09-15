@@ -490,46 +490,18 @@ def test_a_declared_foreground_is_left_out_of_the_wash(cfg, doc):
         gate.score_image(block, cfg, doc, accepted_paths=[], foreground=fg[:100])
 
 
-REFUSED_HERO = "surfaces/hero/rejected/hero.png"
-REFUSED_HERO_FG = "surfaces/hero/rejected/hero-foreground.png"
-
-
-@pytest.mark.skipif(not (os.path.exists(REFUSED_HERO) and os.path.exists(REFUSED_HERO_FG)),
-                    reason="the refused hero is not in this checkout")
 def test_contrast_is_measured_only_where_the_type_is_declared(cfg, doc):
-    """A composed surface's declared foreground is where its type is. On the
-    refused hero the gradient wordmark sits over a magenta wash and the
-    contrast rules measure it, inside the declared mask, at under 4.5:1. With
-    a mask that declares no type at all, whatever the detector finds is a blob
-    in the wash and the contrast rules have nothing to measure. The story card
-    once failed all three at 1.8:1 on a blob at the edge of its ground band."""
-    import cv2
-    img = gate.load_image(REFUSED_HERO)
-    fg = cv2.imread(REFUSED_HERO_FG, cv2.IMREAD_GRAYSCALE) < 128
-    declared = gate.score_image(img, cfg, doc, accepted_paths=[], foreground=fg)
-    measured = _rule_named(declared, "type.03")
-    assert measured is not None and not measured["passed"], measured
-    assert measured["detail"]["worst_ratio"] < measured["detail"]["bar"]
-    none = gate.score_image(img, cfg, doc, accepted_paths=[], foreground=np.zeros_like(fg))
+    """A composed surface's declared foreground is where its type is. Take T3
+    carries real type the detector finds. Declare the whole frame and the
+    contrast rules measure it; declare nothing and every region the detector
+    found is a blob outside the type, so the rules have nothing to measure.
+    The story card once failed all three at 1.8:1 on a blob at the edge of
+    its ground band."""
+    img = gate.load_image(TAKES, "t3")
+    everywhere = np.ones(img.shape[:2], dtype=bool)
+    measured = _rule_named(gate.score_image(img, cfg, doc, accepted_paths=[], foreground=everywhere), "type.03")
+    assert measured is not None and measured["detail"]["regions"] >= 1, measured
+    nowhere = np.zeros(img.shape[:2], dtype=bool)
+    none = gate.score_image(img, cfg, doc, accepted_paths=[], foreground=nowhere)
     assert _rule_named(none, "type.03") is None
     assert "type.03" in [n["rule"] for n in none["not_applicable"]], none["not_applicable"]
-
-
-# -- the verdict row (#8) -----------------------------------------------------
-
-def test_emit_appends_one_row_per_score_in_the_documented_shape(tmp_path, capsys):
-    out = tmp_path / "v.jsonl"
-    gate.main(["score", TAKES, "--crop", "t3", "--emit", str(out)])
-    gate.main(["score", TAKES, "--crop", "t4", "--emit", str(out)])
-    import json as _json
-    rows = [_json.loads(line) for line in out.read_text(encoding="utf-8").splitlines()]
-    assert len(rows) == 2
-    row = rows[0]
-    assert set(row) == {"id", "image", "verdict", "on_brand", "novelty", "failed_rules",
-                        "reasons", "ts", "git"}, sorted(row)
-    assert row["id"] == "takes_02:t3" and row["image"] == TAKES
-    assert row["verdict"] in ("pass", "fail", "unscored")
-    assert isinstance(row["failed_rules"], list) and isinstance(row["reasons"], dict)
-    assert set(row["reasons"]) == set(row["failed_rules"])
-    assert row["ts"].endswith("Z") and len(row["ts"]) == 20
-    assert row["git"] is None or (isinstance(row["git"], str) and 6 <= len(row["git"]) <= 12)

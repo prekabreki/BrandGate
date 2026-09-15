@@ -1,15 +1,14 @@
 {
  "verdict": "fail",
- "on_brand": 0.8353,
+ "on_brand": 0.8599,
  "novelty": 1.0,
  "thresholds": {
   "on_brand_min": 0.75,
   "novelty_min": 0.12
  },
  "failed_rules": [
-  "colour.02",
-  "colour.04",
-  "type.03"
+  "colour.03",
+  "gradient.03"
  ],
  "breakdown": [
   {
@@ -19,7 +18,7 @@
    "passed": true,
    "reason": "the mark matches the artwork at 0.85",
    "detail": {
-    "level": 0.8530908226966858,
+    "level": 0.8538385033607483,
     "placements": 1
    }
   },
@@ -30,7 +29,7 @@
    "passed": true,
    "reason": "the mark matches the artwork at 0.85",
    "detail": {
-    "level": 0.8530908226966858,
+    "level": 0.8538385033607483,
     "placements": 1
    }
   },
@@ -41,7 +40,7 @@
    "passed": true,
    "reason": "the mark matches the artwork at 0.85",
    "detail": {
-    "level": 0.8530908226966858,
+    "level": 0.8538385033607483,
     "placements": 1
    }
   },
@@ -50,92 +49,57 @@
    "check": "band",
    "score": 1.0,
    "passed": true,
-   "reason": "the mark is level (level 0.85, rotated 0.31)",
+   "reason": "the mark is level (level 0.85, rotated 0.29)",
    "detail": {
-    "level": 0.8530908226966858,
-    "rotated": 0.3089928925037384
+    "level": 0.8538385033607483,
+    "rotated": 0.2913082242012024
    }
   },
   {
    "rule": "colour.01",
    "check": "palette",
-   "score": 0.9275,
+   "score": 0.9246,
    "passed": true,
    "reason": "the ground is #FAFAF8",
    "detail": {
     "ground_rgb": [
-     244,
-     241,
-     237
+     251,
+     246,
+     239
     ],
-    "distance": 3.191288095456992,
+    "distance": 3.3160810144333035,
     "tolerance_lab": 22.0
-   }
-  },
-  {
-   "rule": "colour.02",
-   "check": "contrast",
-   "score": 0.3654,
-   "passed": false,
-   "reason": "a text region at 404,517 sits at 1.6:1 against its ground, under the 4.5:1 bar",
-   "detail": {
-    "worst_ratio": 1.644454458720548,
-    "bar": 4.5,
-    "regions": 1
    }
   },
   {
    "rule": "colour.03",
    "check": "palette",
-   "score": 1.0,
-   "passed": true,
-   "reason": "no forbidden colour holds a flat area (#B44C9E under 4%)",
-   "detail": {
-    "mass": 0.0,
-    "limit": 0.04
-   }
-  },
-  {
-   "rule": "colour.04",
-   "check": "contrast",
-   "score": 0.3654,
+   "score": 0.0,
    "passed": false,
-   "reason": "a text region at 404,517 sits at 1.6:1 against its ground, under the 4.5:1 bar",
+   "reason": "#B44C9E holds 7.6% of the frame as a flat area, over the 4% the rule allows",
    "detail": {
-    "worst_ratio": 1.644454458720548,
-    "bar": 4.5,
-    "regions": 1
+    "forbidden": "#B44C9E",
+    "mass": 0.0757,
+    "limit": 0.04
    }
   },
   {
    "rule": "gradient.03",
    "check": "wash",
-   "score": 1.0,
-   "passed": true,
-   "reason": "soft wash: darks at chroma 33, edges 11.1, every stop present",
-   "detail": {
-    "ground_L": 92.16,
-    "chroma_frac": 0.3001,
-    "foreground_frac": 0.1745,
-    "dark_chroma": 32.918,
-    "edge_p99": 11.064,
-    "stop_share": {
-     "#4B3BE8": 0.33,
-     "#B44C9E": 0.2785,
-     "#D9628A": 0.3915
-    }
-   }
-  },
-  {
-   "rule": "type.03",
-   "check": "contrast",
-   "score": 0.3654,
+   "score": 0.8148,
    "passed": false,
-   "reason": "a text region at 404,517 sits at 1.6:1 against its ground, under the 4.5:1 bar",
+   "reason": "the darks are saturated (chroma 53, a wash stays under 45)",
    "detail": {
-    "worst_ratio": 1.644454458720548,
-    "bar": 4.5,
-    "regions": 1
+    "ground_L": 92.94,
+    "chroma_frac": 0.3878,
+    "foreground_frac": 0.1613,
+    "dark_chroma": 53.332,
+    "edge_p99": 12.192,
+    "stop_share": {
+     "#4B3BE8": 0.1715,
+     "#B44C9E": 0.3061,
+     "#D9628A": 0.5224
+    }
    }
   },
   {
@@ -165,7 +129,23 @@
    }
   }
  ],
- "not_applicable": [],
+ "not_applicable": [
+  {
+   "rule": "colour.02",
+   "check": "contrast",
+   "reason": "no text region detected, nothing to measure"
+  },
+  {
+   "rule": "colour.04",
+   "check": "contrast",
+   "reason": "no text region detected, nothing to measure"
+  },
+  {
+   "rule": "type.03",
+   "check": "contrast",
+   "reason": "no text region detected, nothing to measure"
+  }
+ ],
  "novelty_detail": {
   "novelty": 1.0,
   "nearest": null,
@@ -206,16 +186,16 @@
  "errored": [],
  "missing_dependencies": [],
  "counts": {
-  "scored": 12,
-  "failed": 3,
-  "not_applicable": 0,
+  "scored": 9,
+  "failed": 2,
+  "not_applicable": 3,
   "manual": 28,
   "errored": 0
  },
  "ground": "surfaces/hero/rejected/ground.png",
  "ground_verdict": {
   "verdict": "fail",
-  "on_brand": 0.7415,
+  "on_brand": 0.6919,
   "novelty": 1.0,
   "thresholds": {
    "on_brand_min": 0.75,
@@ -229,16 +209,16 @@
    {
     "rule": "colour.01",
     "check": "palette",
-    "score": 0.7882,
+    "score": 0.8022,
     "passed": true,
     "reason": "the ground is #FAFAF8",
     "detail": {
      "ground_rgb": [
-      233,
-      224,
-      217
+      252,
+      238,
+      224
      ],
-     "distance": 9.320304869267353,
+     "distance": 8.702497635059984,
      "tolerance_lab": 22.0
     }
    },
@@ -247,29 +227,29 @@
     "check": "palette",
     "score": 0.0,
     "passed": false,
-    "reason": "#B44C9E holds 6.8% of the frame as a flat area, over the 4% the rule allows",
+    "reason": "#B44C9E holds 8.7% of the frame as a flat area, over the 4% the rule allows",
     "detail": {
      "forbidden": "#B44C9E",
-     "mass": 0.0675,
+     "mass": 0.08652499999999999,
      "limit": 0.04
     }
    },
    {
     "rule": "gradient.03",
     "check": "wash",
-    "score": 0.9193,
+    "score": 0.6574,
     "passed": false,
-    "reason": "the orbs separate: steepest edges 14.0, a bleed stays under 13",
+    "reason": "the darks are saturated (chroma 60, a wash stays under 45); the orbs separate: steepest edges 13.8, a bleed stays under 13",
     "detail": {
-     "ground_L": 86.67,
-     "chroma_frac": 0.3791,
+     "ground_L": 88.24,
+     "chroma_frac": 0.5018,
      "foreground_frac": 0.0,
-     "dark_chroma": 43.356,
-     "edge_p99": 14.049,
+     "dark_chroma": 60.417,
+     "edge_p99": 13.77,
      "stop_share": {
-      "#4B3BE8": 0.3885,
-      "#B44C9E": 0.1987,
-      "#D9628A": 0.4128
+      "#4B3BE8": 0.2515,
+      "#B44C9E": 0.1903,
+      "#D9628A": 0.5582
      }
     }
    },
