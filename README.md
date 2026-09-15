@@ -1,107 +1,53 @@
 # BrandGate
 
-[![ci](https://github.com/prekabreki/BrandGate/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/prekabreki/BrandGate/actions/workflows/ci.yml)
+![The Handsel hero: a generated indigo to rose wash on paper under the wordmark](surfaces/hero/accepted/hero.png)
 
-A designed brand and the pipeline that keeps generated output on it.
+A brand, and the pipeline that keeps generated output on it. Every surface below sits on a ground an image model made, under type and a mark that code laid down from `brand/tokens.json`, and none of it shipped until a gate written from the brand's own rules had scored it. The ones the gate refused are kept beside the ones it accepted, because a refusal you cannot see is a claim.
 
-Under construction, September 2026.
+The brand is Handsel, a one-person software studio that keeps its tools in public. The rules it runs on are in [`brand/rules.md`](brand/rules.md), the sheet a designer would hand over is [`brand/guide.html`](brand/guide.html), and the site is [handsel-lovat.vercel.app](https://handsel-lovat.vercel.app).
 
-## The generator
+## The surfaces
 
-`pipeline/` generates the grounds every surface sits on. A prompt template goes
-in, a PNG and one ledger row come out.
+| | accepted | refused |
+|---|---|---|
+| [hero](surfaces/hero/) | <img src="surfaces/hero/accepted/hero.png" alt="hero, accepted" width="300"> pass 0.99 | <img src="surfaces/hero/rejected/hero.png" alt="hero, refused ground" width="300"> flat magenta at 6.8 percent; then the wordmark over that magenta at 1.6:1 |
+| [square](surfaces/social/) | <img src="surfaces/social/accepted/square.png" alt="square, accepted" width="300"> pass 0.99 | <img src="surfaces/social/rejected/square.png" alt="square, refused ground" width="300"> the orbs separate, no bleed |
+| [story](surfaces/social/) | <img src="surfaces/social/accepted/story.png" alt="story, accepted" width="300"> pass 1.00 | <img src="surfaces/social/rejected/story.png" alt="story, refused ground" width="300"> same ground; the band shrinks the fault and the card itself passes |
+| [OG](surfaces/social/) | <img src="surfaces/social/accepted/og.png" alt="OG, accepted" width="300"> pass 0.97 | <img src="surfaces/social/rejected/og.png" alt="OG, refused ground" width="300"> the orbs separate, no bleed |
+| [print, A4](surfaces/print/) | <img src="surfaces/print/accepted/onepager.png" alt="one-pager, accepted" width="300"> pass 1.00 | <img src="surfaces/print/rejected/onepager.png" alt="one-pager, refused ground" width="300"> flat magenta; a band of it on A4 passes the page |
 
-```bash
-python -m pipeline.gen --prompt hero-ground --seed 1
-python -m pipeline.gen --prompt hero-ground --seed 1 --dry-run
-python -m pipeline.gen --prompt hero-ground --seed 1 --model flux2 --tier raw
-uv run --with pytest python -m pytest pipeline/tests -q
-```
-
-The backend is a local ComfyUI, pointed at by `COMFY_SERVER` and defaulting to
-`http://127.0.0.1:8188`. Models are Krea-2 and Flux.2, each in a turbo tier for
-hunting and a raw tier for finals.
-
-### Where it came from
-
-This started as a personal script for driving a local ComfyUI: one file, a
-growing pile of argparse flags, and a provenance log that wrote two lines per
-run so a power cut still left the recipe on disk. It knew a lot about one
-person's habits. It could do depth exports, region-masked detail passes,
-img2img at half a dozen scales and six model families, because each of those
-was needed once on a Tuesday and never removed. It also assumed it was living
-inside the ComfyUI checkout, which is how it could get away with never
-answering the question of where a frame should land.
-
-Three things changed to make it a module. It was carved down rather than
-copied: only text-to-image survived, and only the two model families the brand
-actually uses, because a generator with six backends and no reason for any of
-them is not a pipeline, it is a drawer. The frames are now pulled back over the
-server's HTTP API and written into this repo, so the pipeline and the weights
-no longer have to live in the same directory and the path in a ledger row is a
-path that exists here. And the prompt moved out of the command line into
-`brand/prompts/*.md`, versioned, so that the words that produced a frame are a
-thing you can cite rather than a thing you have to remember typing.
-
-### What the ledger is for
-
-Every run appends one line to `runs/ledger.jsonl`: the model, the tier, the
-prompt at its exact version, the seed, the resolved sampler parameters, the
-output path, the latency. One row per logical run, including the failures,
-which carry an `error` and no path. A run that is retried after a timeout keeps
-its id and still writes one row, because the question the file answers later is
-"what did it take to get this frame", and a retry is part of that answer rather
-than a second frame.
-
-It exists because every later claim in this repo is a claim about a
-distribution. The gate can only be calibrated against frames whose scores are
-recorded next to the prompt version that produced them. The drift run holds a
-prompt and a seed still and swaps the model underneath, which is only legible
-if the row proves that nothing else moved. And the sameness run needs to show
-novelty flattening over many generations, which is a shape you can only plot
-from a file that was being written before anyone thought to look at it.
-
-`cost_usd` is null on every row here, and that is a recorded fact rather than a
-missing feature: generation runs on hardware already owned, so there is no
-per-frame price, and estimating one would quietly turn the scorecard into
-fiction. The column exists so a metered backend can fill it without reshaping
-the file.
+The recipe is the same on every row: ground, paper veil, grain where the rules allow it, the mark, the wordmark in the text gradient, a headline in ink. What changes between a hero and a story card is one row of numbers in a table. Where the numbers came from is worth saying. The square's crop was scored at six positions across the ground and passes at two of them; no 9:16 crop of a 16:9 ground passes at all, so the story carries its ground as a band. The gate chose those, not an eye, and the comment above the table says which verdicts it was.
 
 ## The sameness run
 
 ![Tightening the gate on a fixed pool of 200 grounds](runs/sameness/plot.png)
 
-"Reliably" cuts both ways. A gate can be tightened until nothing new survives,
-and no pass rate will ever show it, because a gate that only accepts near-copies
-of what it already knows can be tuned to accept them every time. That is a
-brand that has stopped moving, and it is the failure this run exists to make
-visible. Two hundred grounds from one prompt were generated once, on the same
-model and tier, and re-scored at five threshold sets from loose to tight. The
-novelty bar was switched off for the pool while this ran: novelty is the thing
-being measured here, so it is neither a knob nor a filter. Three lines come
-out. The pass rate falls, from 165 accepted to three. The mean pairwise novelty
-of what survives holds around 0.16 for four steps and then halves at the last,
-which is the flat line arriving: the three survivors are alike, if still
-tellable apart by eye. And the third line, agreement with the designer's 27
-labelled frames, peaks one step looser than the shipped gate and falls from
-there. That third line is the point of the figure. Past the peak, every notch
-tighter buys a smaller, samer accepted set and a gate that agrees with its
-designer less. A tighter gate is not a better one.
+"Reliably" cuts both ways. A gate can be tightened until nothing new survives, and no pass rate will show it, because a gate that only accepts near copies of what it already knows can be tuned to accept them every time. So two hundred grounds from one prompt were generated once and re-scored at five threshold sets, loose to tight. The pass rate falls from 165 accepted to three. The survivors' pairwise novelty holds around 0.16 for four steps and halves at the last, which is the flat line arriving: three frames alike, if still tellable apart by eye. And agreement with the designer's 27 labelled frames peaks one step looser than the shipped gate, then falls. That third line is the point. Past the peak, every notch tighter buys a smaller, samer accepted set and a gate that agrees with its designer less. The bar stays where it ships; one frame in 27 is not a reason to move it, and the next labelled batch decides. The five threshold sets are in [`runs/sameness/steps.md`](runs/sameness/steps.md).
 
-The bar stays where it ships, at step 2 (ruled 2026-09-15). Step 1 agrees with
-the labels on one more frame, and the difference is a single bar, the share of
-a frame that may be flat magenta, at 6 percent instead of 4. One frame in 27 is
-not evidence to move a threshold on, and the shipped value was set from the
-same 27 frames by a written procedure; the next labelled batch decides it.
-What did move is the sweep itself: its first table stepped the wash bars past
-the pool's own range and accepted nothing at the two tight steps, which is a
-badly chosen sweep and not a result. The pool's edge softness sits between 10
-and 11 and its dark chroma between 38 and 40, and the table in
-`runs/sameness/steps.md` now walks through that range instead of over it.
+## From a personal tool to a pipeline
 
-![The accepted set at the loosest and the tightest step](runs/sameness/sheets.png)
+`pipeline/gen.py` started as one file for driving a local ComfyUI: a growing pile of argparse flags and a provenance log that wrote two lines per run so a power cut still left the recipe on disk. It knew a lot about one person's habits. Depth exports, region-masked detail passes, img2img at half a dozen scales and six model families, each needed once on a Tuesday and never removed. It also assumed it lived inside the ComfyUI checkout, which is how it got away with never deciding where a frame should land.
+
+Three things made it a module. It was carved down rather than copied: text-to-image only, and only the two model families the brand uses, because a generator with six backends and no reason for any of them is a drawer. Frames come back over the server's HTTP API and land in this repo, so the pipeline and the weights no longer share a directory and the path in a ledger row is a path that exists here. And the prompt moved out of the command line into `brand/prompts/*.md`, versioned, so the words that produced a frame are a thing you can cite.
+
+The ledger, `runs/ledger.jsonl`, is one line per run: model, tier, prompt at its exact version, seed, resolved sampler settings, path, latency. Failures get a row too, with the error and no path. It exists because every later claim in this repo is a claim about a distribution, and the gate can only be calibrated against frames whose scores sit next to the prompt version that produced them. `cost_usd` is null on every row, and that is a recorded fact rather than a gap: the hardware is already owned, and inventing a per-frame price would quietly turn the scorecard into fiction.
+
+## Working with a designer
+
+[![Editing brand/rules.md while the gate scores a take](docs/rule-edit-poster.png)](docs/rule-edit.mp4)
+
+The rules are prose, and the gate reads the prose. Delete "paper" from the line that names the grounds and take 3's ground rule drops from 0.95 to 0.79, with the reason changing from "the ground is #FAFAF8" to "the ground is #ECEAF6"; delete mist as well and it fails. A designer edits a sentence and the score moves, which is the whole arrangement: the designer owns the words, the gate owns the arithmetic, and neither has to learn the other's tool. How the bars were set, from 27 frames the designer labelled by hand, and which eight of those the gate still disagrees with, is in [`docs/calibration.md`](docs/calibration.md).
+
+## Run it
 
 ```bash
-python -m runs.pool --count 200                     # the pool, on the 4080
+python -m pipeline.gen --prompt hero-ground --seed 1                 # one ground, one ledger row
+python -m pipeline.gate score surfaces/hero/accepted/hero.png        # score anything
+python -m surfaces.hero.compose --ground <png> --out surfaces/hero/accepted
+python -m surfaces.social.compose --ground <png> --out surfaces/social/accepted
+python -m surfaces.print.compose --ground <png> --out surfaces/print/accepted
 python -m runs.sameness --pool surfaces/_pool --steps 5
+uv run --with pytest pytest -q
 ```
+
+The backend is a local ComfyUI at `COMFY_SERVER` (default `http://127.0.0.1:8188`), models Krea-2 and Flux.2, a turbo tier for hunting and a raw tier for finals. The pool and the calibration frames are regenerable from the ledger's seeds and are not in the repo; the labels are.

@@ -354,7 +354,7 @@ reported a flat 1.0:1 and failed a take whose type is fully legible.
    the set any time, the labels file merges.
 2. ~~One disagreement written up per row.~~ **Done, eight rows.**
 3. ~~A decision on take 1.~~ **Ruled 2026-09-14: one gesture.**
-4. **`docs/rule-edit.mp4`.** Still to record. The behaviour works: deleting
+4. ~~**`docs/rule-edit.mp4`.** Still to record.~~ **Recorded 2026-09-15**, embedded in the README. The behaviour: deleting
    paper from the grounds rule takes take 3's `colour.01` from 0.95 to 0.79 and
    the reason from "the ground is #FAFAF8" to "the ground is #ECEAF6". Deleting
    mist as well pushes it to a failure, which is the more legible ten seconds.
