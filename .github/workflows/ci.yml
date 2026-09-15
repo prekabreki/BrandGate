@@ -1,0 +1,39 @@
+# The test suite, run on every push and pull request. A suite nobody has to
+# remember to run is the only kind that enforces anything (#16).
+#
+# open_clip is deliberately NOT installed: the novelty check's semantic half
+# is an optional extra and the gate reports `"clip": false` without it. The
+# calibration regression skips itself when the generated frames are absent,
+# which they are here, since surfaces/_calibration is not tracked.
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      # cairosvg needs the cairo shared library; the runner image has it, this
+      # makes the dependency explicit so a leaner image does not break the mark
+      # checks silently (see #17 for why that would be silent).
+      - name: cairo
+        run: sudo apt-get install -y --no-install-recommends libcairo2
+
+      - uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+          cache-dependency-glob: uv.lock
+
+      - name: python
+        run: uv python install 3.13
+
+      - name: sync
+        run: uv sync --locked
+
+      - name: tests
+        run: uv run pytest pipeline/tests -q

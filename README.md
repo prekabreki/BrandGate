@@ -1,5 +1,7 @@
 # BrandGate
 
+[![ci](https://github.com/prekabreki/BrandGate/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/prekabreki/BrandGate/actions/workflows/ci.yml)
+
 A designed brand and the pipeline that keeps generated output on it.
 
 Under construction, September 2026.
