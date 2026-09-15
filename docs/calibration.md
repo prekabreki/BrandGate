@@ -80,7 +80,12 @@ find. For the six takes it means their 0.99 to 1.00 rests on four rules instead
 of seven, and Set 0's mark results (from Linux) are the ones to trust there.
 The real finding is that the gate degraded silently: `counts.errored` stayed at
 0 while a dependency was missing. A missing library has to surface as an error,
-not vanish into n/a. Filed as #17.
+not vanish into n/a. Filed as #17, fixed the same day: a check whose library
+will not load now raises a `CheckDependencyError`, the gate tallies the rule as
+*errored* (its own outcome, never n/a and never manual), the JSON carries
+`missing_dependencies`, and the CLI prints a one-line stderr warning naming the
+library. The scores in the table above were not recomputed; they stand as the
+record of what the dead detector produced.
 
 **Confusion matrix, generated frames (21):**
 

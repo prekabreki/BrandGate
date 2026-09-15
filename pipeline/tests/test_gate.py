@@ -11,6 +11,24 @@ TAKES = "lookdev/archive/takes_02.png"
 ACCEPTED_NONE = "/nonexistent/*.png"
 
 
+def _cairo_loads() -> bool:
+    try:
+        import cairosvg  # noqa: F401
+    except (ImportError, OSError):
+        return False
+    return True
+
+
+# The mark detector rasterises the SVG through cairo. On a box where libcairo
+# will not load (the Windows work box, #17) the detector cannot run, and the
+# gate now says so as `errored`. Tests that assert what the detector FINDS are
+# skipped there with the reason spelled out; the tests that assert the gate
+# reports the dead detector run everywhere.
+needs_cairo = pytest.mark.skipif(
+    not _cairo_loads(),
+    reason="cairosvg cannot load libcairo here, so the mark detector cannot run (#17)")
+
+
 @pytest.fixture(scope="module")
 def cfg():
     return gate.load_config()
@@ -84,10 +102,11 @@ def test_not_applicable_rules_stay_out_of_the_score(cfg, doc):
 def test_every_rule_is_accounted_for(cfg, doc):
     r = _score(gate.load_image(TAKES, "t3"), cfg, doc)
     c = r["counts"]
-    assert c["scored"] + c["not_applicable"] + c["manual"] == len(doc["rules"])
+    assert (c["scored"] + c["not_applicable"] + c["manual"] + c["errored"]
+            == len(doc["rules"]))
 
 
-def test_a_check_that_raises_becomes_manual_and_does_not_stop_the_run(cfg, doc, monkeypatch):
+def test_a_check_that_raises_becomes_errored_and_does_not_stop_the_run(cfg, doc, monkeypatch):
     import pipeline.checks as checks
 
     def boom(*a, **k):
@@ -95,9 +114,51 @@ def test_a_check_that_raises_becomes_manual_and_does_not_stop_the_run(cfg, doc, 
 
     monkeypatch.setitem(checks.REGISTRY, "palette", boom)
     r = _score(gate.load_image(TAKES, "t3"), cfg, doc)
-    assert r["errors"], "the error was swallowed entirely"
-    assert any("detector exploded" in e["error"] for e in r["errors"])
+    assert r["errored"], "the error was swallowed entirely"
+    assert any("detector exploded" in e["error"] for e in r["errored"])
+    assert r["counts"]["errored"] == len(r["errored"])
+    assert not any(e["rule"] in r["manual"] for e in r["errored"]), \
+        "an errored rule is not a manual rule"
     assert r["counts"]["scored"] > 0, "one bad check stopped every other check"
+
+
+def _kill_cairo(monkeypatch):
+    """Make `import cairosvg` raise, the way a box without libcairo does, and
+    drop any template the detector already cached from an earlier test."""
+    from pipeline.checks import band
+    monkeypatch.setitem(__import__("sys").modules, "cairosvg", None)
+    band._template.cache_clear()
+
+
+def test_a_missing_check_library_is_errored_not_not_applicable(cfg, doc, monkeypatch):
+    # THE bug of #17. cairo failed to load, band.locate came back -1.0 and the
+    # four mark rules read as "no mark in the frame" across 27 calibration
+    # frames, with counts.errored at 0 and nothing said.
+    img = gate.load_image(TAKES, "t3")
+    before = _score(img, cfg, doc)
+    _kill_cairo(monkeypatch)
+    r = _score(img, cfg, doc)
+
+    assert r["counts"]["errored"] >= 1
+    assert r["counts"]["not_applicable"] == before["counts"]["not_applicable"], \
+        "the dead detector leaked into not-applicable again"
+    assert r["verdict"] == before["verdict"], "errored rules moved the verdict"
+    mark_rules = {x["rule"] for x in r["errored"] if x["rule"].startswith("mark.")}
+    assert mark_rules, [x["rule"] for x in r["errored"]]
+    assert all("cairosvg" in x["error"] for x in r["errored"] if x["rule"] in mark_rules)
+    assert r["missing_dependencies"] == ["cairosvg"]
+    assert not any(x["rule"].startswith("mark.") for x in r["not_applicable"])
+
+
+def test_cli_warns_on_stderr_when_a_dependency_is_missing(monkeypatch, capsys):
+    _kill_cairo(monkeypatch)
+    gate.main(["score", TAKES, "--crop", "t3", "--json", "--accepted", ACCEPTED_NONE])
+    out, err = capsys.readouterr()
+    lines = err.strip().splitlines()
+    assert len(lines) == 1 and lines[0].startswith("WARNING"), err
+    assert "cairosvg" in lines[0] and "mark.01" in lines[0]
+    import json
+    assert json.loads(out)["counts"]["errored"] >= 1, "the JSON did not say it either"
 
 
 # -- what it must accept ---------------------------------------------------
@@ -119,6 +180,7 @@ def test_a_light_and_a_dark_take_both_pass(cfg, doc):
         assert _score(gate.load_image(TAKES, tile), cfg, doc)["verdict"] == "pass"
 
 
+@needs_cairo
 def test_a_gradient_mark_is_one_gesture_not_two(cfg, doc):
     # The mark IS a gradient shape, so a naive count read it as the mark plus
     # gradient type and failed the brand for wearing itself.
@@ -132,6 +194,7 @@ def test_a_gradient_mark_is_one_gesture_not_two(cfg, doc):
 # CORRECT rule fired, not merely that the verdict was a failure.
 
 
+@needs_cairo
 def test_a_rotated_mark_fails_on_the_level_rule(cfg, doc):
     img = np.rot90(gate.load_image(TAKES, "t3")).copy()
     r = _score(img, cfg, doc)
@@ -170,6 +233,7 @@ def test_low_contrast_text_fails_on_a_contrast_rule(cfg, doc):
 # -- the mark detector, which was the hardest thing here to get honest ------
 
 
+@needs_cairo
 def test_the_mark_is_found_on_paper_and_on_night(cfg):
     from pipeline.checks.band import locate
     for tile in ("t1", "t2"):
@@ -178,12 +242,14 @@ def test_the_mark_is_found_on_paper_and_on_night(cfg):
         assert hits
 
 
+@needs_cairo
 def test_no_mark_is_found_in_a_frame_without_one(cfg):
     from pipeline.checks.band import locate
     level, rotated, _ = locate(_flat("#FAFAF8"), cfg)
     assert max(level, rotated) < cfg["band"]["present_min"]
 
 
+@needs_cairo
 def test_a_smooth_wash_does_not_match_the_mark(cfg):
     # THE bug in this detector. Normalised correlation between two near-empty
     # patches returns a confident 1.00, so an ungated detector reported a
@@ -197,6 +263,7 @@ def test_a_smooth_wash_does_not_match_the_mark(cfg):
     assert max(level, rotated) < cfg["band"]["present_min"], max(level, rotated)
 
 
+@needs_cairo
 def test_editing_the_mark_svg_changes_what_the_gate_looks_for(cfg, tmp_path):
     # The SVG is the artwork, so there must be no second copy to keep in step.
     from pipeline.checks.band import locate

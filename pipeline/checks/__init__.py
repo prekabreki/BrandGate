@@ -1,14 +1,28 @@
 """Every check is pure: an image and a rule go in, a Finding comes out.
 
 A check never raises into the gate. If one fails, the gate records that rule as
-`manual` with the error attached, because a gate that crashes on an odd frame
-gets switched off, and a gate that is switched off scores nothing at all.
+`errored` with the exception attached, because a gate that crashes on an odd
+frame gets switched off, and a gate that is switched off scores nothing at all.
+
+Errored is not the same as not-applicable. Not-applicable is a rule with nothing
+to measure in this frame. Errored is a rule the gate could not run, and it has
+to say so: on 2026-09-15 a missing cairo DLL made every mark rule read as
+not-applicable and 27 frames were scored with the mark detector dead (#17).
 """
 from __future__ import annotations
 
 from dataclasses import dataclass, field
 
 REGISTRY: dict = {}
+
+
+class CheckDependencyError(RuntimeError):
+    """A check's library failed to import or load. Raised by the check so the
+    gate can name the dependency instead of reporting a quiet non-result."""
+
+    def __init__(self, dependency: str, cause: BaseException):
+        super().__init__(f"{dependency} could not be loaded: {cause}")
+        self.dependency = dependency
 
 
 @dataclass

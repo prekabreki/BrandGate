@@ -25,7 +25,7 @@ import os
 
 import numpy as np
 
-from pipeline.checks import Finding, not_applicable, register
+from pipeline.checks import CheckDependencyError, Finding, not_applicable, register
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 MARK_SVG = os.path.join(ROOT, "brand", "logo", "slice-mark-blank.svg")
@@ -47,7 +47,12 @@ def _edges(gray: np.ndarray, blur: float) -> np.ndarray:
 def _template(width: int, blur: float, svg_path: str, mtime: float) -> np.ndarray:
     """The mark rasterised at a width, as an edge map. Cached on the file's
     mtime so editing the SVG invalidates it rather than serving the old mark."""
-    import cairosvg
+    try:
+        # cairosvg imports fine and then fails to LOAD libcairo (an OSError
+        # from cffi), so both exception types mean the same thing here.
+        import cairosvg
+    except (ImportError, OSError) as e:
+        raise CheckDependencyError("cairosvg", e) from e
     import cv2
     png = cairosvg.svg2png(url=svg_path, output_width=width)
     arr = cv2.imdecode(np.frombuffer(png, np.uint8), cv2.IMREAD_UNCHANGED)
@@ -92,14 +97,22 @@ def locate(img: np.ndarray, cfg: dict, svg_path: str | None = None):
     scene = _edges(cv2.cvtColor(img, cv2.COLOR_RGB2GRAY).astype(np.float32), blur)
 
     level, rotated, hits = -1.0, -1.0, []
+    rendered, last_error = 0, None
     for scale in np.linspace(c["scale_min"], c["scale_max"], int(c["scale_steps"])):
         width = int(img.shape[1] * float(scale))
         if width < 24:
             continue
         try:
             tpl = _template(width, blur, svg, mtime)
-        except Exception:
+        except CheckDependencyError:
+            # A missing library is the same at every scale. Say so once, loudly:
+            # swallowing it here is what made a dead detector read as "no mark
+            # in the frame" across a whole calibration set.
+            raise
+        except Exception as e:
+            last_error = e
             continue
+        rendered += 1
         s, (x, y) = _match(scene, tpl, floor)
         level = max(level, s)
         if s >= c["present_min"]:
@@ -110,6 +123,11 @@ def locate(img: np.ndarray, cfg: dict, svg_path: str | None = None):
         # docs/calibration.md rather than left for someone to discover.
         r, _ = _match(scene, np.rot90(tpl).copy(), floor)
         rotated = max(rotated, r)
+    if not rendered and last_error is not None:
+        # Every scale failed for some other reason. That is still a detector
+        # that did not run, not a frame without a mark.
+        raise RuntimeError(
+            f"the mark could not be rendered at any scale: {last_error}") from last_error
     return level, rotated, hits
 
 
