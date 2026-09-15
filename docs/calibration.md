@@ -2,8 +2,9 @@
 
 The judge is an instrument, and this is its datasheet.
 
-**Status: 27 designer-labelled images, 2026-09-15. The gate agrees with the
-designer on 19 of them.** 21 are generated grounds from `hero-ground@2` across
+**Status: 27 designer-labelled images, 2026-09-15. The gate agreed with the
+designer on 19 of them; after the wash check built from those disagreements
+(second pass, below), 24.** 21 are generated grounds from `hero-ground@2` across
 two models and two tiers, 6 are the designer's own takes. The 8 disagreements
 are written up below, one line each, in the designer's words. The headline is
 not the agreement rate. It is that the seven false passes all fail on
@@ -150,6 +151,59 @@ asked for. Recommendation for the surfaces: **krea2 turbo only**, and the drift
 run (#9) should treat flux2 as the "different model" it is meant to test, not
 as a source of grounds.
 
+## Second pass: the wash check
+
+Filed as #18 from the eight disagreements and built the same afternoon. One
+new check, `wash` (`pipeline/checks/wash.py`), bound to `gradient.03` on the
+words "softened" and "bleeding into", measuring three things the designer's
+notes turned out to mean. Every threshold was set from the table above by one
+procedure, written beside each number in `brand/gate.toml`: the midpoint
+between the worst accepted frame and the best clearly rejected frame on that
+axis, "clearly" meaning the note names the fault the axis measures.
+
+| axis | what it measures | accepted, worst | rejected, best | bar |
+|---|---|---|---|---|
+| dark chroma | mean chroma of pixels below mid luminance: "too dark, too saturated" | 42.2 (turbo 1004) | 47.8 (raw 1017) | 45 |
+| edge steepness | 99th percentile of the blurred chroma gradient: "strong outlines, too much separation" | 11.6 (turbo 1008) | 14.1 (turbo 1002) | 13 |
+| stop coverage | share of the wash nearest each named stop, by hue: "too few colours" | 8.1% (turbo 1016) | 3.6% (turbo 1002) | 6% |
+
+Chroma rather than luminance on every axis, so ink type on a future surface is
+not measured. Stops are matched on hue alone: a veiled tint keeps its hue and
+little else, and a full Lab distance handed every indigo pixel to magenta
+because the indigo token is far more saturated than any pixel in a softened
+wash. That was the first thing the labelled set caught in the new check.
+
+**Confusion matrix, all 27, before and after:**
+
+| | before: on | before: off | | after: on | after: off |
+|---|---|---|---|---|---|
+| gate pass | 9 | **7** | | 9 | **2** |
+| gate fail | **1** | 10 | | **1** | 15 |
+
+19 of 27 became **24 of 27**. Five false passes flipped, each on the axis the
+designer's note predicted: raw 1009 on dark chroma (67.6), raw 1003 and 1007
+on stop coverage (2.2% and 3.3%, "too few colours"), turbo 1010 and 1014 on
+edge steepness (14.6 and 14.8, "strong outlines"). The takes are all still
+passes: five of the six carry a mark on flat paper and the wash covers 2 to 6
+percent of the frame, so the check reports *no wash to judge*; take 2 is night
+and reports *not applicable* by design.
+
+**What did not flip, and why it should not have.** Turbo 1000 and 1024 still
+pass and the designer still rejects them. Their numbers sit inside the
+accepted range on every axis (dark chroma 38.7 and 37.3, edges 11.3 and 10.6,
+thinnest stop 13.9% and 16.5%), and the notes say "close" and nothing. A bar
+that separated them from turbo 1008 would be fitted to two frames, so the two
+false passes stand and are the honest residual. Turbo 1004 is still the one
+false fail, on `colour.03`'s 4% magenta limit, untouched here on purpose.
+
+Everything above is a regression against the labels, not a proof.
+`pipeline/tests/test_wash_calibration.py` holds the line at 24 of 27 with at
+most two false passes and prints the sweep. The next generated batch is the
+held-out test; the first surface with a large chromatic mark on a wash is the
+test of the edge axis in particular, since a mark's edge is steep and
+chromatic, and p99 was chosen to tolerate a few percent of such pixels, not
+a lockup.
+
 ## Set 0: the wiring check
 
 The ten-image set below was built before the labelled set and is kept because
@@ -287,10 +341,11 @@ reported a flat 1.0:1 and failed a take whose type is fully legible.
    paper from the grounds rule takes take 3's `colour.01` from 0.95 to 0.79 and
    the reason from "the ground is #FAFAF8" to "the ground is #ECEAF6". Deleting
    mist as well pushes it to a failure, which is the more legible ten seconds.
-5. **Two new checks, bleed and dark mass**, bound to rule 30, then re-score the
-   27 labelled files against the table above. That is the next version of the
-   gate and the first time a threshold here can be set from data rather than
-   picked. Filed separately; the labels are the fixture.
+5. ~~Two new checks, bleed and dark mass, bound to rule 30.~~ **Done as one
+   check with three axes, #18, second pass above: 19 of 27 to 24 of 27.** The
+   measures turned out to be chroma of the darks, steepness of the chroma
+   gradient and hue coverage of the stops, not frame fractions of dark or
+   edge, which did not separate the labels at all.
 6. **Fix the contrast false reasons.** `colour.02` / `type.03` should not find
    text in a frame with none. Gate the MSER pass on a glyph-shaped aspect and
    stroke width, or skip it when `motif.*` reports zero gestures.

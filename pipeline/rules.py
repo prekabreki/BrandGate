@@ -35,7 +35,7 @@ PX = re.compile(r"(\d+(?:\.\d+)?)\s*px\b")
 # sentence about type cannot silently become a palette rule.
 SECTION_CHECKS = {
     "colour": "palette",
-    "gradient": "palette",
+    "gradient": "wash",
     "mark": "band",
     "motif": "motif",
     "type": "contrast",
@@ -49,6 +49,9 @@ SECTION_CHECKS = {
 # otherwise claim every text rule on the strength of its hex codes and the
 # contrast check would bind to nothing at all.
 BINDINGS = (
+    # The softened-ground rule binds to the wash check on its own words; it
+    # names its stops by token name, never by hex, so palette would never claim it.
+    ("wash", {"gradient"}, lambda t: _mentions(t, ("softened", "bleeding into"))),
     ("contrast", {"type", "surface", "colour"},
      lambda t: _mentions(t, ("text is", "as text", "secondary text",
                              "text on", "body is"))),
@@ -149,6 +152,10 @@ def _params_for(check: str, prose: str) -> dict:
         pct = PERCENT.findall(prose)
         if pct:
             p["percent"] = [float(x) for x in pct]
+    if check == "wash":
+        # every colour the sentence names is a stop the wash must carry;
+        # grounds (paper, night) are filtered out by the check on luminance
+        p["stops"] = [c for sentence in _sentences(prose) for c in _colours_in(sentence)]
     if check == "band":
         px = PX.findall(prose)
         if px:

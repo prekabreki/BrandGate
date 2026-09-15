@@ -127,8 +127,18 @@ def test_a_stale_parse_is_rebuilt_when_the_parser_changes(tmp_path, monkeypatch)
     assert rules.load(dest)["rules"], "a stale parse was served instead of rebuilt"
 
 
-def test_the_shipped_rules_parse_and_bind_all_four_checks():
+def test_the_shipped_rules_parse_and_bind_all_five_checks():
     doc = rules.build()
     bound = {r["check"] for r in doc["rules"]} - {"manual"}
-    assert bound == {"palette", "band", "contrast", "motif"}
+    assert bound == {"palette", "band", "contrast", "motif", "wash"}
     assert doc["counts"]["manual"] > 0, "every rule bound; the parse is too eager"
+
+
+def test_the_softened_ground_rule_binds_to_wash_with_its_stops():
+    doc = rules.build()
+    r = next(r for r in doc["rules"] if r["id"] == "gradient.03")
+    assert r["check"] == "wash"
+    stops = {c.upper() for c in r["params"]["stops"]}
+    assert {"#4B3BE8", "#B44C9E", "#D9628A"} <= stops, stops
+    others = [x for x in doc["rules"] if x["section"] == "gradient" and x["id"] != "gradient.03"]
+    assert all(x["check"] == "manual" for x in others), [x["id"] for x in others]

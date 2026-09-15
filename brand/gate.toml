@@ -74,3 +74,34 @@ merge_distance = 0.08
 # frame. CLIP distance is averaged in when open_clip is installed.
 phash_bits = 64
 clip_weight = 0.5
+
+[wash]
+# The softened-ground rule (gradient.03). Every number here was set on
+# 2026-09-15 from the 27 designer-labelled frames in docs/calibration.md, by
+# one procedure: the midpoint between the worst ACCEPTED frame and the best
+# CLEARLY REJECTED frame on that axis, where "clearly" means the designer's
+# note names the fault the axis measures. 27 frames and five numbers can be
+# overfit; the next generated batch is the honest test, this set is the
+# regression (pipeline/tests/test_wash_calibration.py prints the sweep).
+#
+# Applies only where there is a wash: colour over at least this share of the
+# frame. The takes with a mark on flat paper sit at 2 to 6 percent, the grounds
+# at 45 percent and up. A night ground is not applicable until night frames
+# are labelled.
+min_wash_frac = 0.25
+night_below_L = 40.0
+# A pixel is chromatic above this Lab chroma; paper and ink sit well under it.
+chroma_floor = 12.0
+# Mean chroma of pixels below mid luminance. Accepted frames topped out at
+# 42.2; the "too dark, too saturated" rejects started at 47.8. Midpoint 45.
+dark_chroma_max = 45.0
+# 99th percentile of the chroma gradient after a blur of width/blur_divisor.
+# Accepted topped out at 11.6; the "strong outlines, no bleed" rejects
+# started at 14.1. Midpoint 12.9, rounded to 13.
+edge_max = 13.0
+blur_divisor = 128
+# Share of chromatic pixels nearest each named stop, matched on hue. The
+# thinnest stop on an accepted frame held 8.1 percent (indigo, turbo 1016);
+# the "too few colours" rejects topped out at 3.6 percent (turbo 1002).
+# Midpoint 5.9, rounded to 6.
+stop_share_min = 0.06

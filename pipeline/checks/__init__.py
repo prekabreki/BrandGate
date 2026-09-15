@@ -40,4 +40,4 @@ def get(name):
     return REGISTRY.get(name)
 
 
-from pipeline.checks import band, contrast, motif, palette  # noqa: E402,F401
+from pipeline.checks import band, contrast, motif, palette, wash  # noqa: E402,F401
