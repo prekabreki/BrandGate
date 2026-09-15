@@ -213,6 +213,15 @@ reads its own key, `palette.forbid_tolerance_lab`, shipped at the same 22 so no 
 the table above moved; `pipeline/tests/test_gate.py` pins both the independence and the
 new key's direction.
 
+**Two labels from the hero, 2026-09-15 late (29 labelled).** Reviewing the shipped hero
+pair, the designer refused the ground the gate had accepted (turbo 2083, 0.96: "very separated
+blobs of colour and a big splotch of black") and liked the ground the gate had refused (turbo
+2005, 0.74, flat magenta at 6.8 percent, edges 14: "I like this one"). Both are in
+`calibration-labels.json` now, and the gate gets both wrong, so the count stands at 24 of 29
+with three false passes. Nothing was retuned on two frames. They are the first two rows of the
+next calibration, and they point at the same place the sameness run did: the magenta mass bar
+sits tighter than the designer's eye, and the wash check does not see a dark splotch as a fault.
+
 Everything above is a regression against the labels, not a proof.
 `pipeline/tests/test_wash_calibration.py` holds the line at 24 of 27 with at
 most two false passes and prints the sweep. The next generated batch is the
