@@ -46,6 +46,11 @@
   figcaption b { color: var(--ink); font-weight: 500; }
   figcaption .verdict { display: inline-block; padding: 2px 8px; border-radius: 999px; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; font-size: 10.5px; margin-right: 6px; }
   .pass { background: var(--flow); color: #fff; } .fail { background: var(--mist); color: var(--ink); }
+  .set { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 24px; align-items: start; }
+  .set .sq { grid-column: span 4; } .set .st { grid-column: span 3; } .set .og { grid-column: span 5; } .set .pr { grid-column: span 12; max-width: 620px; }
+  .set a { color: var(--indigo); }
+  @media (max-width: 860px) { .set .sq, .set .st, .set .og { grid-column: span 6; } .set .pr { grid-column: span 12; } }
+  @media (max-width: 520px) { .set .sq, .set .st, .set .og { grid-column: span 12; } }
   footer { padding: 0 clamp(16px, 4.5vw, 72px) 64px; max-width: 1240px; margin: 0 auto; font: 400 12px/1.6 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--graphite); }
   @media (prefers-reduced-motion: no-preference) { .hero .in { animation: rise 900ms cubic-bezier(.2,.7,.2,1) both; } @keyframes rise { from { opacity: 0; transform: translateY(14px); } } }
 </style>
@@ -75,6 +80,18 @@
       <img src="assets/hero-rejected.jpg" srcset="assets/hero-rejected-800.jpg 800w, assets/hero-rejected.jpg 1600w" sizes="(min-width: 900px) 560px, 100vw" alt="The refused candidate: a harder wash with a flat magenta streak, composed the same way" loading="lazy">
       <figcaption><span class="verdict fail">fail</span><b>on-brand 0.74.</b> Magenta holds 6.8% of the frame as a flat area, over the 4% the rule allows. The orbs separate: steepest edges 14.0, a bleed stays under 13.</figcaption>
     </figure>
+  </div>
+</section>
+
+<section>
+  <div class="eyebrow">one campaign, every crop</div>
+  <h3>The same brand at every size, and on paper.</h3>
+  <p class="lede">Square, story and card from one ground and one headline, and an A4 sheet with the ground kept to a band. Each one was scored by the gate before it landed here. The story's ground sits as a band because no tall crop of a wide wash passed; the gate chose that, not an eye.</p>
+  <div class="set">
+    <figure class="sq"><img src="assets/square.jpg" alt="Handsel square social card" loading="lazy"><figcaption><span class="verdict pass">pass</span><b>square</b> 1080 by 1080</figcaption></figure>
+    <figure class="st"><img src="assets/story.jpg" alt="Handsel story card, the wash as a band" loading="lazy"><figcaption><span class="verdict pass">pass</span><b>story</b> 1080 by 1920</figcaption></figure>
+    <figure class="og"><img src="assets/og.jpg" alt="Handsel link card" loading="lazy"><figcaption><span class="verdict pass">pass</span><b>card</b> 1200 by 630</figcaption></figure>
+    <figure class="pr"><a href="assets/handsel-onepager.pdf"><img src="assets/onepager.jpg" alt="Handsel one-pager, A4" loading="lazy"></a><figcaption><span class="verdict pass">pass</span><b>print</b> A4, flat, <a href="assets/handsel-onepager.pdf">the PDF</a></figcaption></figure>
   </div>
 </section>
 
