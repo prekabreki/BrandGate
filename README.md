@@ -66,3 +66,42 @@ missing feature: generation runs on hardware already owned, so there is no
 per-frame price, and estimating one would quietly turn the scorecard into
 fiction. The column exists so a metered backend can fill it without reshaping
 the file.
+
+## The sameness run
+
+![Tightening the gate on a fixed pool of 200 grounds](runs/sameness/plot.png)
+
+"Reliably" cuts both ways. A gate can be tightened until nothing new survives,
+and no pass rate will ever show it, because a gate that only accepts near-copies
+of what it already knows can be tuned to accept them every time. That is a
+brand that has stopped moving, and it is the failure this run exists to make
+visible. Two hundred grounds from one prompt were generated once, on the same
+model and tier, and re-scored at five threshold sets from loose to tight. The
+novelty bar was switched off for the pool while this ran: novelty is the thing
+being measured here, so it is neither a knob nor a filter. Three lines come
+out. The pass rate falls, from 165 accepted to three. The mean pairwise novelty
+of what survives holds around 0.16 for four steps and then halves at the last,
+which is the flat line arriving: the three survivors are alike, if still
+tellable apart by eye. And the third line, agreement with the designer's 27
+labelled frames, peaks one step looser than the shipped gate and falls from
+there. That third line is the point of the figure. Past the peak, every notch
+tighter buys a smaller, samer accepted set and a gate that agrees with its
+designer less. A tighter gate is not a better one.
+
+The bar stays where it ships, at step 2 (ruled 2026-09-15). Step 1 agrees with
+the labels on one more frame, and the difference is a single bar, the share of
+a frame that may be flat magenta, at 6 percent instead of 4. One frame in 27 is
+not evidence to move a threshold on, and the shipped value was set from the
+same 27 frames by a written procedure; the next labelled batch decides it.
+What did move is the sweep itself: its first table stepped the wash bars past
+the pool's own range and accepted nothing at the two tight steps, which is a
+badly chosen sweep and not a result. The pool's edge softness sits between 10
+and 11 and its dark chroma between 38 and 40, and the table in
+`runs/sameness/steps.md` now walks through that range instead of over it.
+
+![The accepted set at the loosest and the tightest step](runs/sameness/sheets.png)
+
+```bash
+python -m runs.pool --count 200                     # the pool, on the 4080
+python -m runs.sameness --pool surfaces/_pool --steps 5
+```

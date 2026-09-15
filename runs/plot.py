@@ -154,24 +154,25 @@ def sweep_figure(results: list[dict], out_path: str, shipped_step: int | None,
 
     if shipped_step is not None:
         ax.axvline(shipped_step, color=c["graphite"], lw=1, ls="--")
-        ax.annotate("shipped gate.toml", (shipped_step, 103), ha="center",
-                    va="bottom", fontsize=9, color=c["graphite"],
-                    xytext=(0, 2), textcoords="offset points")
+        ax.annotate("shipped gate.toml", (shipped_step, 100), ha="left",
+                    va="top", fontsize=9, color=c["graphite"],
+                    xytext=(5, 0), textcoords="offset points")
 
     for x, n, y in zip(xs, [r["pool"]["accepted_n"] for r in results], pass_rate):
-        # Below the point when there is room, above it when the line sits on
-        # the axis, so the label never lands on the tick text.
-        dy = -16 if y > 12 else 8
-        ax.annotate(f"{n} accepted", (x, y), xytext=(0, dy), textcoords="offset points",
-                    ha="center", va="bottom" if dy > 0 else "top",
-                    fontsize=8, color=c["indigo"])
+        # To the right of the point and a little above, clear of the falling
+        # line, the novelty line and the tick text alike. The last point has
+        # no right; it goes left.
+        last = x == xs[-1]
+        ax.annotate(f"{n} accepted", (x, y), xytext=(-7 if last else 7, 6),
+                    textcoords="offset points", ha="right" if last else "left",
+                    va="bottom", fontsize=8, color=c["indigo"])
 
     h1, l1 = ax.get_legend_handles_labels()
     h2, l2 = ax2.get_legend_handles_labels()
     ax.legend(h1 + h2, l1 + l2, loc="upper center", bbox_to_anchor=(0.5, -0.2),
               ncol=2, frameon=False, fontsize=9)
     ax.set_title(f"Tightening the gate on a fixed pool of {results[0]['pool']['n']} grounds",
-                 loc="left", fontsize=13, fontweight="bold")
+                 loc="left", fontsize=13, fontweight="bold", pad=12)
     fig.tight_layout()
     fig.text(0.01, -0.06, caption, ha="left", va="top", fontsize=9,
              color=c["graphite"], wrap=True)

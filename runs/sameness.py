@@ -39,11 +39,25 @@ CALIB_DIR = os.path.join(ROOT, "surfaces", "_calibration")
 TAKES = os.path.join(ROOT, "lookdev", "archive", "takes_02.png")
 
 # The five threshold sets, loose to tight, as dotted keys into gate.toml.
-# Step 1 is the shipped file as of 2026-09-15 (docs/calibration.md); step 0
-# is looser than shipped so the shipped bar sits ON the curve rather than at
-# its end. Every knob here is an on-brand bar. The novelty bar is held where
-# the file has it, because novelty is what this run measures, and a quantity
-# being measured is not also a knob in the same sweep.
+# Step 2 is the shipped file as of 2026-09-15 (docs/calibration.md). Two
+# steps sit looser than shipped so the designer's peak can show as a peak:
+# the first run put the shipped bar at step 1, agreement peaked at step 0,
+# and the curve had no left side. Every knob here is an on-brand bar.
+#
+# The table was cut against the 200-frame pool on 2026-09-15, judging the
+# frames once measured. Step 0 accepts 165, step 1 145, shipped 79, step 3
+# 16, step 4 three. The wash bars are what empty the set: the pool's edge
+# p99 sits between 10 and 11 and its dark chroma between 38 and 40, so
+# edge_max 10 or dark_chroma_max 38 alone leaves almost nothing. The first
+# table stepped both to 9 and 35 and accepted nothing at either tight step,
+# which is a badly chosen sweep, not a result.
+#
+# The novelty bar is NOT applied to pool acceptance during the sweep. Novelty
+# is what this run measures; when it also filtered, 172 of the 200 frames
+# were rejected as repeats before a brand bar had a say, and the pass rate
+# was a novelty curve wearing an on-brand label. verdict.novelty_min is set
+# to 0 in memory for the pool at every step and recorded in steps.md. The
+# designer line never met the novelty bar (empty accepted set) either way.
 #
 # palette.tolerance_lab is NOT swept, and no longer needs to be avoided.
 # Until #19 it served the permission ("the ground is paper") and the
@@ -56,13 +70,13 @@ TAKES = os.path.join(ROOT, "lookdev", "archive", "takes_02.png")
 KNOBS = ("verdict.on_brand_min", "palette.forbid_mass", "wash.dark_chroma_max",
          "wash.edge_max", "wash.stop_share_min")
 STEPS = [
+    dict(zip(KNOBS, (0.60, 0.10, 60.0, 20.0, 0.02))),
     dict(zip(KNOBS, (0.70, 0.06, 52.0, 16.0, 0.04))),
     dict(zip(KNOBS, (0.75, 0.04, 45.0, 13.0, 0.06))),
-    dict(zip(KNOBS, (0.85, 0.03, 40.0, 11.0, 0.08))),
-    dict(zip(KNOBS, (0.92, 0.02, 35.0, 9.0, 0.11))),
-    dict(zip(KNOBS, (0.97, 0.015, 30.0, 7.0, 0.15))),
+    dict(zip(KNOBS, (0.85, 0.025, 40.0, 11.5, 0.08))),
+    dict(zip(KNOBS, (0.90, 0.02, 38.0, 11.0, 0.09))),
 ]
-SHIPPED_STEP = 1
+SHIPPED_STEP = 2
 
 
 def build_steps(n: int = 5) -> list[dict]:
@@ -131,6 +145,8 @@ def score_pool(paths: list[str], cfg: dict, doc: dict, log=print,
     five times. The accepted set is NOT in the cache; it is rebuilt per step."""
     accepted, rows = [], []
     ctxs = {} if ctxs is None else ctxs
+    cfg = copy.deepcopy(cfg)
+    cfg["verdict"]["novelty_min"] = 0.0  # measured, not gated; see the note above STEPS
     for i, p in enumerate(paths, start=1):
         r = gate.score_image(gate.load_image(p), cfg, doc, accepted_paths=list(accepted),
                              ctx=ctxs.setdefault(p, {}))
@@ -236,15 +252,24 @@ def write_outputs(results: list[dict], out_dir: str, pool_dir: str, clip_on: boo
                       caption=_caption(results, clip_on, note))
     loose, tight = results[0], results[-1]
     plot.side_by_side([
-        (f"step {loose['step']}, loosest: {loose['pool']['accepted_n']} of "
-         f"{loose['pool']['n']} accepted", plot.contact_sheet(
-             [os.path.join(ROOT, p) for p in loose["pool"]["accepted"]])),
-        (f"step {tight['step']}, tightest: {tight['pool']['accepted_n']} of "
-         f"{tight['pool']['n']} accepted", plot.contact_sheet(
-             [os.path.join(ROOT, p) for p in tight["pool"]["accepted"]])),
+        (_sheet_title(loose, "loosest"), plot.contact_sheet(
+             [os.path.join(ROOT, p) for p in loose["pool"]["accepted"][:SHEET_CAP]])),
+        (_sheet_title(tight, "tightest"), plot.contact_sheet(
+             [os.path.join(ROOT, p) for p in tight["pool"]["accepted"][:SHEET_CAP]])),
     ], os.path.join(out_dir, "sheets.png"))
     with open(os.path.join(out_dir, "steps.md"), "w", encoding="utf-8") as fh:
         fh.write(steps_markdown(results, pool_dir, clip_on))
+
+
+# A loose step accepts most of a 200-frame pool, and a sheet of 165 tiles is a
+# texture, not a comparison. The first N in seed order, with the count said.
+SHEET_CAP = 30
+
+
+def _sheet_title(r: dict, word: str) -> str:
+    n, total = r["pool"]["accepted_n"], r["pool"]["n"]
+    shown = "" if n <= SHEET_CAP else f", first {SHEET_CAP} shown"
+    return f"step {r['step']}, {word}: {n} of {total} accepted{shown}"
 
 
 def steps_markdown(results: list[dict], pool_dir: str, clip_on: bool) -> str:
@@ -253,8 +278,10 @@ def steps_markdown(results: list[dict], pool_dir: str, clip_on: bool) -> str:
         "",
         f"Pool: `{_rel(pool_dir)}`, {results[0]['pool']['n']} frames, scored in filename order. "
         f"Novelty: {'perceptual hash and CLIP (ViT-B-32)' if clip_on else 'perceptual hash only'}. "
-        "Every other key in `brand/gate.toml` stayed at its shipped value, `verdict.novelty_min` "
-        "included: novelty is what this run measures, so it is not also a knob.",
+        "Every other key in `brand/gate.toml` stayed at its shipped value. `verdict.novelty_min` "
+        "was set to 0 for pool acceptance: novelty is what this run measures, so it is neither "
+        "a knob nor a filter here. Each frame's novelty against the accepted set is still in "
+        "`results.json`.",
         "",
         "Reproduce: `python -m runs.pool --count 200` on the 4080, then "
         "`python -m runs.sameness --pool surfaces/_pool --steps 5`.",
