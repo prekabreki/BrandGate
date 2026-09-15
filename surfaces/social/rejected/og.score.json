@@ -1,21 +1,23 @@
 {
- "verdict": "pass",
- "on_brand": 0.992,
+ "verdict": "fail",
+ "on_brand": 0.8652,
  "novelty": 1.0,
  "thresholds": {
   "on_brand_min": 0.75,
   "novelty_min": 0.12
  },
- "failed_rules": [],
+ "failed_rules": [
+  "colour.03"
+ ],
  "breakdown": [
   {
    "rule": "mark.01",
    "check": "band",
    "score": 1.0,
    "passed": true,
-   "reason": "the mark matches the artwork at 0.84",
+   "reason": "the mark matches the artwork at 0.85",
    "detail": {
-    "level": 0.8380862474441528,
+    "level": 0.8494518995285034,
     "placements": 1
    }
   },
@@ -24,9 +26,9 @@
    "check": "band",
    "score": 1.0,
    "passed": true,
-   "reason": "the mark matches the artwork at 0.84",
+   "reason": "the mark matches the artwork at 0.85",
    "detail": {
-    "level": 0.8380862474441528,
+    "level": 0.8494518995285034,
     "placements": 1
    }
   },
@@ -35,9 +37,9 @@
    "check": "band",
    "score": 1.0,
    "passed": true,
-   "reason": "the mark matches the artwork at 0.84",
+   "reason": "the mark matches the artwork at 0.85",
    "detail": {
-    "level": 0.8380862474441528,
+    "level": 0.8494518995285034,
     "placements": 1
    }
   },
@@ -46,36 +48,37 @@
    "check": "band",
    "score": 1.0,
    "passed": true,
-   "reason": "the mark is level (level 0.84, rotated 0.29)",
+   "reason": "the mark is level (level 0.85, rotated 0.42)",
    "detail": {
-    "level": 0.8380862474441528,
-    "rotated": 0.2929810583591461
+    "level": 0.8494518995285034,
+    "rotated": 0.4236000180244446
    }
   },
   {
    "rule": "colour.01",
    "check": "palette",
-   "score": 0.9277,
+   "score": 0.7868,
    "passed": true,
    "reason": "the ground is #FAFAF8",
    "detail": {
     "ground_rgb": [
-     244,
-     241,
-     237
+     243,
+     232,
+     218
     ],
-    "distance": 3.1833121286475006,
+    "distance": 9.379575400311687,
     "tolerance_lab": 22.0
    }
   },
   {
    "rule": "colour.03",
    "check": "palette",
-   "score": 1.0,
-   "passed": true,
-   "reason": "no forbidden colour holds a flat area (#B44C9E under 4%)",
+   "score": 0.0,
+   "passed": false,
+   "reason": "#B44C9E holds 4.1% of the frame as a flat area, over the 4% the rule allows",
    "detail": {
-    "mass": 0.0,
+    "forbidden": "#B44C9E",
+    "mass": 0.041325,
     "limit": 0.04
    }
   },
@@ -84,17 +87,17 @@
    "check": "wash",
    "score": 1.0,
    "passed": true,
-   "reason": "soft wash: darks at chroma 31, edges 7.8, every stop present",
+   "reason": "soft wash: darks at chroma 26, edges 9.4, every stop present",
    "detail": {
-    "ground_L": 90.2,
-    "chroma_frac": 0.3507,
-    "foreground_frac": 0.1613,
-    "dark_chroma": 30.703,
-    "edge_p99": 7.766,
+    "ground_L": 92.94,
+    "chroma_frac": 0.3982,
+    "foreground_frac": 0.2778,
+    "dark_chroma": 25.816,
+    "edge_p99": 9.392,
     "stop_share": {
-     "#4B3BE8": 0.2835,
-     "#B44C9E": 0.2093,
-     "#D9628A": 0.5072
+     "#4B3BE8": 0.2015,
+     "#B44C9E": 0.1348,
+     "#D9628A": 0.6637
     }
    }
   },
@@ -183,35 +186,37 @@
  "missing_dependencies": [],
  "counts": {
   "scored": 9,
-  "failed": 0,
+  "failed": 1,
   "not_applicable": 3,
   "manual": 28,
   "errored": 0
  },
- "ground": "surfaces/hero/accepted/ground.png",
+ "ground": "surfaces/social/rejected/ground.png",
  "ground_verdict": {
-  "verdict": "pass",
-  "on_brand": 0.9623,
+  "verdict": "fail",
+  "on_brand": 0.8668,
   "novelty": 1.0,
   "thresholds": {
    "on_brand_min": 0.75,
    "novelty_min": 0.12
   },
-  "failed_rules": [],
+  "failed_rules": [
+   "gradient.03"
+  ],
   "breakdown": [
    {
     "rule": "colour.01",
     "check": "palette",
-    "score": 0.8117,
+    "score": 0.7921,
     "passed": true,
     "reason": "the ground is #FAFAF8",
     "detail": {
      "ground_rgb": [
-      236,
-      228,
-      220
+      245,
+      238,
+      221
      ],
-     "distance": 8.286417892477902,
+     "distance": 9.145479608382193,
      "tolerance_lab": 22.0
     }
    },
@@ -229,19 +234,19 @@
    {
     "rule": "gradient.03",
     "check": "wash",
-    "score": 1.0,
-    "passed": true,
-    "reason": "soft wash: darks at chroma 38, edges 11.4, every stop present",
+    "score": 0.5417,
+    "passed": false,
+    "reason": "#B44C9E holds 3.2% of the wash; every stop needs 6%",
     "detail": {
-     "ground_L": 84.71,
-     "chroma_frac": 0.4237,
+     "ground_L": 81.96,
+     "chroma_frac": 0.6136,
      "foreground_frac": 0.0,
-     "dark_chroma": 37.543,
-     "edge_p99": 11.403,
+     "dark_chroma": 32.395,
+     "edge_p99": 10.337,
      "stop_share": {
-      "#4B3BE8": 0.2849,
-      "#B44C9E": 0.1301,
-      "#D9628A": 0.585
+      "#4B3BE8": 0.1161,
+      "#B44C9E": 0.0325,
+      "#D9628A": 0.8515
      }
     }
    },
@@ -346,12 +351,13 @@
   "missing_dependencies": [],
   "counts": {
    "scored": 5,
-   "failed": 0,
+   "failed": 1,
    "not_applicable": 7,
    "manual": 28,
    "errored": 0
   }
  },
- "foreground_frac": 0.1216,
- "headline": "Six pieces of one thing."
+ "foreground_frac": 0.247,
+ "headline": "Six pieces of one thing.",
+ "size": "og"
 }

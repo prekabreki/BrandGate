@@ -1,6 +1,6 @@
 {
  "verdict": "pass",
- "on_brand": 0.992,
+ "on_brand": 1.0,
  "novelty": 1.0,
  "thresholds": {
   "on_brand_min": 0.75,
@@ -9,63 +9,31 @@
  "failed_rules": [],
  "breakdown": [
   {
-   "rule": "mark.01",
-   "check": "band",
-   "score": 1.0,
-   "passed": true,
-   "reason": "the mark matches the artwork at 0.84",
-   "detail": {
-    "level": 0.8380862474441528,
-    "placements": 1
-   }
-  },
-  {
-   "rule": "mark.05",
-   "check": "band",
-   "score": 1.0,
-   "passed": true,
-   "reason": "the mark matches the artwork at 0.84",
-   "detail": {
-    "level": 0.8380862474441528,
-    "placements": 1
-   }
-  },
-  {
-   "rule": "mark.07",
-   "check": "band",
-   "score": 1.0,
-   "passed": true,
-   "reason": "the mark matches the artwork at 0.84",
-   "detail": {
-    "level": 0.8380862474441528,
-    "placements": 1
-   }
-  },
-  {
-   "rule": "mark.08",
-   "check": "band",
-   "score": 1.0,
-   "passed": true,
-   "reason": "the mark is level (level 0.84, rotated 0.29)",
-   "detail": {
-    "level": 0.8380862474441528,
-    "rotated": 0.2929810583591461
-   }
-  },
-  {
    "rule": "colour.01",
    "check": "palette",
-   "score": 0.9277,
+   "score": 1.0,
    "passed": true,
    "reason": "the ground is #FAFAF8",
    "detail": {
     "ground_rgb": [
-     244,
-     241,
-     237
+     250,
+     250,
+     248
     ],
-    "distance": 3.1833121286475006,
+    "distance": 0.0,
     "tolerance_lab": 22.0
+   }
+  },
+  {
+   "rule": "colour.02",
+   "check": "contrast",
+   "score": 1.0,
+   "passed": true,
+   "reason": "every text region clears 4.5:1 (worst 7.9:1)",
+   "detail": {
+    "worst_ratio": 7.878804580835572,
+    "bar": 4.5,
+    "regions": 22
    }
   },
   {
@@ -80,22 +48,27 @@
    }
   },
   {
-   "rule": "gradient.03",
-   "check": "wash",
+   "rule": "colour.04",
+   "check": "contrast",
    "score": 1.0,
    "passed": true,
-   "reason": "soft wash: darks at chroma 31, edges 7.8, every stop present",
+   "reason": "every text region clears 4.5:1 (worst 7.9:1)",
    "detail": {
-    "ground_L": 90.2,
-    "chroma_frac": 0.3507,
-    "foreground_frac": 0.1613,
-    "dark_chroma": 30.703,
-    "edge_p99": 7.766,
-    "stop_share": {
-     "#4B3BE8": 0.2835,
-     "#B44C9E": 0.2093,
-     "#D9628A": 0.5072
-    }
+    "worst_ratio": 7.878804580835572,
+    "bar": 4.5,
+    "regions": 22
+   }
+  },
+  {
+   "rule": "type.03",
+   "check": "contrast",
+   "score": 1.0,
+   "passed": true,
+   "reason": "every text region clears 4.5:1 (worst 7.9:1)",
+   "detail": {
+    "worst_ratio": 7.878804580835572,
+    "bar": 4.5,
+    "regions": 22
    }
   },
   {
@@ -103,12 +76,10 @@
    "check": "motif",
    "score": 1.0,
    "passed": true,
-   "reason": "1 gesture on the surface: the mark (1 placement)",
+   "reason": "0 gestures on the surface",
    "detail": {
-    "gestures": [
-     "the mark (1 placement)"
-    ],
-    "mark_placements": 1
+    "gestures": [],
+    "mark_placements": 0
    }
   },
   {
@@ -116,30 +87,38 @@
    "check": "motif",
    "score": 1.0,
    "passed": true,
-   "reason": "1 gesture on the surface: the mark (1 placement)",
+   "reason": "0 gestures on the surface",
    "detail": {
-    "gestures": [
-     "the mark (1 placement)"
-    ],
-    "mark_placements": 1
+    "gestures": [],
+    "mark_placements": 0
    }
   }
  ],
  "not_applicable": [
   {
-   "rule": "colour.02",
-   "check": "contrast",
-   "reason": "no text region detected, nothing to measure"
+   "rule": "mark.01",
+   "check": "band",
+   "reason": "no mark in the frame, so the mark rules do not apply"
   },
   {
-   "rule": "colour.04",
-   "check": "contrast",
-   "reason": "no text region detected, nothing to measure"
+   "rule": "mark.05",
+   "check": "band",
+   "reason": "no mark in the frame, so the mark rules do not apply"
   },
   {
-   "rule": "type.03",
-   "check": "contrast",
-   "reason": "no text region detected, nothing to measure"
+   "rule": "mark.07",
+   "check": "band",
+   "reason": "no mark in the frame, so the mark rules do not apply"
+  },
+  {
+   "rule": "mark.08",
+   "check": "band",
+   "reason": "no mark in the frame, so the mark rules do not apply"
+  },
+  {
+   "rule": "gradient.03",
+   "check": "wash",
+   "reason": "no wash to judge: colour covers 0% of the frame, under the 25% a ground has"
   }
  ],
  "novelty_detail": {
@@ -182,13 +161,13 @@
  "errored": [],
  "missing_dependencies": [],
  "counts": {
-  "scored": 9,
+  "scored": 7,
   "failed": 0,
-  "not_applicable": 3,
+  "not_applicable": 5,
   "manual": 28,
   "errored": 0
  },
- "ground": "surfaces/hero/accepted/ground.png",
+ "ground": "surfaces/print/accepted/ground.png",
  "ground_verdict": {
   "verdict": "pass",
   "on_brand": 0.9623,
@@ -352,6 +331,7 @@
    "errored": 0
   }
  },
- "foreground_frac": 0.1216,
- "headline": "Six pieces of one thing."
+ "foreground_frac": 0.8821,
+ "headline": "Six pieces of one thing.",
+ "page": "A4"
 }

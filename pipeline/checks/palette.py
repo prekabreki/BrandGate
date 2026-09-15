@@ -45,6 +45,17 @@ def check(img: np.ndarray, rule: dict, cfg: dict, ctx: dict) -> Finding:
 
     c = cfg["palette"]
     tol, min_mass = c["tolerance_lab"], c["min_mass"]
+    # A composed surface declares its mark and type (gate.score_image's
+    # `foreground`). Both may carry the flow by rule, so the magenta in a
+    # gradient wordmark is display type and not a flat accent. Those pixels
+    # are counted as paper rather than dropped: dropping them re-partitions
+    # the k-means clusters of the wash and moved a passing hero to 4.9 percent
+    # flat magenta with no magenta added, while painting them ground keeps the
+    # frame, the denominator and the calibrated clustering as they were.
+    fg = ctx.get(("foreground", None))
+    if fg is not None and fg.any() and not fg.all():
+        ground = np.median(img[~fg], axis=0).astype(np.uint8)
+        img = np.where(fg[..., None], ground, img)
     centres, weights = dominant_colours(img)
     heavy = weights >= min_mass
     if not heavy.any():

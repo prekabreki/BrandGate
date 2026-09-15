@@ -1,6 +1,6 @@
 {
  "verdict": "fail",
- "on_brand": 0.8339,
+ "on_brand": 0.8353,
  "novelty": 1.0,
  "thresholds": {
   "on_brand_min": 0.75,
@@ -59,16 +59,16 @@
   {
    "rule": "colour.01",
    "check": "palette",
-   "score": 0.9108,
+   "score": 0.9275,
    "passed": true,
    "reason": "the ground is #FAFAF8",
    "detail": {
     "ground_rgb": [
-     242,
-     239,
-     235
+     244,
+     241,
+     237
     ],
-    "distance": 3.9264276316262854,
+    "distance": 3.191288095456992,
     "tolerance_lab": 22.0
    }
   },
@@ -212,8 +212,7 @@
   "manual": 28,
   "errored": 0
  },
- "foreground_frac": 0.1216,
- "ground": "surfaces/_pool/hero-ground_turbo_2005_bd922599fd22_00001_.png",
+ "ground": "surfaces/hero/rejected/ground.png",
  "ground_verdict": {
   "verdict": "fail",
   "on_brand": 0.7415,
@@ -381,5 +380,6 @@
    "errored": 0
   }
  },
+ "foreground_frac": 0.1216,
  "headline": "Six pieces of one thing."
 }

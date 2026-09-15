@@ -41,25 +41,51 @@ def serve(root: str):
     return httpd, httpd.server_address[1]
 
 
-def render(html: str, out: str, width: int, height: int, binary: str, wait_ms: int) -> None:
+def render(html: str, out: str, width: int, height: int, binary: str, wait_ms: int,
+           scale: int = 1) -> None:
+    """Screenshot `html` at width by height CSS pixels. `scale` is the device
+    scale factor, so the PNG is scale times larger in each direction; the size
+    check is against that, which is the whole point of this script."""
     from PIL import Image
     html = os.path.abspath(html)
     out = os.path.abspath(out)
     rel = os.path.relpath(html, ROOT).replace(os.sep, "/")
     httpd, port = serve(ROOT)
     try:
-        cmd = [binary, "--headless=new", "--hide-scrollbars", "--force-device-scale-factor=1",
+        cmd = [binary, "--headless=new", "--hide-scrollbars",
+               f"--force-device-scale-factor={scale}",
                f"--window-size={width},{height}", f"--virtual-time-budget={wait_ms}",
                f"--screenshot={out}", f"http://127.0.0.1:{port}/{rel}"]
         subprocess.run(cmd, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
                        timeout=120)
     finally:
         httpd.shutdown()
+    want = (width * scale, height * scale)
     with Image.open(out) as im:
-        if im.size != (width, height):
+        if im.size != want:
             os.remove(out)
-            raise SystemExit(f"rendered {im.size}, asked for {(width, height)}; not keeping it")
-    print(f"wrote {os.path.relpath(out, ROOT)} at {width}x{height}")
+            raise SystemExit(f"rendered {im.size}, asked for {want}; not keeping it")
+    print(f"wrote {os.path.relpath(out, ROOT)} at {want[0]}x{want[1]}")
+
+
+def print_pdf(html: str, out: str, binary: str, wait_ms: int) -> None:
+    """Print `html` to a PDF. Page size and margins come from the page's own
+    @page rule; Chrome's header and footer are off."""
+    html = os.path.abspath(html)
+    out = os.path.abspath(out)
+    rel = os.path.relpath(html, ROOT).replace(os.sep, "/")
+    httpd, port = serve(ROOT)
+    try:
+        cmd = [binary, "--headless=new", "--no-pdf-header-footer",
+               f"--virtual-time-budget={wait_ms}", f"--print-to-pdf={out}",
+               f"http://127.0.0.1:{port}/{rel}"]
+        subprocess.run(cmd, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+                       timeout=120)
+    finally:
+        httpd.shutdown()
+    if not os.path.exists(out) or os.path.getsize(out) < 1000:
+        raise SystemExit(f"no PDF came out for {rel}")
+    print(f"wrote {os.path.relpath(out, ROOT)}, {os.path.getsize(out) // 1024} KB")
 
 
 def main(argv=None) -> int:
@@ -69,9 +95,13 @@ def main(argv=None) -> int:
     p.add_argument("--size", default="2352x1680", help="CSS pixels, WxH; the takes sheet is 2352x1680")
     p.add_argument("--chrome", default=None)
     p.add_argument("--wait-ms", type=int, default=4000, help="virtual time for fonts to arrive")
+    p.add_argument("--scale", type=int, default=1, help="device scale factor; the PNG is this many times the CSS size")
     a = p.parse_args(argv)
+    if a.out.lower().endswith(".pdf"):
+        print_pdf(a.html, a.out, a.chrome or chrome(), a.wait_ms)
+        return 0
     w, h = (int(v) for v in a.size.lower().split("x"))
-    render(a.html, a.out, w, h, a.chrome or chrome(), a.wait_ms)
+    render(a.html, a.out, w, h, a.chrome or chrome(), a.wait_ms, a.scale)
     return 0
 
 

@@ -1,6 +1,6 @@
 {
  "verdict": "pass",
- "on_brand": 0.992,
+ "on_brand": 0.991,
  "novelty": 1.0,
  "thresholds": {
   "on_brand_min": 0.75,
@@ -13,10 +13,10 @@
    "check": "band",
    "score": 1.0,
    "passed": true,
-   "reason": "the mark matches the artwork at 0.84",
+   "reason": "the mark matches the artwork at 0.61",
    "detail": {
-    "level": 0.8380862474441528,
-    "placements": 1
+    "level": 0.6069851517677307,
+    "placements": 2
    }
   },
   {
@@ -24,10 +24,10 @@
    "check": "band",
    "score": 1.0,
    "passed": true,
-   "reason": "the mark matches the artwork at 0.84",
+   "reason": "the mark matches the artwork at 0.61",
    "detail": {
-    "level": 0.8380862474441528,
-    "placements": 1
+    "level": 0.6069851517677307,
+    "placements": 2
    }
   },
   {
@@ -35,10 +35,10 @@
    "check": "band",
    "score": 1.0,
    "passed": true,
-   "reason": "the mark matches the artwork at 0.84",
+   "reason": "the mark matches the artwork at 0.61",
    "detail": {
-    "level": 0.8380862474441528,
-    "placements": 1
+    "level": 0.6069851517677307,
+    "placements": 2
    }
   },
   {
@@ -46,25 +46,25 @@
    "check": "band",
    "score": 1.0,
    "passed": true,
-   "reason": "the mark is level (level 0.84, rotated 0.29)",
+   "reason": "the mark is level (level 0.61, rotated 0.45)",
    "detail": {
-    "level": 0.8380862474441528,
-    "rotated": 0.2929810583591461
+    "level": 0.6069851517677307,
+    "rotated": 0.44514819979667664
    }
   },
   {
    "rule": "colour.01",
    "check": "palette",
-   "score": 0.9277,
+   "score": 0.9186,
    "passed": true,
    "reason": "the ground is #FAFAF8",
    "detail": {
     "ground_rgb": [
-     244,
-     241,
-     237
+     243,
+     240,
+     235
     ],
-    "distance": 3.1833121286475006,
+    "distance": 3.5817667282527803,
     "tolerance_lab": 22.0
    }
   },
@@ -75,7 +75,7 @@
    "passed": true,
    "reason": "no forbidden colour holds a flat area (#B44C9E under 4%)",
    "detail": {
-    "mass": 0.0,
+    "mass": 0.038825,
     "limit": 0.04
    }
   },
@@ -84,17 +84,17 @@
    "check": "wash",
    "score": 1.0,
    "passed": true,
-   "reason": "soft wash: darks at chroma 31, edges 7.8, every stop present",
+   "reason": "soft wash: darks at chroma 40, edges 6.1, every stop present",
    "detail": {
-    "ground_L": 90.2,
-    "chroma_frac": 0.3507,
-    "foreground_frac": 0.1613,
-    "dark_chroma": 30.703,
-    "edge_p99": 7.766,
+    "ground_L": 85.1,
+    "chroma_frac": 0.4455,
+    "foreground_frac": 0.1985,
+    "dark_chroma": 40.142,
+    "edge_p99": 6.132,
     "stop_share": {
-     "#4B3BE8": 0.2835,
-     "#B44C9E": 0.2093,
-     "#D9628A": 0.5072
+     "#4B3BE8": 0.2193,
+     "#B44C9E": 0.3486,
+     "#D9628A": 0.4321
     }
    }
   },
@@ -188,10 +188,10 @@
   "manual": 28,
   "errored": 0
  },
- "ground": "surfaces/hero/accepted/ground.png",
+ "ground": "surfaces/social/accepted/ground.png",
  "ground_verdict": {
   "verdict": "pass",
-  "on_brand": 0.9623,
+  "on_brand": 0.9579,
   "novelty": 1.0,
   "thresholds": {
    "on_brand_min": 0.75,
@@ -202,16 +202,16 @@
    {
     "rule": "colour.01",
     "check": "palette",
-    "score": 0.8117,
+    "score": 0.7896,
     "passed": true,
     "reason": "the ground is #FAFAF8",
     "detail": {
      "ground_rgb": [
-      236,
-      228,
-      220
+      234,
+      226,
+      216
      ],
-     "distance": 8.286417892477902,
+     "distance": 9.257586371141306,
      "tolerance_lab": 22.0
     }
    },
@@ -231,17 +231,17 @@
     "check": "wash",
     "score": 1.0,
     "passed": true,
-    "reason": "soft wash: darks at chroma 38, edges 11.4, every stop present",
+    "reason": "soft wash: darks at chroma 41, edges 11.5, every stop present",
     "detail": {
-     "ground_L": 84.71,
-     "chroma_frac": 0.4237,
+     "ground_L": 85.88,
+     "chroma_frac": 0.4011,
      "foreground_frac": 0.0,
-     "dark_chroma": 37.543,
-     "edge_p99": 11.403,
+     "dark_chroma": 41.232,
+     "edge_p99": 11.473,
      "stop_share": {
-      "#4B3BE8": 0.2849,
-      "#B44C9E": 0.1301,
-      "#D9628A": 0.585
+      "#4B3BE8": 0.3145,
+      "#B44C9E": 0.1798,
+      "#D9628A": 0.5057
      }
     }
    },
@@ -352,6 +352,7 @@
    "errored": 0
   }
  },
- "foreground_frac": 0.1216,
- "headline": "Six pieces of one thing."
+ "foreground_frac": 0.1698,
+ "headline": "Six pieces of one thing.",
+ "size": "square"
 }

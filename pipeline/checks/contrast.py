@@ -84,6 +84,14 @@ def _ink_and_ground(img: np.ndarray, box, pad: int = 6):
 @register("contrast")
 def check(img: np.ndarray, rule: dict, cfg: dict, ctx: dict) -> Finding:
     boxes = memo(ctx, "text_regions", cfg["contrast"], lambda: text_regions(img, cfg))
+    fg = ctx.get(("foreground", None))
+    if fg is not None:
+        # A composed surface has declared where its type is. A region the
+        # detector finds elsewhere is a blob in the wash or the edge of a band,
+        # not type, and measuring its contrast against itself is how a story
+        # card failed at 1.8:1 with every letter on it at 15:1.
+        boxes = [b for b in boxes if fg[min(fg.shape[0] - 1, int(b[1] + b[3] / 2)),
+                                        min(fg.shape[1] - 1, int(b[0] + b[2] / 2))]]
     if not boxes:
         return not_applicable(rule["id"], "contrast",
                               "no text region detected, nothing to measure")

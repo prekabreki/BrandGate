@@ -7,7 +7,7 @@
 <style>
   /* Every colour below is a variable, and every variable is written by
      compose.py from brand/tokens.json. Geometry lives here; colour does not. */
-  :root { --ink: #111114; --paper: #FAFAF8; --mist: #ECEAF6; --night: #0D0B18; --graphite: #4A4A55; --indigo: #4B3BE8; --deep: #1E1A5C; --violet: #7A4FE0; --magenta: #B44C9E; --rose: #D9628A; --paper-a70: rgba(250,250,248,0.7); --paper-a12: rgba(250,250,248,0.12); --paper-a76: rgba(250,250,248,0.76); --flow: linear-gradient(90deg, #1E1A5C 0%, #4B3BE8 28%, #7A4FE0 50%, #B44C9E 74%, #D9628A 100%); --flow-text: linear-gradient(120deg, #111114 10%, #4B3BE8 55%, #B44C9E 95%); --display: "Archivo", "Helvetica Neue", Arial, sans-serif; --body: "Archivo", system-ui, sans-serif; --mono: "IBM Plex Mono", Consolas, monospace; }
+  :root { --ink: #111114; --paper: #FAFAF8; --mist: #ECEAF6; --night: #0D0B18; --graphite: #4A4A55; --indigo: #4B3BE8; --deep: #1E1A5C; --violet: #7A4FE0; --magenta: #B44C9E; --rose: #D9628A; --paper-a70: rgba(250,250,248,0.7); --paper-a12: rgba(250,250,248,0.12); --paper-a76: rgba(250,250,248,0.76); --ink-a10: rgba(17,17,20,0.1); --flow: linear-gradient(90deg, #1E1A5C 0%, #4B3BE8 28%, #7A4FE0 50%, #B44C9E 74%, #D9628A 100%); --flow-text: linear-gradient(120deg, #111114 10%, #4B3BE8 55%, #B44C9E 95%); --display: "Archivo", "Helvetica Neue", Arial, sans-serif; --body: "Archivo", system-ui, sans-serif; --mono: "IBM Plex Mono", Consolas, monospace; }
   html, body { margin: 0; }
   body { width: 1600px; height: 900px; overflow: hidden; background: var(--paper);
          font-family: var(--body); color: var(--ink); -webkit-font-smoothing: antialiased; }
@@ -29,13 +29,13 @@
        color: var(--graphite); max-width: 34ch; }
 </style>
 </head>
-<body><div class="hero">
+<body><div class="hero surface">
   <img class="ground" src="ground.png" alt="">
   <div class="veil"></div>
   <div class="grain"></div>
-  <img class="mark" src="../../../brand/logo/slice-mark.svg" alt="">
-  <h1>Handsel</h1>
-  <h2>Six pieces of one thing.</h2>
-  <p>Tools built for one person, kept in public.</p>
+  <img class="mark fg" src="../../../brand/logo/slice-mark.svg" alt="">
+  <h1 class="fg">Handsel</h1>
+  <h2 class="fg">Six pieces of one thing.</h2>
+  <p class="fg">Tools built for one person, kept in public.</p>
 </div></body>
 </html>
