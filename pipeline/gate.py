@@ -219,6 +219,8 @@ def main(argv=None):
     s.add_argument("--crop", help="tile of a takes sheet, e.g. t3")
     s.add_argument("--json", action="store_true", help="machine-readable output")
     s.add_argument("--accepted", help="glob for the accepted set")
+    s.add_argument("--emit", metavar="JSONL",
+                   help="append one verdict row to this file, for the connector")
     a = p.parse_args(argv)
 
     try:
@@ -230,7 +232,48 @@ def main(argv=None):
     if warning:
         print(warning, file=sys.stderr)
     print(json.dumps(r, indent=2, ensure_ascii=False) if a.json else _render(r))
+    if a.emit:
+        emit_verdict(r, a.image, a.crop, a.emit)
     return 0 if r["verdict"] == "pass" else 1
+
+
+def verdict_row(r: dict, image: str, crop: str | None = None, now=None, git_sha=None) -> dict:
+    """The row the connector reads. This is the contract, documented in
+    connector/README.md: change a key here and change it there."""
+    import datetime as dt
+    rel = os.path.relpath(os.path.abspath(image), ROOT).replace(os.sep, "/")
+    stem = os.path.splitext(os.path.basename(image))[0]
+    return {
+        "id": f"{stem}:{crop}" if crop else stem,
+        "image": rel,
+        "verdict": r["verdict"],
+        "on_brand": r["on_brand"],
+        "novelty": r["novelty"],
+        "failed_rules": list(r["failed_rules"]),
+        "reasons": {b["rule"]: b["reason"] for b in r["breakdown"] if not b["passed"]},
+        "ts": (now or dt.datetime.now(dt.timezone.utc)).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "git": git_sha if git_sha is not None else _git_short_sha(),
+    }
+
+
+def _git_short_sha() -> str | None:
+    import subprocess
+    try:
+        out = subprocess.run(["git", "rev-parse", "--short", "HEAD"], cwd=ROOT, check=True,
+                             capture_output=True, text=True, timeout=5)
+        return out.stdout.strip() or None
+    except (OSError, subprocess.SubprocessError):
+        return None
+
+
+def emit_verdict(r: dict, image: str, crop: str | None, path: str) -> dict:
+    """Append one verdict row as a line of JSON. Append-only, one line per
+    call, so a tailing connector sees whole rows and nothing is rewritten."""
+    row = verdict_row(r, image, crop)
+    os.makedirs(os.path.dirname(os.path.abspath(path)), exist_ok=True)
+    with open(path, "a", encoding="utf-8") as fh:
+        fh.write(json.dumps(row, ensure_ascii=False) + "\n")
+    return row
 
 
 if __name__ == "__main__":

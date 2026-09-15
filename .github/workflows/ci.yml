@@ -37,3 +37,19 @@ jobs:
 
       - name: tests
         run: uv run pytest pipeline/tests -q
+
+  connector:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    defaults:
+      run:
+        working-directory: connector
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: connector/go.mod
+      - name: vet
+        run: go vet ./...
+      - name: test
+        run: go test ./...

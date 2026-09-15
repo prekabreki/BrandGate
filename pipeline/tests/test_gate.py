@@ -513,3 +513,23 @@ def test_contrast_is_measured_only_where_the_type_is_declared(cfg, doc):
     none = gate.score_image(img, cfg, doc, accepted_paths=[], foreground=np.zeros_like(fg))
     assert _rule_named(none, "type.03") is None
     assert "type.03" in [n["rule"] for n in none["not_applicable"]], none["not_applicable"]
+
+
+# -- the verdict row (#8) -----------------------------------------------------
+
+def test_emit_appends_one_row_per_score_in_the_documented_shape(tmp_path, capsys):
+    out = tmp_path / "v.jsonl"
+    gate.main(["score", TAKES, "--crop", "t3", "--emit", str(out)])
+    gate.main(["score", TAKES, "--crop", "t4", "--emit", str(out)])
+    import json as _json
+    rows = [_json.loads(line) for line in out.read_text(encoding="utf-8").splitlines()]
+    assert len(rows) == 2
+    row = rows[0]
+    assert set(row) == {"id", "image", "verdict", "on_brand", "novelty", "failed_rules",
+                        "reasons", "ts", "git"}, sorted(row)
+    assert row["id"] == "takes_02:t3" and row["image"] == TAKES
+    assert row["verdict"] in ("pass", "fail", "unscored")
+    assert isinstance(row["failed_rules"], list) and isinstance(row["reasons"], dict)
+    assert set(row["reasons"]) == set(row["failed_rules"])
+    assert row["ts"].endswith("Z") and len(row["ts"]) == 20
+    assert row["git"] is None or (isinstance(row["git"], str) and 6 <= len(row["git"]) <= 12)
