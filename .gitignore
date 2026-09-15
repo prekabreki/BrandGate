@@ -2,9 +2,13 @@ _local/
 .venv/
 __pycache__/
 *.pyc
-# The ledger is the provenance artifact and is tracked; nothing else in runs/ is.
+# The ledger is the provenance artifact and is tracked, and so are the run
+# scripts and the sameness run's figure, sheets and threshold table (#10).
+# Everything else in runs/ (logs, scratch output) is not.
 runs/*
 !runs/ledger.jsonl
+!runs/*.py
+!runs/sameness/
 
 # Hunting frames. Only a chosen surface graduates out of _scratch into the repo.
 surfaces/_scratch/
@@ -22,3 +26,7 @@ lookdev/_render*
 # Parked calibration sets and local run logs.
 surfaces/_calibration-*/
 _calibrate-*.log
+
+# The sameness pool (#10): 200 grounds, one model, one tier, regenerable from
+# the ledger's seeds. Lives on the 4080 box only.
+surfaces/_pool/
