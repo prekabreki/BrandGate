@@ -27,7 +27,7 @@ Every line here is a check something can score.
 
 - There is one gradient, the flow, and it runs left to right on every surface.
 - The flow appears on the mark, on display type, and as a ground wash. Nothing else carries it.
-- As a ground it is softened: three blurred orbs in indigo, magenta and sky over paper or night, with a paper veil and film grain over that. Never the raw ramp.
+- As a ground it is softened: blurred orbs over paper or night, indigo at the left and magenta warming to rose at the right, with a paper veil and film grain over that. On paper a faint sky bloom may sit low in the frame as an undertone, never as a stop; night carries none. Never the raw ramp.
 - Display type takes the text variant, which starts from ink so the first word reads as text before it turns.
 
 ## Surface
