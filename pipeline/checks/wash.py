@@ -192,12 +192,14 @@ def check(img: np.ndarray, rule: dict, cfg: dict, ctx: dict) -> Finding:
                               f"night ground (L {m['ground_L']:.0f}): the wash bar is set on "
                               "paper only, night has no labelled frames yet")
     if m["chroma_frac"] < c["min_wash_frac"]:
-        if m["chroma_frac"] >= c["thin_wash_frac"]:
-            # Colour over a tenth to a quarter of the frame is a wash, just a starved one
-            # (#22): v4 seed 3001 was so pale that colour covered under a quarter of it,
-            # the rule stepped aside as "nothing to judge", and a frame the designer
+        if m["chroma_frac"] >= c["thin_wash_frac"] and declared is None:
+            # Colour over a tenth to a quarter of a BARE frame is a wash, just a starved
+            # one (#22): v4 seed 3001 was so pale that colour covered under a quarter of
+            # it, the rule stepped aside as "nothing to judge", and a frame the designer
             # refused read as a pass. A flat surface with a mark sits under a tenth (the
-            # takes measure 2 to 6 percent) and keeps the not-applicable path.
+            # takes measure 2 to 6 percent) and keeps the not-applicable path. A composed
+            # surface declares its foreground, and may show its ground as a band on
+            # purpose (the story card): its wash was judged when the ground was.
             return Finding(rule["id"], "wash", 0.0, False,
                            f"the wash is too thin: colour covers {m['chroma_frac']:.0%} of the "
                            f"frame, a ground carries at least {c['min_wash_frac']:.0%}", m)

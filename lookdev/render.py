@@ -22,15 +22,28 @@ import sys
 import threading
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-CHROMES = ("/opt/google/chrome/chrome", "google-chrome", "chromium", "brave-browser")
+CHROMES = (
+    "/opt/google/chrome/chrome", "google-chrome", "chromium", "brave-browser",
+    # Windows (#22: the surfaces were recomposed from the work box for the first time)
+    r"C:\Program Files\Google\Chrome\Application\chrome.exe",
+    r"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe",
+    r"C:\Program Files\BraveSoftware\Brave-Browser\Applicationrave.exe",
+)
 
 
 def chrome() -> str:
+    """The browser that renders. BRANDGATE_CHROME wins when set; otherwise the first of
+    CHROMES that exists on this machine."""
+    override = os.environ.get("BRANDGATE_CHROME")
+    if override:
+        if os.path.exists(override):
+            return override
+        raise SystemExit(f"BRANDGATE_CHROME={override!r} does not exist")
     for c in CHROMES:
         p = c if os.path.isabs(c) else shutil.which(c)
         if p and os.path.exists(p):
             return p
-    raise SystemExit("no Chrome found; install one or set --chrome")
+    raise SystemExit("no Chrome found; install one, set BRANDGATE_CHROME, or pass --chrome")
 
 
 def serve(root: str):

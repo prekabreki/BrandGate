@@ -1,70 +1,28 @@
 {
- "verdict": "pass",
- "on_brand": 0.9934,
+ "verdict": "fail",
+ "on_brand": 0.9625,
  "novelty": 1.0,
  "thresholds": {
   "on_brand_min": 0.75,
   "novelty_min": 0.12
  },
- "failed_rules": [],
+ "failed_rules": [
+  "gradient.03"
+ ],
  "breakdown": [
-  {
-   "rule": "mark.01",
-   "check": "band",
-   "score": 1.0,
-   "passed": true,
-   "reason": "the mark matches the artwork at 0.85",
-   "detail": {
-    "level": 0.8527101874351501,
-    "placements": 1
-   }
-  },
-  {
-   "rule": "mark.05",
-   "check": "band",
-   "score": 1.0,
-   "passed": true,
-   "reason": "the mark matches the artwork at 0.85",
-   "detail": {
-    "level": 0.8527101874351501,
-    "placements": 1
-   }
-  },
-  {
-   "rule": "mark.07",
-   "check": "band",
-   "score": 1.0,
-   "passed": true,
-   "reason": "the mark matches the artwork at 0.85",
-   "detail": {
-    "level": 0.8527101874351501,
-    "placements": 1
-   }
-  },
-  {
-   "rule": "mark.08",
-   "check": "band",
-   "score": 1.0,
-   "passed": true,
-   "reason": "the mark is level (level 0.85, rotated 0.28)",
-   "detail": {
-    "level": 0.8527101874351501,
-    "rotated": 0.28014877438545227
-   }
-  },
   {
    "rule": "colour.01",
    "check": "palette",
-   "score": 0.9402,
+   "score": 0.8987,
    "passed": true,
    "reason": "the ground is #FAFAF8",
    "detail": {
     "ground_rgb": [
-     245,
-     243,
-     239
+     250,
+     240,
+     242
     ],
-    "distance": 2.629875910984395,
+    "distance": 4.458656890107303,
     "tolerance_lab": 22.0
    }
   },
@@ -73,55 +31,34 @@
    "check": "palette",
    "score": 1.0,
    "passed": true,
-   "reason": "no forbidden colour holds a flat area (#B44C9E under 4%)",
+   "reason": "#B44C9E holds 5.9% of the frame but as a gradient (slope 0.92 Lab per pixel), not a flat area",
    "detail": {
-    "mass": 0.0,
-    "limit": 0.04
+    "mass": 0.058525,
+    "limit": 0.04,
+    "share": 0.0769992404513889,
+    "slope": 0.9227970838546753
    }
   },
   {
    "rule": "gradient.03",
    "check": "wash",
-   "score": 1.0,
-   "passed": true,
-   "reason": "soft wash: darks at chroma 33, edges 10.1, every stop present",
+   "score": 0.9889,
+   "passed": false,
+   "reason": "the darks are saturated (chroma 56, a wash stays under 56)",
    "detail": {
-    "ground_L": 92.16,
-    "chroma_frac": 0.3173,
-    "foreground_frac": 0.1613,
-    "dark_chroma": 33.355,
-    "edge_p99": 10.051,
+    "ground_L": 78.82,
+    "chroma_frac": 0.5406,
+    "foreground_frac": 0.1225,
+    "dark_chroma": 56.117,
+    "edge_p99": 5.214,
+    "dark_mass": 0.0853,
+    "L_p02": 18.13,
+    "chroma_mean": 40.331,
     "stop_share": {
-     "#4B3BE8": 0.3015,
-     "#B44C9E": 0.1918,
-     "#D9628A": 0.5066
+     "#4B3BE8": 0.4868,
+     "#B44C9E": 0.2418,
+     "#D9628A": 0.2714
     }
-   }
-  },
-  {
-   "rule": "motif.01",
-   "check": "motif",
-   "score": 1.0,
-   "passed": true,
-   "reason": "1 gesture on the surface: the mark (1 placement)",
-   "detail": {
-    "gestures": [
-     "the mark (1 placement)"
-    ],
-    "mark_placements": 1
-   }
-  },
-  {
-   "rule": "motif.02",
-   "check": "motif",
-   "score": 1.0,
-   "passed": true,
-   "reason": "1 gesture on the surface: the mark (1 placement)",
-   "detail": {
-    "gestures": [
-     "the mark (1 placement)"
-    ],
-    "mark_placements": 1
    }
   }
  ],
@@ -179,19 +116,76 @@
   "tone.02",
   "tone.03"
  ],
- "errored": [],
- "missing_dependencies": [],
+ "errored": [
+  {
+   "rule": "mark.01",
+   "check": "band",
+   "error": "CheckDependencyError: cairosvg could not be loaded: no library called \"cairo-2\" was found\nno library called \"cairo\" was found\nno library called \"libcairo-2\" was found\ncannot load library 'libcairo.so.2': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo.so.2'\ncannot load library 'libcairo.2.dylib': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo.2.dylib'\ncannot load library 'libcairo-2.dll': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo-2.dll'",
+   "detail": {
+    "traceback": "Traceback (most recent call last):\n  File \"C:\\git\\private\\BrandGate\\pipeline\\checks\\band.py\", line 59, in _template\n    import cairosvg\n  File \"C:\\git\\private\\BrandGate\\.venv\\Lib\\site-packages\\cairosvg\\__init__.py\", line 25, in <module>\n    from . import surface  # noqa isort:skip\n    ^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\git\\private\\BrandGate\\.venv\\Lib\\site-packages\\cairosvg\\surface.py\", line 9, in <module>\n    import cairocffi as cairo\nOSError: no library called \"cairo-2\" was found\nno library called \"cairo\" was found\nno library called \"libcairo-2\" was found\ncannot load library 'libcairo.so.2': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo.so.2'\ncannot load library 'libcairo.2.dylib': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo.2.dylib'\ncannot load library 'libcairo-2.dll': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo-2.dll'\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"C:\\git\\private\\BrandGate\\pipeline\\gate.py\", line 111, in score_image\n    findings.append(fn(img, rule, cfg, ctx))\n                    ~~^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\git\\private\\BrandGate\\pipeline\\checks\\band.py\", line 143, in check\n    level, rotated, hits = memo(ctx, \"band\", cfg[\"band\"], lambda: locate(img, cfg))\n                           ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\git\\private\\BrandGate\\pipeline\\checks\\__init__.py\", line 68, in memo\n    ctx[key] = compute()\n               ~~~~~~~^^\npipeline.checks.CheckDependencyError: cairosvg could not be loaded: no library called \"cairo-2\" was found\nno library called \"cairo\" was found\nno library called \"libcairo-2\" was found\ncannot load library 'libcairo.so.2': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo.so.2'\ncannot load library 'libcairo.2.dylib': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo.2.dylib'\ncannot load library 'libcairo-2.dll': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo-2.dll'\n"
+   },
+   "dependency": "cairosvg"
+  },
+  {
+   "rule": "mark.05",
+   "check": "band",
+   "error": "CheckDependencyError: cairosvg could not be loaded: no library called \"cairo-2\" was found\nno library called \"cairo\" was found\nno library called \"libcairo-2\" was found\ncannot load library 'libcairo.so.2': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo.so.2'\ncannot load library 'libcairo.2.dylib': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo.2.dylib'\ncannot load library 'libcairo-2.dll': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo-2.dll'",
+   "detail": {
+    "traceback": "Traceback (most recent call last):\n  File \"C:\\git\\private\\BrandGate\\pipeline\\checks\\band.py\", line 59, in _template\n    import cairosvg\n  File \"C:\\git\\private\\BrandGate\\.venv\\Lib\\site-packages\\cairosvg\\__init__.py\", line 25, in <module>\n    from . import surface  # noqa isort:skip\n    ^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\git\\private\\BrandGate\\.venv\\Lib\\site-packages\\cairosvg\\surface.py\", line 9, in <module>\n    import cairocffi as cairo\nOSError: no library called \"cairo-2\" was found\nno library called \"cairo\" was found\nno library called \"libcairo-2\" was found\ncannot load library 'libcairo.so.2': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo.so.2'\ncannot load library 'libcairo.2.dylib': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo.2.dylib'\ncannot load library 'libcairo-2.dll': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo-2.dll'\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"C:\\git\\private\\BrandGate\\pipeline\\gate.py\", line 111, in score_image\n    findings.append(fn(img, rule, cfg, ctx))\n                    ~~^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\git\\private\\BrandGate\\pipeline\\checks\\band.py\", line 143, in check\n    level, rotated, hits = memo(ctx, \"band\", cfg[\"band\"], lambda: locate(img, cfg))\n                           ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\git\\private\\BrandGate\\pipeline\\checks\\__init__.py\", line 68, in memo\n    ctx[key] = compute()\n               ~~~~~~~^^\npipeline.checks.CheckDependencyError: cairosvg could not be loaded: no library called \"cairo-2\" was found\nno library called \"cairo\" was found\nno library called \"libcairo-2\" was found\ncannot load library 'libcairo.so.2': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo.so.2'\ncannot load library 'libcairo.2.dylib': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo.2.dylib'\ncannot load library 'libcairo-2.dll': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo-2.dll'\n"
+   },
+   "dependency": "cairosvg"
+  },
+  {
+   "rule": "mark.07",
+   "check": "band",
+   "error": "CheckDependencyError: cairosvg could not be loaded: no library called \"cairo-2\" was found\nno library called \"cairo\" was found\nno library called \"libcairo-2\" was found\ncannot load library 'libcairo.so.2': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo.so.2'\ncannot load library 'libcairo.2.dylib': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo.2.dylib'\ncannot load library 'libcairo-2.dll': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo-2.dll'",
+   "detail": {
+    "traceback": "Traceback (most recent call last):\n  File \"C:\\git\\private\\BrandGate\\pipeline\\checks\\band.py\", line 59, in _template\n    import cairosvg\n  File \"C:\\git\\private\\BrandGate\\.venv\\Lib\\site-packages\\cairosvg\\__init__.py\", line 25, in <module>\n    from . import surface  # noqa isort:skip\n    ^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\git\\private\\BrandGate\\.venv\\Lib\\site-packages\\cairosvg\\surface.py\", line 9, in <module>\n    import cairocffi as cairo\nOSError: no library called \"cairo-2\" was found\nno library called \"cairo\" was found\nno library called \"libcairo-2\" was found\ncannot load library 'libcairo.so.2': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo.so.2'\ncannot load library 'libcairo.2.dylib': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo.2.dylib'\ncannot load library 'libcairo-2.dll': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo-2.dll'\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"C:\\git\\private\\BrandGate\\pipeline\\gate.py\", line 111, in score_image\n    findings.append(fn(img, rule, cfg, ctx))\n                    ~~^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\git\\private\\BrandGate\\pipeline\\checks\\band.py\", line 143, in check\n    level, rotated, hits = memo(ctx, \"band\", cfg[\"band\"], lambda: locate(img, cfg))\n                           ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\git\\private\\BrandGate\\pipeline\\checks\\__init__.py\", line 68, in memo\n    ctx[key] = compute()\n               ~~~~~~~^^\npipeline.checks.CheckDependencyError: cairosvg could not be loaded: no library called \"cairo-2\" was found\nno library called \"cairo\" was found\nno library called \"libcairo-2\" was found\ncannot load library 'libcairo.so.2': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo.so.2'\ncannot load library 'libcairo.2.dylib': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo.2.dylib'\ncannot load library 'libcairo-2.dll': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo-2.dll'\n"
+   },
+   "dependency": "cairosvg"
+  },
+  {
+   "rule": "mark.08",
+   "check": "band",
+   "error": "CheckDependencyError: cairosvg could not be loaded: no library called \"cairo-2\" was found\nno library called \"cairo\" was found\nno library called \"libcairo-2\" was found\ncannot load library 'libcairo.so.2': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo.so.2'\ncannot load library 'libcairo.2.dylib': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo.2.dylib'\ncannot load library 'libcairo-2.dll': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo-2.dll'",
+   "detail": {
+    "traceback": "Traceback (most recent call last):\n  File \"C:\\git\\private\\BrandGate\\pipeline\\checks\\band.py\", line 59, in _template\n    import cairosvg\n  File \"C:\\git\\private\\BrandGate\\.venv\\Lib\\site-packages\\cairosvg\\__init__.py\", line 25, in <module>\n    from . import surface  # noqa isort:skip\n    ^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\git\\private\\BrandGate\\.venv\\Lib\\site-packages\\cairosvg\\surface.py\", line 9, in <module>\n    import cairocffi as cairo\nOSError: no library called \"cairo-2\" was found\nno library called \"cairo\" was found\nno library called \"libcairo-2\" was found\ncannot load library 'libcairo.so.2': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo.so.2'\ncannot load library 'libcairo.2.dylib': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo.2.dylib'\ncannot load library 'libcairo-2.dll': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo-2.dll'\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"C:\\git\\private\\BrandGate\\pipeline\\gate.py\", line 111, in score_image\n    findings.append(fn(img, rule, cfg, ctx))\n                    ~~^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\git\\private\\BrandGate\\pipeline\\checks\\band.py\", line 143, in check\n    level, rotated, hits = memo(ctx, \"band\", cfg[\"band\"], lambda: locate(img, cfg))\n                           ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\git\\private\\BrandGate\\pipeline\\checks\\__init__.py\", line 68, in memo\n    ctx[key] = compute()\n               ~~~~~~~^^\npipeline.checks.CheckDependencyError: cairosvg could not be loaded: no library called \"cairo-2\" was found\nno library called \"cairo\" was found\nno library called \"libcairo-2\" was found\ncannot load library 'libcairo.so.2': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo.so.2'\ncannot load library 'libcairo.2.dylib': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo.2.dylib'\ncannot load library 'libcairo-2.dll': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo-2.dll'\n"
+   },
+   "dependency": "cairosvg"
+  },
+  {
+   "rule": "motif.01",
+   "check": "motif",
+   "error": "CheckDependencyError: cairosvg could not be loaded: no library called \"cairo-2\" was found\nno library called \"cairo\" was found\nno library called \"libcairo-2\" was found\ncannot load library 'libcairo.so.2': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo.so.2'\ncannot load library 'libcairo.2.dylib': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo.2.dylib'\ncannot load library 'libcairo-2.dll': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo-2.dll'",
+   "detail": {
+    "traceback": "Traceback (most recent call last):\n  File \"C:\\git\\private\\BrandGate\\pipeline\\checks\\band.py\", line 59, in _template\n    import cairosvg\n  File \"C:\\git\\private\\BrandGate\\.venv\\Lib\\site-packages\\cairosvg\\__init__.py\", line 25, in <module>\n    from . import surface  # noqa isort:skip\n    ^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\git\\private\\BrandGate\\.venv\\Lib\\site-packages\\cairosvg\\surface.py\", line 9, in <module>\n    import cairocffi as cairo\nOSError: no library called \"cairo-2\" was found\nno library called \"cairo\" was found\nno library called \"libcairo-2\" was found\ncannot load library 'libcairo.so.2': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo.so.2'\ncannot load library 'libcairo.2.dylib': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo.2.dylib'\ncannot load library 'libcairo-2.dll': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo-2.dll'\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"C:\\git\\private\\BrandGate\\pipeline\\gate.py\", line 111, in score_image\n    findings.append(fn(img, rule, cfg, ctx))\n                    ~~^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\git\\private\\BrandGate\\pipeline\\checks\\motif.py\", line 93, in check\n    level, rotated, hits = memo(ctx, \"band\", cfg[\"band\"], lambda: locate(img, cfg))\n                           ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\git\\private\\BrandGate\\pipeline\\checks\\__init__.py\", line 68, in memo\n    ctx[key] = compute()\n               ~~~~~~~^^\npipeline.checks.CheckDependencyError: cairosvg could not be loaded: no library called \"cairo-2\" was found\nno library called \"cairo\" was found\nno library called \"libcairo-2\" was found\ncannot load library 'libcairo.so.2': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo.so.2'\ncannot load library 'libcairo.2.dylib': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo.2.dylib'\ncannot load library 'libcairo-2.dll': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo-2.dll'\n"
+   },
+   "dependency": "cairosvg"
+  },
+  {
+   "rule": "motif.02",
+   "check": "motif",
+   "error": "CheckDependencyError: cairosvg could not be loaded: no library called \"cairo-2\" was found\nno library called \"cairo\" was found\nno library called \"libcairo-2\" was found\ncannot load library 'libcairo.so.2': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo.so.2'\ncannot load library 'libcairo.2.dylib': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo.2.dylib'\ncannot load library 'libcairo-2.dll': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo-2.dll'",
+   "detail": {
+    "traceback": "Traceback (most recent call last):\n  File \"C:\\git\\private\\BrandGate\\pipeline\\checks\\band.py\", line 59, in _template\n    import cairosvg\n  File \"C:\\git\\private\\BrandGate\\.venv\\Lib\\site-packages\\cairosvg\\__init__.py\", line 25, in <module>\n    from . import surface  # noqa isort:skip\n    ^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\git\\private\\BrandGate\\.venv\\Lib\\site-packages\\cairosvg\\surface.py\", line 9, in <module>\n    import cairocffi as cairo\nOSError: no library called \"cairo-2\" was found\nno library called \"cairo\" was found\nno library called \"libcairo-2\" was found\ncannot load library 'libcairo.so.2': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo.so.2'\ncannot load library 'libcairo.2.dylib': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo.2.dylib'\ncannot load library 'libcairo-2.dll': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo-2.dll'\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"C:\\git\\private\\BrandGate\\pipeline\\gate.py\", line 111, in score_image\n    findings.append(fn(img, rule, cfg, ctx))\n                    ~~^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\git\\private\\BrandGate\\pipeline\\checks\\motif.py\", line 93, in check\n    level, rotated, hits = memo(ctx, \"band\", cfg[\"band\"], lambda: locate(img, cfg))\n                           ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\git\\private\\BrandGate\\pipeline\\checks\\__init__.py\", line 68, in memo\n    ctx[key] = compute()\n               ~~~~~~~^^\npipeline.checks.CheckDependencyError: cairosvg could not be loaded: no library called \"cairo-2\" was found\nno library called \"cairo\" was found\nno library called \"libcairo-2\" was found\ncannot load library 'libcairo.so.2': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo.so.2'\ncannot load library 'libcairo.2.dylib': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo.2.dylib'\ncannot load library 'libcairo-2.dll': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo-2.dll'\n"
+   },
+   "dependency": "cairosvg"
+  }
+ ],
+ "missing_dependencies": [
+  "cairosvg"
+ ],
  "counts": {
-  "scored": 9,
-  "failed": 0,
+  "scored": 3,
+  "failed": 1,
   "not_applicable": 3,
   "manual": 28,
-  "errored": 0
+  "errored": 6
  },
  "ground": "surfaces/hero/accepted/ground.png",
  "ground_verdict": {
   "verdict": "pass",
-  "on_brand": 0.9579,
+  "on_brand": 0.9532,
   "novelty": 1.0,
   "thresholds": {
    "on_brand_min": 0.75,
@@ -202,16 +196,16 @@
    {
     "rule": "colour.01",
     "check": "palette",
-    "score": 0.7896,
+    "score": 0.8597,
     "passed": true,
-    "reason": "the ground is #FAFAF8",
+    "reason": "the ground is #ECEAF6",
     "detail": {
      "ground_rgb": [
-      234,
-      226,
-      216
+      250,
+      235,
+      240
      ],
-     "distance": 9.257586371141306,
+     "distance": 6.174879954437425,
      "tolerance_lab": 22.0
     }
    },
@@ -220,10 +214,12 @@
     "check": "palette",
     "score": 1.0,
     "passed": true,
-    "reason": "no forbidden colour holds a flat area (#B44C9E under 4%)",
+    "reason": "#B44C9E holds 6.0% of the frame but as a gradient (slope 0.86 Lab per pixel), not a flat area",
     "detail": {
-     "mass": 0.0,
-     "limit": 0.04
+     "mass": 0.06045,
+     "limit": 0.04,
+     "share": 0.07339035560344828,
+     "slope": 0.8568106889724731
     }
    },
    {
@@ -231,64 +227,25 @@
     "check": "wash",
     "score": 1.0,
     "passed": true,
-    "reason": "soft wash: darks at chroma 41, edges 11.5, every stop present",
+    "reason": "soft wash: darks at chroma 54, edges 3.9, every stop present",
     "detail": {
-     "ground_L": 85.88,
-     "chroma_frac": 0.4011,
+     "ground_L": 75.69,
+     "chroma_frac": 0.5712,
      "foreground_frac": 0.0,
-     "dark_chroma": 41.232,
-     "edge_p99": 11.473,
+     "dark_chroma": 53.512,
+     "edge_p99": 3.917,
+     "dark_mass": 0.1056,
+     "L_p02": 16.09,
+     "chroma_mean": 38.274,
      "stop_share": {
-      "#4B3BE8": 0.3145,
-      "#B44C9E": 0.1798,
-      "#D9628A": 0.5057
+      "#4B3BE8": 0.5363,
+      "#B44C9E": 0.2061,
+      "#D9628A": 0.2576
      }
-    }
-   },
-   {
-    "rule": "motif.01",
-    "check": "motif",
-    "score": 1.0,
-    "passed": true,
-    "reason": "0 gestures on the surface",
-    "detail": {
-     "gestures": [],
-     "mark_placements": 0
-    }
-   },
-   {
-    "rule": "motif.02",
-    "check": "motif",
-    "score": 1.0,
-    "passed": true,
-    "reason": "0 gestures on the surface",
-    "detail": {
-     "gestures": [],
-     "mark_placements": 0
     }
    }
   ],
   "not_applicable": [
-   {
-    "rule": "mark.01",
-    "check": "band",
-    "reason": "no mark in the frame, so the mark rules do not apply"
-   },
-   {
-    "rule": "mark.05",
-    "check": "band",
-    "reason": "no mark in the frame, so the mark rules do not apply"
-   },
-   {
-    "rule": "mark.07",
-    "check": "band",
-    "reason": "no mark in the frame, so the mark rules do not apply"
-   },
-   {
-    "rule": "mark.08",
-    "check": "band",
-    "reason": "no mark in the frame, so the mark rules do not apply"
-   },
    {
     "rule": "colour.02",
     "check": "contrast",
@@ -342,16 +299,73 @@
    "tone.02",
    "tone.03"
   ],
-  "errored": [],
-  "missing_dependencies": [],
+  "errored": [
+   {
+    "rule": "mark.01",
+    "check": "band",
+    "error": "CheckDependencyError: cairosvg could not be loaded: no library called \"cairo-2\" was found\nno library called \"cairo\" was found\nno library called \"libcairo-2\" was found\ncannot load library 'libcairo.so.2': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo.so.2'\ncannot load library 'libcairo.2.dylib': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo.2.dylib'\ncannot load library 'libcairo-2.dll': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo-2.dll'",
+    "detail": {
+     "traceback": "Traceback (most recent call last):\n  File \"C:\\git\\private\\BrandGate\\pipeline\\checks\\band.py\", line 59, in _template\n    import cairosvg\n  File \"C:\\git\\private\\BrandGate\\.venv\\Lib\\site-packages\\cairosvg\\__init__.py\", line 25, in <module>\n    from . import surface  # noqa isort:skip\n    ^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\git\\private\\BrandGate\\.venv\\Lib\\site-packages\\cairosvg\\surface.py\", line 9, in <module>\n    import cairocffi as cairo\nOSError: no library called \"cairo-2\" was found\nno library called \"cairo\" was found\nno library called \"libcairo-2\" was found\ncannot load library 'libcairo.so.2': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo.so.2'\ncannot load library 'libcairo.2.dylib': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo.2.dylib'\ncannot load library 'libcairo-2.dll': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo-2.dll'\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"C:\\git\\private\\BrandGate\\pipeline\\gate.py\", line 111, in score_image\n    findings.append(fn(img, rule, cfg, ctx))\n                    ~~^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\git\\private\\BrandGate\\pipeline\\checks\\band.py\", line 143, in check\n    level, rotated, hits = memo(ctx, \"band\", cfg[\"band\"], lambda: locate(img, cfg))\n                           ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\git\\private\\BrandGate\\pipeline\\checks\\__init__.py\", line 68, in memo\n    ctx[key] = compute()\n               ~~~~~~~^^\npipeline.checks.CheckDependencyError: cairosvg could not be loaded: no library called \"cairo-2\" was found\nno library called \"cairo\" was found\nno library called \"libcairo-2\" was found\ncannot load library 'libcairo.so.2': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo.so.2'\ncannot load library 'libcairo.2.dylib': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo.2.dylib'\ncannot load library 'libcairo-2.dll': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo-2.dll'\n"
+    },
+    "dependency": "cairosvg"
+   },
+   {
+    "rule": "mark.05",
+    "check": "band",
+    "error": "CheckDependencyError: cairosvg could not be loaded: no library called \"cairo-2\" was found\nno library called \"cairo\" was found\nno library called \"libcairo-2\" was found\ncannot load library 'libcairo.so.2': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo.so.2'\ncannot load library 'libcairo.2.dylib': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo.2.dylib'\ncannot load library 'libcairo-2.dll': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo-2.dll'",
+    "detail": {
+     "traceback": "Traceback (most recent call last):\n  File \"C:\\git\\private\\BrandGate\\pipeline\\checks\\band.py\", line 59, in _template\n    import cairosvg\n  File \"C:\\git\\private\\BrandGate\\.venv\\Lib\\site-packages\\cairosvg\\__init__.py\", line 25, in <module>\n    from . import surface  # noqa isort:skip\n    ^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\git\\private\\BrandGate\\.venv\\Lib\\site-packages\\cairosvg\\surface.py\", line 9, in <module>\n    import cairocffi as cairo\nOSError: no library called \"cairo-2\" was found\nno library called \"cairo\" was found\nno library called \"libcairo-2\" was found\ncannot load library 'libcairo.so.2': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo.so.2'\ncannot load library 'libcairo.2.dylib': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo.2.dylib'\ncannot load library 'libcairo-2.dll': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo-2.dll'\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"C:\\git\\private\\BrandGate\\pipeline\\gate.py\", line 111, in score_image\n    findings.append(fn(img, rule, cfg, ctx))\n                    ~~^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\git\\private\\BrandGate\\pipeline\\checks\\band.py\", line 143, in check\n    level, rotated, hits = memo(ctx, \"band\", cfg[\"band\"], lambda: locate(img, cfg))\n                           ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\git\\private\\BrandGate\\pipeline\\checks\\__init__.py\", line 68, in memo\n    ctx[key] = compute()\n               ~~~~~~~^^\npipeline.checks.CheckDependencyError: cairosvg could not be loaded: no library called \"cairo-2\" was found\nno library called \"cairo\" was found\nno library called \"libcairo-2\" was found\ncannot load library 'libcairo.so.2': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo.so.2'\ncannot load library 'libcairo.2.dylib': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo.2.dylib'\ncannot load library 'libcairo-2.dll': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo-2.dll'\n"
+    },
+    "dependency": "cairosvg"
+   },
+   {
+    "rule": "mark.07",
+    "check": "band",
+    "error": "CheckDependencyError: cairosvg could not be loaded: no library called \"cairo-2\" was found\nno library called \"cairo\" was found\nno library called \"libcairo-2\" was found\ncannot load library 'libcairo.so.2': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo.so.2'\ncannot load library 'libcairo.2.dylib': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo.2.dylib'\ncannot load library 'libcairo-2.dll': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo-2.dll'",
+    "detail": {
+     "traceback": "Traceback (most recent call last):\n  File \"C:\\git\\private\\BrandGate\\pipeline\\checks\\band.py\", line 59, in _template\n    import cairosvg\n  File \"C:\\git\\private\\BrandGate\\.venv\\Lib\\site-packages\\cairosvg\\__init__.py\", line 25, in <module>\n    from . import surface  # noqa isort:skip\n    ^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\git\\private\\BrandGate\\.venv\\Lib\\site-packages\\cairosvg\\surface.py\", line 9, in <module>\n    import cairocffi as cairo\nOSError: no library called \"cairo-2\" was found\nno library called \"cairo\" was found\nno library called \"libcairo-2\" was found\ncannot load library 'libcairo.so.2': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo.so.2'\ncannot load library 'libcairo.2.dylib': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo.2.dylib'\ncannot load library 'libcairo-2.dll': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo-2.dll'\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"C:\\git\\private\\BrandGate\\pipeline\\gate.py\", line 111, in score_image\n    findings.append(fn(img, rule, cfg, ctx))\n                    ~~^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\git\\private\\BrandGate\\pipeline\\checks\\band.py\", line 143, in check\n    level, rotated, hits = memo(ctx, \"band\", cfg[\"band\"], lambda: locate(img, cfg))\n                           ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\git\\private\\BrandGate\\pipeline\\checks\\__init__.py\", line 68, in memo\n    ctx[key] = compute()\n               ~~~~~~~^^\npipeline.checks.CheckDependencyError: cairosvg could not be loaded: no library called \"cairo-2\" was found\nno library called \"cairo\" was found\nno library called \"libcairo-2\" was found\ncannot load library 'libcairo.so.2': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo.so.2'\ncannot load library 'libcairo.2.dylib': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo.2.dylib'\ncannot load library 'libcairo-2.dll': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo-2.dll'\n"
+    },
+    "dependency": "cairosvg"
+   },
+   {
+    "rule": "mark.08",
+    "check": "band",
+    "error": "CheckDependencyError: cairosvg could not be loaded: no library called \"cairo-2\" was found\nno library called \"cairo\" was found\nno library called \"libcairo-2\" was found\ncannot load library 'libcairo.so.2': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo.so.2'\ncannot load library 'libcairo.2.dylib': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo.2.dylib'\ncannot load library 'libcairo-2.dll': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo-2.dll'",
+    "detail": {
+     "traceback": "Traceback (most recent call last):\n  File \"C:\\git\\private\\BrandGate\\pipeline\\checks\\band.py\", line 59, in _template\n    import cairosvg\n  File \"C:\\git\\private\\BrandGate\\.venv\\Lib\\site-packages\\cairosvg\\__init__.py\", line 25, in <module>\n    from . import surface  # noqa isort:skip\n    ^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\git\\private\\BrandGate\\.venv\\Lib\\site-packages\\cairosvg\\surface.py\", line 9, in <module>\n    import cairocffi as cairo\nOSError: no library called \"cairo-2\" was found\nno library called \"cairo\" was found\nno library called \"libcairo-2\" was found\ncannot load library 'libcairo.so.2': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo.so.2'\ncannot load library 'libcairo.2.dylib': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo.2.dylib'\ncannot load library 'libcairo-2.dll': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo-2.dll'\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"C:\\git\\private\\BrandGate\\pipeline\\gate.py\", line 111, in score_image\n    findings.append(fn(img, rule, cfg, ctx))\n                    ~~^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\git\\private\\BrandGate\\pipeline\\checks\\band.py\", line 143, in check\n    level, rotated, hits = memo(ctx, \"band\", cfg[\"band\"], lambda: locate(img, cfg))\n                           ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\git\\private\\BrandGate\\pipeline\\checks\\__init__.py\", line 68, in memo\n    ctx[key] = compute()\n               ~~~~~~~^^\npipeline.checks.CheckDependencyError: cairosvg could not be loaded: no library called \"cairo-2\" was found\nno library called \"cairo\" was found\nno library called \"libcairo-2\" was found\ncannot load library 'libcairo.so.2': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo.so.2'\ncannot load library 'libcairo.2.dylib': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo.2.dylib'\ncannot load library 'libcairo-2.dll': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo-2.dll'\n"
+    },
+    "dependency": "cairosvg"
+   },
+   {
+    "rule": "motif.01",
+    "check": "motif",
+    "error": "CheckDependencyError: cairosvg could not be loaded: no library called \"cairo-2\" was found\nno library called \"cairo\" was found\nno library called \"libcairo-2\" was found\ncannot load library 'libcairo.so.2': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo.so.2'\ncannot load library 'libcairo.2.dylib': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo.2.dylib'\ncannot load library 'libcairo-2.dll': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo-2.dll'",
+    "detail": {
+     "traceback": "Traceback (most recent call last):\n  File \"C:\\git\\private\\BrandGate\\pipeline\\checks\\band.py\", line 59, in _template\n    import cairosvg\n  File \"C:\\git\\private\\BrandGate\\.venv\\Lib\\site-packages\\cairosvg\\__init__.py\", line 25, in <module>\n    from . import surface  # noqa isort:skip\n    ^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\git\\private\\BrandGate\\.venv\\Lib\\site-packages\\cairosvg\\surface.py\", line 9, in <module>\n    import cairocffi as cairo\nOSError: no library called \"cairo-2\" was found\nno library called \"cairo\" was found\nno library called \"libcairo-2\" was found\ncannot load library 'libcairo.so.2': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo.so.2'\ncannot load library 'libcairo.2.dylib': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo.2.dylib'\ncannot load library 'libcairo-2.dll': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo-2.dll'\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"C:\\git\\private\\BrandGate\\pipeline\\gate.py\", line 111, in score_image\n    findings.append(fn(img, rule, cfg, ctx))\n                    ~~^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\git\\private\\BrandGate\\pipeline\\checks\\motif.py\", line 93, in check\n    level, rotated, hits = memo(ctx, \"band\", cfg[\"band\"], lambda: locate(img, cfg))\n                           ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\git\\private\\BrandGate\\pipeline\\checks\\__init__.py\", line 68, in memo\n    ctx[key] = compute()\n               ~~~~~~~^^\npipeline.checks.CheckDependencyError: cairosvg could not be loaded: no library called \"cairo-2\" was found\nno library called \"cairo\" was found\nno library called \"libcairo-2\" was found\ncannot load library 'libcairo.so.2': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo.so.2'\ncannot load library 'libcairo.2.dylib': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo.2.dylib'\ncannot load library 'libcairo-2.dll': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo-2.dll'\n"
+    },
+    "dependency": "cairosvg"
+   },
+   {
+    "rule": "motif.02",
+    "check": "motif",
+    "error": "CheckDependencyError: cairosvg could not be loaded: no library called \"cairo-2\" was found\nno library called \"cairo\" was found\nno library called \"libcairo-2\" was found\ncannot load library 'libcairo.so.2': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo.so.2'\ncannot load library 'libcairo.2.dylib': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo.2.dylib'\ncannot load library 'libcairo-2.dll': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo-2.dll'",
+    "detail": {
+     "traceback": "Traceback (most recent call last):\n  File \"C:\\git\\private\\BrandGate\\pipeline\\checks\\band.py\", line 59, in _template\n    import cairosvg\n  File \"C:\\git\\private\\BrandGate\\.venv\\Lib\\site-packages\\cairosvg\\__init__.py\", line 25, in <module>\n    from . import surface  # noqa isort:skip\n    ^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\git\\private\\BrandGate\\.venv\\Lib\\site-packages\\cairosvg\\surface.py\", line 9, in <module>\n    import cairocffi as cairo\nOSError: no library called \"cairo-2\" was found\nno library called \"cairo\" was found\nno library called \"libcairo-2\" was found\ncannot load library 'libcairo.so.2': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo.so.2'\ncannot load library 'libcairo.2.dylib': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo.2.dylib'\ncannot load library 'libcairo-2.dll': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo-2.dll'\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"C:\\git\\private\\BrandGate\\pipeline\\gate.py\", line 111, in score_image\n    findings.append(fn(img, rule, cfg, ctx))\n                    ~~^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\git\\private\\BrandGate\\pipeline\\checks\\motif.py\", line 93, in check\n    level, rotated, hits = memo(ctx, \"band\", cfg[\"band\"], lambda: locate(img, cfg))\n                           ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\git\\private\\BrandGate\\pipeline\\checks\\__init__.py\", line 68, in memo\n    ctx[key] = compute()\n               ~~~~~~~^^\npipeline.checks.CheckDependencyError: cairosvg could not be loaded: no library called \"cairo-2\" was found\nno library called \"cairo\" was found\nno library called \"libcairo-2\" was found\ncannot load library 'libcairo.so.2': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo.so.2'\ncannot load library 'libcairo.2.dylib': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo.2.dylib'\ncannot load library 'libcairo-2.dll': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libcairo-2.dll'\n"
+    },
+    "dependency": "cairosvg"
+   }
+  ],
+  "missing_dependencies": [
+   "cairosvg"
+  ],
   "counts": {
-   "scored": 5,
+   "scored": 3,
    "failed": 0,
-   "not_applicable": 7,
+   "not_applicable": 3,
    "manual": 28,
-   "errored": 0
+   "errored": 6
   }
  },
- "foreground_frac": 0.1216,
+ "foreground_frac": 0.1217,
  "headline": "Six pieces of one thing."
 }

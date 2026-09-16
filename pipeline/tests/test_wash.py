@@ -148,3 +148,18 @@ def test_a_dark_splotch_is_measured_as_mass_not_saturation(cfg):
     assert m["dark_mass"] > 0.03, m
     assert m["dark_chroma"] < cfg["wash"]["dark_chroma_max"],         "the splotch is grey: the existing dark_chroma bar must NOT be what catches it"
     assert 0 <= m["L_p02"] < soft["L_p02"]
+
+
+def test_a_starved_bare_ground_fails_but_a_declared_band_does_not(cfg):
+    """#22: v4 3001. Colour over a sixth of a bare frame is a fault; the same coverage
+    on a composed surface that declares its foreground is a band, and not applicable."""
+    g = _ground()
+    h = g.shape[0]
+    frame = np.full_like(g, 250)
+    frame[h // 2 - h // 10: h // 2 + h // 10] = g[h // 2 - h // 10: h // 2 + h // 10]  # a band through the orbs, about a seventh of the frame chromatic
+    bare = wash.check(frame, _rule(), cfg, {})
+    assert bare.applicable and not bare.passed and "too thin" in bare.reason, bare.reason
+    declared = np.zeros(frame.shape[:2], dtype=bool)
+    declared[-40:, :200] = True  # some type at the foot
+    composed = wash.check(frame, _rule(), cfg, {("foreground", None): declared})
+    assert not composed.applicable, composed.reason

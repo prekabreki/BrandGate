@@ -13,10 +13,13 @@
          font-family: var(--body); color: var(--ink); -webkit-font-smoothing: antialiased; }
   .hero { position: relative; width: 1600px; height: 900px; overflow: hidden; }
   .ground { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-  /* The paper veil: heavy at the foot where the type sits, thin across the
-     middle where the ground is the point. Same shape as take T1. */
+  /* The paper veil: heavy at the foot where the type sits, nothing across the top
+     where the ground is the point. Take T1's veil was heavy at the top too (70 percent
+     paper), which suited the orbs; the mesh ground (#22) carries its own paper and its
+     own falloff, and under that veil it read dull, mean chroma 23 where the bare ground
+     scored 38. So the top is left alone and the foot keeps the paper the type needs. */
   .veil { position: absolute; inset: 0;
-          background: linear-gradient(180deg, var(--paper-a70) 0%, var(--paper-a12) 38%, var(--paper-a88) 100%); }
+          background: linear-gradient(180deg, transparent 0%, transparent 42%, var(--paper-a70) 100%); }
   .grain { position: absolute; inset: 0; pointer-events: none; mix-blend-mode: overlay; opacity: 0.34;
            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
   .mark { position: absolute; left: 72px; top: 64px; width: 236px; }

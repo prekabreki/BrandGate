@@ -21,14 +21,19 @@ LABELS = os.path.join(ROOT, "docs", "calibration-labels.json")
 CALIB = os.path.join(ROOT, "surfaces", "_calibration")
 TAKES = os.path.join(ROOT, "lookdev", "archive", "takes_02.png")
 
-# 24 of 27 with two false passes was the second pass on 2026-09-15 (docs/calibration.md).
-# Late the same day the designer labelled two more frames off the shipped hero pair and the
-# gate is wrong on both: turbo 2083 is a third false pass (accepted at 0.96, "very separated
-# blobs and a big splotch of black") and turbo 2005 a false fail. The floor records that,
-# 24 of 29, three false passes, rather than pretending the two labels do not exist. Nothing
-# was retuned on two frames; the next calibration pass is where these move the bars.
-MIN_AGREE = 24
-MAX_FALSE_PASS = 3
+# The floor is re-derived on every calibration pass, on the set as it stands, never
+# lowered to make a change fit. Second pass, 2026-09-15: 24 of 27, two false passes.
+# Late that day the designer labelled the shipped hero pair and the gate was wrong on
+# both: 24 of 29, three false passes. Third pass, 2026-09-16 (#22, docs/calibration.md):
+# nine labels from the day's review joined the set (38), the dull-wash axis, the
+# thin-wash fault, the flatness test on colour.03 and two bars moved by the procedure
+# took it from 25 of 38 with eight false passes to 31 of 38 with six. The one false fail
+# is turbo 2005, on the aggregate and not on any rule. The six false passes are the
+# frames whose fault no axis measures yet: five say "too much dark on the left" or
+# "a big splotch of black", which is the dark-mass axis waiting on a relabel decision
+# recorded in the doc, and one has no note.
+MIN_AGREE = 31
+MAX_FALSE_PASS = 6
 
 
 def _labelled():

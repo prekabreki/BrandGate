@@ -355,6 +355,97 @@ made the gate treat indigo as forbidden; and the contrast check took a blob's
 darkest quartile as the ink, which on a night surface is the ground, so it
 reported a flat 1.0:1 and failed a take whose type is fully legible.
 
+## Third pass: the day the target moved (#22, 2026-09-16)
+
+The full record is `docs/process/2026-09-16-*.html`, eight review rounds in one day,
+each page carrying what was shown and what the designer said back. The short version:
+reviewing the shipped surfaces on 09-15 he refused the ground the gate had accepted
+("too blobby, too much black, saturation too high"), so v4 of the prompt was written
+lighter and softer. He looked at the v4 sheet before labelling it and said it was too
+watercolour; v5, the midpoint, was "way too watercolour heavy, aim for a modern webpage,
+mesh gradients with interesting grain"; v6, a mesh gradient, was "muddy"; v7, "clean,
+luminous, no grey", produced the frame he called his favourite, krea2 turbo seed 6002.
+In parallel he asked whether ComfyUI was the wrong tool for a gradient and whether a
+procedural mesh should come first. Five iterations of a procedural band, each fitted to
+6002 by measurement (its stops sampled left to right, its paper, its vertical chroma and
+lightness profiles at five columns), ended in "A5 has reached v7". That band is
+`pipeline/mesh.py` and the ground every surface now wears.
+
+Nine labels came out of the day, all in the designer's words rather than on a sheet:
+**on**, the three mesh frames and 6002; **off**, v4 3000 and 3001 (watercolour), v5
+4000 and 4001 (watercolour), v6 5000 (muddy). With the two hero labels from 09-15 that
+is 38 frames. Scored with the second-pass gate, before anything here changed:
+
+| | designer on | designer off |
+|---|---|---|
+| gate pass | 10 | **8** |
+| gate fail | **5** | 15 |
+
+25 of 38. The five false fails were the four grounds he had just accepted, all on
+`dark_chroma` (53 to 55 against a bar of 45), and turbo 2005 on `edge_max`. The
+accepted set had moved: a veiled tint on paper was the target the 09-15 bars were set
+from, and a clean deep mesh gradient is the target now. Three of the eight false passes
+were the watercolours and the muddy frame, whose fault sat on no axis; one, v4 3001, was
+so pale that colour covered under a quarter of the frame, the wash rule stepped aside as
+"nothing to judge", and the not-applicable read as a pass, which is the trap the issue
+named in advance.
+
+**Four changes, each from the labels or from a measurement, none from the shipped
+surfaces:**
+
+| change | from | to | why, and the numbers |
+|---|---|---|---|
+| `dark_chroma_max` | 45 | 55.5 | Worst accepted 54.7 (mesh 3), best clearly rejected above it raw 1021 at 56.3 ("too saturated"). Midpoint 55.5. Two "too dark" notes now sit under the bar, raw 1017 (47.8, "far left isn't dark enough", not a saturation note) and raw 1029 (53.9, "not enough bleed or colour variation", not a saturation note), so neither was clearly rejected on this axis and the procedure does not count them |
+| `edge_max` | 13 | 14.3 | Worst accepted turbo 2005 at 14.0, best clearly rejected above it turbo 1010 at 14.6 ("strong outlines"). Midpoint 14.3 |
+| `chroma_mean_min`, new | none | 30 | The wash as a whole must be a colour, not a haze. Every accepted ground sits at 32.5 (turbo 1008) and up, the mesh and 6002 at 38 to 42. The "muddy" reject, v6 5000, is the best clearly rejected on this axis at 27.1; the watercolours sit at 16 to 22. Midpoint 29.8, rounded to 30 |
+| `thin_wash_frac`, new | none | 10% | Colour over a tenth to a quarter of a frame is a wash, a starved one, and now a fault. Under a tenth is a flat surface with a mark (the takes measure 2 to 6 percent) and stays not-applicable. v4 3001 fails on it |
+
+And one change to a different rule, from a measurement rather than a label.
+`colour.03`, "magenta is never a flat accent", fired on every gradient stop of 6 to 18
+percent, the two accepted grounds included, because k-means cannot tell a flat block
+from a stop of the wash; the known-limits section below said as much about the
+permission half and the prohibition had the same blind spot. It now measures flatness as
+the median spatial gradient of Lab across the near-magenta pixels, on a 512-wide copy
+after a grain-removing blur: a flat block 0.00, the same block under the brand's film
+grain 0.12, a magenta-to-paper gradient across 40 percent of the width 0.30, 6002 0.69,
+the mesh band 0.86. The bar, `flat_grad_max`, is 0.2, the midpoint of the two nearest
+cases. A flat magenta block still fails (`test_a_forbidden_flat_accent_fails`); a
+gradient no longer does.
+
+**After, all 38:**
+
+| | designer on | designer off |
+|---|---|---|
+| gate pass | 14 | **6** |
+| gate fail | **1** | 17 |
+
+**31 of 38.** The one false fail is turbo 2005, and it fails no rule: on-brand 0.96,
+novelty 0.1175 against a bar of 0.12, because the accepted hero ground it is compared
+with is its near twin. That is the novelty check doing its job on a calibration set that
+happens to hold both, not a brand verdict. The six false passes are turbo 1000, 1012,
+1024, 2083, raw 1017 and raw 1029. Four of the six carry the same note in different
+words, "too much dark on the left", "a big splotch of black", and they are the reason
+`dark_mass` and `L_p02` were added to the measurement this pass. They are recorded on
+every frame and have no bar, for a reason worth stating plainly:
+
+**The dark-mass axis separates the new accepted set from everything with black in it,
+and contradicts the old labels.** Every ground accepted on 09-16 has its darkest real
+region at L 12 to 17 (`L_p02`). Every v2 and v3 frame, the four the designer accepted on
+the morning of 09-15 included, sits at L 2 to 4.5, and the frames he refused for black
+sit right beside them. A bar at L 8 would flip all four stubborn false passes to fails
+and would also flip the four 09-15 "on" labels to false fails. That afternoon he said of
+three accepted grounds side by side, "I think these are all too blobby and there's too
+much black", which reads as a relabel, but it was said about a set, not about frames, and
+the procedure moves thresholds on labels. So the axis waits on one decision from him:
+relabel turbo 1004, 1008, 1016 and 1020 as off, in which case the dark-mass bar sets
+itself at the midpoint of L 4.5 and L 12.4, or keep them, in which case the four false
+passes stand as the honest residual of a target that moved under the gate.
+
+The floor in `pipeline/tests/test_wash_calibration.py` is 31 of 38 with at most six
+false passes, on this set, re-derived and not lowered. The sameness table in
+`runs/sameness.py` re-centres on the new shipped step; the run recorded in
+`runs/sameness/steps.md` was cut at the old one on the v3 pool and stands as recorded.
+
 ## To finish this
 
 1. ~~Ten more images, all twenty labelled by the designer.~~ **Done 2026-09-15:
