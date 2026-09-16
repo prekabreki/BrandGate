@@ -1,0 +1,86 @@
+{
+ "variant": "orbs",
+ "fps": 30,
+ "seconds": 6,
+ "verdict": "fail",
+ "sampled": [
+  {
+   "t_ms": 0,
+   "verdict": "fail",
+   "on_brand": 0.9577,
+   "failed_rules": [
+    "gradient.03"
+   ],
+   "reasons": [
+    "the darks are saturated (chroma 62, a wash stays under 56)"
+   ],
+   "errored": [],
+   "foreground_frac": 0.0
+  },
+  {
+   "t_ms": 1000,
+   "verdict": "fail",
+   "on_brand": 0.9573,
+   "failed_rules": [
+    "gradient.03"
+   ],
+   "reasons": [
+    "the darks are saturated (chroma 63, a wash stays under 56)"
+   ],
+   "errored": [],
+   "foreground_frac": 0.13
+  },
+  {
+   "t_ms": 2000,
+   "verdict": "fail",
+   "on_brand": 0.9561,
+   "failed_rules": [
+    "gradient.03"
+   ],
+   "reasons": [
+    "the darks are saturated (chroma 63, a wash stays under 56)"
+   ],
+   "errored": [],
+   "foreground_frac": 0.1747
+  },
+  {
+   "t_ms": 3000,
+   "verdict": "fail",
+   "on_brand": 0.9552,
+   "failed_rules": [
+    "gradient.03"
+   ],
+   "reasons": [
+    "the darks are saturated (chroma 63, a wash stays under 56)"
+   ],
+   "errored": [],
+   "foreground_frac": 0.1747
+  },
+  {
+   "t_ms": 4000,
+   "verdict": "fail",
+   "on_brand": 0.9542,
+   "failed_rules": [
+    "gradient.03"
+   ],
+   "reasons": [
+    "the darks are saturated (chroma 63, a wash stays under 56)"
+   ],
+   "errored": [],
+   "foreground_frac": 0.1747
+  },
+  {
+   "t_ms": 5000,
+   "verdict": "fail",
+   "on_brand": 0.9536,
+   "failed_rules": [
+    "gradient.03"
+   ],
+   "reasons": [
+    "the darks are saturated (chroma 64, a wash stays under 56)"
+   ],
+   "errored": [],
+   "foreground_frac": 0.1747
+  }
+ ]
+}

@@ -39,3 +39,5 @@ connector/brandgate-connector
 # The ident frames: 180 PNGs, 326 MB, regenerable from ident.html by surfaces/motion/render.py.
 surfaces/motion/out/frames/
 surfaces/motion/out/masks/
+surfaces/motion/out/refused/frames/
+surfaces/motion/out/refused/masks/

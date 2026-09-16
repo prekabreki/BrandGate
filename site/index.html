@@ -107,8 +107,8 @@
   .nums span { display: block; margin-top: 8px; font: 400 12px/1.6 var(--mono); letter-spacing: .04em; color: var(--graphite); max-width: 24ch; }
 
   /* The ident: plays once when it comes into view, replays on a click. Nothing loops on its own. */
-  .ident { max-width: 960px; }
   .ident video { display: block; width: 100%; height: auto; border-radius: 10px; background: var(--paper); }
+  .ident figcaption .verdict { margin-right: 8px; }
   .ident figcaption { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
   .ident button { font: 500 12px/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--ink); background: var(--mist); border: 0; border-radius: 999px; padding: 9px 14px; cursor: pointer; min-height: 32px; transition: transform 160ms var(--ease-out); }
   .ident button:active { transform: scale(0.96); }
@@ -209,13 +209,21 @@
 <section>
   <div class="eyebrow">the ident</div>
   <h3>Six slices arrive, the flow runs through them.</h3>
-  <p class="lede">Six seconds, drawn in code from the same mark geometry and the same motion rules: a rise on a soft curve, staggered, the flow left to right, nothing rotated or mirrored. Rendered one held frame at a time so the file holds exactly the frames that were drawn, then scored by the gate at one frame a second.</p>
-  <figure class="ident glass">
-    <video preload="metadata" muted playsinline poster="assets/ident-poster.jpg" width="960" height="540" aria-label="The Handsel ident: six slices rise into a band while the gradient flows through them, then the wordmark rises beneath">
-      <source src="assets/ident-960.mp4" type="video/mp4">
-    </video>
-    <figcaption><span><b>ident</b> 6 s, 1920 by 1080, H.264</span><button type="button" class="replay">play again</button></figcaption>
-  </figure>
+  <p class="lede">Six seconds, drawn in code from the same mark geometry and the same motion rules: a rise on a soft curve, staggered, the flow left to right, nothing rotated or mirrored. Rendered one held frame at a time so the file holds exactly the frames that were drawn, then scored by the gate at one frame a second. Beside it, the cut that came first: two orbs of the brand's own colours breathing over the ground. It looked right. The wash rule read the darks at chroma 62 to 64 and refused every frame, so the orbs went.</p>
+  <div class="pair">
+    <figure class="ident glass">
+      <video preload="metadata" muted playsinline poster="assets/ident-poster.jpg" width="960" height="540" aria-label="The Handsel ident: six slices rise into a band while the gradient flows through them, then the wordmark rises beneath">
+        <source src="assets/ident-960.mp4" type="video/mp4">
+      </video>
+      <figcaption><span><span class="verdict pass">pass</span><b>on-brand 0.98</b>, 6 of 6 frames</span><button type="button" class="replay">play again</button></figcaption>
+    </figure>
+    <figure class="ident glass">
+      <video preload="metadata" muted playsinline poster="assets/ident-refused-poster.jpg" width="960" height="540" aria-label="The refused ident: the same animation over saturated indigo and rose orbs">
+        <source src="assets/ident-refused-960.mp4" type="video/mp4">
+      </video>
+      <figcaption><span><span class="verdict fail">fail</span><b>on-brand 0.95 to 0.96</b>, darks at chroma 62 to 64 against 56</span><button type="button" class="replay">play it anyway</button></figcaption>
+    </figure>
+  </div>
 </section>
 
 <section>
@@ -291,16 +299,18 @@
     f.addEventListener("click", open);
     f.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(); } });
   });
-  // The ident plays once, the first time it is mostly in view; the button plays it again.
-  const vid = document.querySelector(".ident video");
-  if (vid) {
-    const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (!still) {
-      const io = new IntersectionObserver(es => { if (es.some(e => e.intersectionRatio >= 0.6)) { vid.play().catch(() => {}); io.disconnect(); } }, { threshold: 0.6 });
-      io.observe(vid);
-    }
-    document.querySelector(".ident .replay").addEventListener("click", () => { vid.currentTime = 0; vid.play().catch(() => {}); });
+  // The accepted ident plays once, the first time it is mostly in view. The refused one waits to be asked:
+  // nothing the gate refused moves on its own. Each figure's button plays its own video from the top.
+  const idents = [...document.querySelectorAll(".ident video")];
+  const vid = idents[0];
+  if (vid && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    const io = new IntersectionObserver(es => { if (es.some(e => e.intersectionRatio >= 0.6)) { vid.play().catch(() => {}); io.disconnect(); } }, { threshold: 0.6 });
+    io.observe(vid);
   }
+  document.querySelectorAll(".ident .replay").forEach(b => {
+    const v = b.closest("figure").querySelector("video");
+    b.addEventListener("click", () => { v.currentTime = 0; v.play().catch(() => {}); });
+  });
   lb.querySelector("button").addEventListener("click", () => lb.close());
   lb.addEventListener("click", e => { if (e.target === lb) lb.close(); });
   lb.addEventListener("close", () => { big.removeAttribute("src"); });

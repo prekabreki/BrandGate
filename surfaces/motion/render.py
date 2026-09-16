@@ -11,6 +11,12 @@ count, and ffprobe is asked to confirm it before anything is kept.
 Outputs, in --out: frames/f_0000.png ..., masks/ for the sampled frames, ident.mp4
 (1920x1080), ident-960.mp4 for the site, poster.jpg (the last frame), and score.json with
 the gate's verdict on one frame a second, foreground declared.
+
+    uv run python -m surfaces.motion.render --variant orbs
+
+renders the candidate the gate refused, ident.html?ground=orbs, into out/refused/, the
+same way and with the same score series, so the ident shows one rejected candidate
+like every other surface.
 """
 from __future__ import annotations
 
@@ -28,12 +34,14 @@ if ROOT not in sys.path:
 from lookdev import render as renderer  # noqa: E402
 
 HTML = os.path.join(ROOT, "surfaces", "motion", "ident.html")
+# ?ground=<variant> on ident.html; "accepted" is the page as it stands, "orbs" the refused candidate.
+VARIANTS = {"accepted": "", "orbs": "&ground=orbs"}
 FPS = 30
 SECONDS = 6
 W, H = 1920, 1080
 
 
-def frames(out: str, binary: str, wait_ms: int) -> list[str]:
+def frames(out: str, binary: str, wait_ms: int, variant: str) -> list[str]:
     fdir = os.path.join(out, "frames")
     os.makedirs(fdir, exist_ok=True)
     paths = []
@@ -42,7 +50,7 @@ def frames(out: str, binary: str, wait_ms: int) -> list[str]:
         t = round(i * 1000 / FPS)
         p = os.path.join(fdir, f"f_{i:04d}.png")
         if not os.path.exists(p):
-            renderer.render(HTML, p, W, H, binary, wait_ms, query=f"?t={t}")
+            renderer.render(HTML, p, W, H, binary, wait_ms, query=f"?t={t}{VARIANTS[variant]}")
         paths.append(p)
         if i % 30 == 0:
             print(f"frame {i}/{n} at {t} ms", flush=True)
@@ -69,7 +77,7 @@ def stitch(out: str, width: int, name: str) -> str:
     return mp4
 
 
-def score(out: str, binary: str, wait_ms: int) -> None:
+def score(out: str, binary: str, wait_ms: int, variant: str) -> None:
     """One frame a second through the gate, each with its foreground declared, the way
     every composed surface is scored (surfaces/_lib.py): the same frame is rendered
     once more with ?mask=1, black foreground on white, and the gate judges the wash on
@@ -86,7 +94,7 @@ def score(out: str, binary: str, wait_ms: int) -> None:
         f = os.path.join(out, "frames", f"f_{i:04d}.png")
         m = os.path.join(mdir, f"m_{i:04d}.png")
         if not os.path.exists(m):
-            renderer.render(HTML, m, W, H, binary, wait_ms, query=f"?t={sec * 1000}&mask=1")
+            renderer.render(HTML, m, W, H, binary, wait_ms, query=f"?t={sec * 1000}&mask=1{VARIANTS[variant]}")
         mask = _lib.mask_from_png(m)
         v = gate.score_image(gate.load_image(f), cfg, doc, accepted_paths=[], foreground=mask)
         series.append({"t_ms": sec * 1000, "verdict": v["verdict"], "on_brand": v["on_brand"],
@@ -95,7 +103,9 @@ def score(out: str, binary: str, wait_ms: int) -> None:
                        "errored": [e["rule"] for e in v.get("errored", [])],
                        "foreground_frac": round(float(mask.mean()), 4)})
     with open(os.path.join(out, "score.json"), "w", encoding="utf-8") as fh:
-        json.dump({"fps": FPS, "seconds": SECONDS, "sampled": series}, fh, indent=1)
+        json.dump({"variant": variant, "fps": FPS, "seconds": SECONDS,
+                   "verdict": "pass" if all(s["verdict"] == "pass" for s in series) else "fail",
+                   "sampled": series}, fh, indent=1)
     for s in series:
         print(f"  {s['t_ms']:>5} ms  {s['verdict']:>5}  on-brand {s['on_brand']}  fg {s['foreground_frac']}"
               f"  failed {s['failed_rules']}  {s['reasons']}  errored {s['errored']}")
@@ -103,19 +113,23 @@ def score(out: str, binary: str, wait_ms: int) -> None:
 
 def main(argv=None) -> int:
     p = argparse.ArgumentParser(prog="python -m surfaces.motion.render")
-    p.add_argument("--out", default=os.path.join(ROOT, "surfaces", "motion", "out"))
+    p.add_argument("--variant", choices=sorted(VARIANTS), default="accepted",
+                   help="accepted: the ident as shipped; orbs: the candidate the gate refused")
+    p.add_argument("--out", default=None, help="default: surfaces/motion/out, or out/refused for --variant orbs")
     p.add_argument("--chrome", default=None)
     p.add_argument("--wait-ms", type=int, default=3500, help="virtual time for fonts and the anime.js import")
     p.add_argument("--no-score", action="store_true")
     a = p.parse_args(argv)
     binary = a.chrome or renderer.chrome()
-    paths = frames(a.out, binary, a.wait_ms)
+    out = a.out or os.path.join(ROOT, "surfaces", "motion", "out", *([] if a.variant == "accepted" else ["refused"]))
+    a.out = out
+    paths = frames(a.out, binary, a.wait_ms, a.variant)
     stitch(a.out, W, "ident.mp4")
     stitch(a.out, 960, "ident-960.mp4")
     from PIL import Image
     Image.open(paths[-1]).convert("RGB").save(os.path.join(a.out, "poster.jpg"), quality=86, optimize=True)
     if not a.no_score:
-        score(a.out, binary, a.wait_ms)
+        score(a.out, binary, a.wait_ms, a.variant)
     return 0
 
 
