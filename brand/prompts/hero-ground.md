@@ -1,20 +1,21 @@
 ---
-version: 5
+version: 6
 model: krea2
 tier: turbo
 width: 1664
 height: 944
-negative: hard edges, discs, hard-edged blobs, spots, black, dark mass, deep shadow, neon, text, logo, banding, vignette, saturated primaries, blue, teal
-note: v5 2026-09-16, the designer on the v4 contact sheet before labelling it: "they are all very diffuse watercolour-esque images. Not a bad effect but a big departure from v3. A version between v3 and v4 is probably closer to what we want: the excellent colour blending and texture from the watercolour with the more defined shapes (but not too defined) of v3, and a saturation level between v3 and v4." So v5 keeps v4's paper, bleed and no-black, brings back v3's readable masses of colour at half their definition, and sits the saturation between the two. v4 (2026-09-16) was the pale watercolour after "too blobby, too much black, saturation too high". v3 (09-15) dropped sky. v2 is the prompt the 27-frame calibration set was labelled on.
+negative: watercolour, paint, brush, paper texture, ink, hard edges, discs, spots, outlines, black, dark mass, deep shadow, neon, text, logo, banding, vignette, saturated primaries, blue, teal
+note: v6 2026-09-16, the designer on the v5 preview: "This is way too watercolour heavy, we need to aim for a modern looking webpage. Mesh gradients with interesting grain basically." So the medium changes: v6 is a digital mesh gradient, the kind a modern web hero wears, with a fine grain as the only texture. Kept from the v4 and v5 review: no black, saturation held between v3 and v4, most of the frame pale. v5 (same day) was the watercolour midpoint, stopped after two frames. v4 was the pale watercolour after "too blobby, too much black, saturation too high". v3 (09-15) dropped sky. v2 is the prompt the 27-frame calibration set was labelled on.
 ---
-An abstract ground on warm off-white paper. Broad soft masses of colour drift
-across it, each with a readable centre and edges that dissolve into the paper
-like watercolour on wet paper: a dusty deep indigo at the left, magenta through
-the middle, warming into a soft rose at the right, bleeding into one another
-with no visible seam and no hard edge anywhere. The colours are muted and
-clearly present, more than a tint and never vivid: the deepest indigo is a
-mid-tone, there is no black, no shadow and no dense dark mass. The light moves
-left to right, deepest at the left edge, palest and warmest at the right, and
-about half of the frame stays pale paper. A fine even film grain and a faint
-watercolour texture sit over the whole frame. No subject, no horizon, no
-object, no type. Flat and quiet, like a page lit from behind.
+A smooth digital mesh gradient, the background of a modern website hero.
+Large soft fields of colour melt into one another across a warm off-white
+field with no edges, no shapes and no texture in the colour itself: a dusty
+deep indigo at the left, magenta through the middle, warming into a soft rose
+at the right, each blending into the next over a long distance with no visible
+seam. The colours are muted and clearly present, more than a tint and never
+vivid: the deepest indigo is a mid-tone, there is no black, no shadow and no
+dense dark mass. The light moves left to right, deepest at the left edge,
+palest and warmest at the right, and about half of the frame stays pale
+off-white. A fine, even, slightly visible film grain sits over the whole frame
+and is the only texture. Clean, flat, rendered, no subject, no horizon, no
+object, no type.
