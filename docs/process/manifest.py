@@ -156,6 +156,6 @@ ENTRIES = [
             {"title": "One-pager", "text": "Full-width band from the top of the ground. Gate: pass 1.00, and the false-text fault on the mark went with the crop.",
              "frames": [("one-pager", "surfaces/print/accepted/onepager.png"), ("one-pager, refused ground", "surfaces/print/rejected/onepager.png")]},
         ],
-        "verdict": "",
+        "verdict": "Looking much better.",
     },
 ]
