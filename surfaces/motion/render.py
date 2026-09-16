@@ -34,14 +34,35 @@ if ROOT not in sys.path:
     sys.path.insert(0, ROOT)
 
 from lookdev import render as renderer  # noqa: E402
+from PIL import Image  # noqa: E402
 
 HTML = os.path.join(ROOT, "surfaces", "motion", "ident.html")
+MARKER_ROWS = 2   # ident.html paints two rows under the frame black once the timeline has been seeked
+TRIES = 4
 # ?ground=<variant> on ident.html; "accepted" is the page as it stands, "ramp" the refused candidate
 # that ships, "orbs" and "thin" the weaker refusals kept for the record.
 VARIANTS = {"accepted": "", "ramp": "&ground=ramp", "orbs": "&ground=orbs", "thin": "&ground=thin"}
 FPS = 30
 SECONDS = 6
 W, H = 1920, 1080
+
+
+def render_frame(path: str, binary: str, wait_ms: int, query: str) -> None:
+    """One held frame, proven ready. The page is 1920 by 1082: the frame plus a two-row
+    marker that turns black only after the timeline has been seeked and a paint has
+    happened. A screenshot whose marker is still white was taken before the module ran
+    (the first cut lost four frames of 180 that way, and the mark blinked out for 133 ms),
+    so it is rendered again. What is kept is the frame alone, cropped to 1920 by 1080."""
+    for attempt in range(1, TRIES + 1):
+        renderer.render(HTML, path, W, H + MARKER_ROWS, binary, wait_ms, query=query)
+        im = Image.open(path).convert("RGB")
+        marker = im.crop((0, H, W, H + MARKER_ROWS))
+        ready = max(marker.getextrema()[c][1] for c in range(3)) < 40
+        if ready:
+            im.crop((0, 0, W, H)).save(path)
+            return
+        print(f"  {os.path.basename(path)}: not ready on attempt {attempt}, rendering again", flush=True)
+    raise SystemExit(f"{path}: the page never reported ready in {TRIES} renders; not keeping a blind frame")
 
 
 def frames(out: str, binary: str, wait_ms: int, variant: str) -> list[str]:
@@ -53,7 +74,7 @@ def frames(out: str, binary: str, wait_ms: int, variant: str) -> list[str]:
         t = round(i * 1000 / FPS)
         p = os.path.join(fdir, f"f_{i:04d}.png")
         if not os.path.exists(p):
-            renderer.render(HTML, p, W, H, binary, wait_ms, query=f"?t={t}{VARIANTS[variant]}")
+            render_frame(p, binary, wait_ms, f"?t={t}{VARIANTS[variant]}")
         paths.append(p)
         if i % 30 == 0:
             print(f"frame {i}/{n} at {t} ms", flush=True)
@@ -97,7 +118,7 @@ def score(out: str, binary: str, wait_ms: int, variant: str) -> None:
         f = os.path.join(out, "frames", f"f_{i:04d}.png")
         m = os.path.join(mdir, f"m_{i:04d}.png")
         if not os.path.exists(m):
-            renderer.render(HTML, m, W, H, binary, wait_ms, query=f"?t={sec * 1000}&mask=1{VARIANTS[variant]}")
+            render_frame(m, binary, wait_ms, f"?t={sec * 1000}&mask=1{VARIANTS[variant]}")
         mask = _lib.mask_from_png(m)
         v = gate.score_image(gate.load_image(f), cfg, doc, accepted_paths=[], foreground=mask)
         series.append({"t_ms": sec * 1000, "verdict": v["verdict"], "on_brand": v["on_brand"],
@@ -132,7 +153,6 @@ def main(argv=None) -> int:
     paths = frames(a.out, binary, a.wait_ms, a.variant)
     stitch(a.out, W, "ident.mp4")
     stitch(a.out, 960, "ident-960.mp4")
-    from PIL import Image
     Image.open(paths[-1]).convert("RGB").save(os.path.join(a.out, "poster.jpg"), quality=86, optimize=True)
     if not a.no_score:
         score(a.out, binary, a.wait_ms, a.variant)

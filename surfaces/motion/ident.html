@@ -3,14 +3,22 @@
 <head>
 <meta charset="utf-8">
 <title>Handsel ident</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;800&display=swap">
 <style>
+  /* Everything the frame needs is local: the font and anime.js live in vendor/. The first cut imported both from
+     CDNs, and four of 180 renders screenshot before the module had run, so the slices sat at opacity 0 for four
+     frames and the clip flickered (Pétur, 16 Sep). No network, no race. */
+  @font-face { font-family: "Archivo"; font-style: normal; font-weight: 100 900; font-display: block; src: url("vendor/archivo-variable.woff2") format("woff2"); }
   /* A 1920 by 1080 frame. Open with ?t=<ms> and the timeline is seeked there and held,
      so every frame render.py captures is deterministic: no virtual time, no timers. */
   :root { --ink:#111114; --paper:#FAFAF8; --graphite:#4A4A55; --indigo:#4B3BE8; --rose:#D9628A;
     --flow-text: linear-gradient(90deg, #111114 0%, #111114 10%, #4B3BE8 42%, #B44C9E 100%);
     --display: "Archivo", "Helvetica Neue", Arial, sans-serif; }
-  html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; background: var(--paper); font-family: var(--display); }
+  html, body { margin: 0; width: 1920px; height: 1082px; overflow: hidden; background: #fff; font-family: var(--display); }
+  /* The two rows under the frame are the readiness marker: white until the timeline has been seeked, then black.
+     render.py screenshots 1920 by 1082, reads that row, retries a frame whose marker is still white, and crops
+     the row off. A frame that reached disk is not proof the picture in it was ready; this is. */
+  #ready { position: absolute; left: 0; top: 1080px; width: 1920px; height: 2px; background: #fff; }
+  html[data-ready] #ready { background: #000; }
   .frame { position: relative; width: 1920px; height: 1080px; overflow: hidden; background: var(--paper); }
   /* The accepted procedural ground, the same file the hero and the site stand on, under the hero's veil:
      paper at the foot, nothing over the top. */
@@ -83,8 +91,9 @@
     <p class="tag">Tools built for one person, kept in public.</p>
   </div>
 </div>
+<div id="ready"></div>
 <script type="module">
-  import { createTimeline, stagger, utils } from "https://cdn.jsdelivr.net/npm/animejs@4.5.0/+esm";
+  import { createTimeline, stagger, utils } from "./vendor/anime.esm.js";
   await document.fonts.ready;
   const g = document.querySelector(".ground"); if (!g.complete) await new Promise(r => { g.onload = r; g.onerror = r; });
 
@@ -113,7 +122,7 @@
   const ground = q.get("ground");
   if (ground) document.documentElement.classList.add(ground);
   const t = q.get("t");
-  if (t !== null) { tl.seek(Number(t)); document.documentElement.dataset.ready = "1"; }
+  if (t !== null) { tl.seek(Number(t)); await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r))); document.documentElement.dataset.ready = "1"; }
   else { tl.play(); }
 </script>
 </body>
