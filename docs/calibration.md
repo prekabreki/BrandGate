@@ -419,10 +419,11 @@ gradient no longer does.
 | gate pass | 14 | **6** |
 | gate fail | **1** | 17 |
 
-**31 of 38.** The one false fail is turbo 2005, and it fails no rule: on-brand 0.96,
-novelty 0.1175 against a bar of 0.12, because the accepted hero ground it is compared
-with is its near twin. That is the novelty check doing its job on a calibration set that
-happens to hold both, not a brand verdict. The six false passes are turbo 1000, 1012,
+**31 of 38.** The one false fail fails no brand rule: it is the novelty bar (0.12)
+catching a near twin inside the calibration set itself, turbo 2005 against the shipped
+hero ground on the 4080 box (novelty 0.1175, on-brand 0.96), mesh seed 2 against mesh
+seed 1 on the work box. Which frame it lands on depends on which accepted frames are on
+that machine's disk. That is the novelty check doing its job, not a brand verdict. The six false passes are turbo 1000, 1012,
 1024, 2083, raw 1017 and raw 1029. Four of the six carry the same note in different
 words, "too much dark on the left", "a big splotch of black", and they are the reason
 `dark_mass` and `L_p02` were added to the measurement this pass. They are recorded on
