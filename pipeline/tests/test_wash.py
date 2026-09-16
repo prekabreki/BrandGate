@@ -44,9 +44,17 @@ def _ground(stops=("indigo", "magenta", "rose"), hard=False, paper=PAPER, size=(
     xs = np.linspace(0.2, 0.8, len(stops))
     for x, s in zip(xs, stops):
         _orb(canvas, int(x * w), h // 2, int(0.22 * w), STOPS[s], hard=hard)
-    # the paper veil the rule asks for: a real wash is a tint, not the raw stop
-    paper_col = np.array(colour.hex_to_rgb(paper), dtype=np.float32)
-    canvas = canvas * 0.45 + paper_col * 0.55
+    # The paper veil the rule asks for: a real wash is a TINT of its stop, lighter and a
+    # little less chromatic, not a grey mix. Lifting L toward paper in Lab and keeping
+    # nine tenths of the chroma puts the synthetic wash where the accepted grounds sit
+    # (mean chroma 33 against 32 to 42 on the labelled set, no saturated darks). The
+    # earlier RGB mix toward paper gave mean chroma 20, paler than any ground the
+    # designer has accepted, and read as "dull" once that axis existed (#22).
+    lab = cv2.cvtColor(np.clip(canvas, 0, 255).astype(np.uint8), cv2.COLOR_RGB2LAB).astype(np.float32)
+    paper_lab = cv2.cvtColor(np.array([[colour.hex_to_rgb(paper)]], np.uint8), cv2.COLOR_RGB2LAB)[0, 0]
+    lab[..., 0] = lab[..., 0] * 0.65 + float(paper_lab[0]) * 0.35
+    lab[..., 1:] = (lab[..., 1:] - 128.0) * 0.9 + 128.0
+    canvas = cv2.cvtColor(np.clip(lab, 0, 255).astype(np.uint8), cv2.COLOR_LAB2RGB).astype(np.float32)
     if dark_boost:
         # the "too dark" rejects: a deep, unveiled indigo orb where the tint should be
         _orb(canvas, int(0.2 * w), h // 2, int(0.2 * w), STOPS["indigo"])

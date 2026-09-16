@@ -17,7 +17,7 @@ def test_the_table_has_five_steps_and_every_knob_tightens_monotonically():
     assert steps == sameness.STEPS
     assert steps[sameness.SHIPPED_STEP] == {
         "verdict.on_brand_min": 0.75, "palette.forbid_mass": 0.04,
-        "wash.dark_chroma_max": 45.0, "wash.edge_max": 13.0,
+        "wash.dark_chroma_max": 55.5, "wash.edge_max": 14.3,
         "wash.stop_share_min": 0.06}, "step 2 must be the shipped gate.toml"
     assert "palette.tolerance_lab" not in sameness.KNOBS, \
         "tolerance_lab tightens colour.01 and loosens colour.03; it cannot be swept"

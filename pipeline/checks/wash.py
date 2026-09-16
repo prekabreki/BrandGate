@@ -192,9 +192,18 @@ def check(img: np.ndarray, rule: dict, cfg: dict, ctx: dict) -> Finding:
                               f"night ground (L {m['ground_L']:.0f}): the wash bar is set on "
                               "paper only, night has no labelled frames yet")
     if m["chroma_frac"] < c["min_wash_frac"]:
+        if m["chroma_frac"] >= c["thin_wash_frac"]:
+            # Colour over a tenth to a quarter of the frame is a wash, just a starved one
+            # (#22): v4 seed 3001 was so pale that colour covered under a quarter of it,
+            # the rule stepped aside as "nothing to judge", and a frame the designer
+            # refused read as a pass. A flat surface with a mark sits under a tenth (the
+            # takes measure 2 to 6 percent) and keeps the not-applicable path.
+            return Finding(rule["id"], "wash", 0.0, False,
+                           f"the wash is too thin: colour covers {m['chroma_frac']:.0%} of the "
+                           f"frame, a ground carries at least {c['min_wash_frac']:.0%}", m)
         return not_applicable(rule["id"], "wash",
                               f"no wash to judge: colour covers {m['chroma_frac']:.0%} of the "
-                              f"frame, under the {c['min_wash_frac']:.0%} a ground has")
+                              f"frame, under the {c['thin_wash_frac']:.0%} a wash has")
 
     # Each axis scores 1.0 well inside the bar and slides to 0.0 at twice it,
     # so the aggregate can rank two failures. The verdict is the worst axis.
@@ -212,13 +221,20 @@ def check(img: np.ndarray, rule: dict, cfg: dict, ctx: dict) -> Finding:
     if m["edge_p99"] >= c["edge_max"]:
         reasons.append(f"the orbs separate: steepest edges {m['edge_p99']:.1f}, "
                        f"a bleed stays under {c['edge_max']:.0f}")
+    # The wash as a whole must be a colour, not a haze (#22). The designer refused v6 5000
+    # as "muddy" and the v4 watercolours as too pale; their mean chroma sat at 16 to 27
+    # where every accepted ground sits at 32 and up.
+    s_mean = slide(m["chroma_mean"], c["chroma_mean_min"], inverse=True)
+    if m["chroma_mean"] < c["chroma_mean_min"]:
+        reasons.append(f"the wash is dull (mean chroma {m['chroma_mean']:.0f}, "
+                       f"a ground carries at least {c['chroma_mean_min']:.0f})")
     weakest = min(m["stop_share"], key=m["stop_share"].get)
     s_stop = slide(m["stop_share"][weakest], c["stop_share_min"], inverse=True)
     if m["stop_share"][weakest] < c["stop_share_min"]:
         reasons.append(f"{weakest} holds {m['stop_share'][weakest]:.1%} of the wash; "
                        f"every stop needs {c['stop_share_min']:.0%}")
 
-    score = min(s_dark, s_edge, s_stop)
+    score = min(s_dark, s_edge, s_stop, s_mean)
     passed = not reasons
     reason = ("soft wash: darks at chroma "
               f"{m['dark_chroma']:.0f}, edges {m['edge_p99']:.1f}, every stop present"

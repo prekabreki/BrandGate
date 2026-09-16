@@ -69,12 +69,17 @@ TAKES = os.path.join(ROOT, "lookdev", "archive", "takes_02.png")
 # the one recorded in runs/sameness/steps.md.
 KNOBS = ("verdict.on_brand_min", "palette.forbid_mass", "wash.dark_chroma_max",
          "wash.edge_max", "wash.stop_share_min")
+# Third calibration pass (#22, 2026-09-16) moved the shipped wash bars to
+# dark_chroma_max 55.5 and edge_max 14.3, so the table re-centres on them
+# with the same spacing on either side. The sameness run recorded in
+# runs/sameness/steps.md was cut at the OLD shipped step (45, 13) on the v3
+# pool and stands as recorded; a rerun on the procedural ground is separate.
 STEPS = [
-    dict(zip(KNOBS, (0.60, 0.10, 60.0, 20.0, 0.02))),
-    dict(zip(KNOBS, (0.70, 0.06, 52.0, 16.0, 0.04))),
-    dict(zip(KNOBS, (0.75, 0.04, 45.0, 13.0, 0.06))),
-    dict(zip(KNOBS, (0.85, 0.025, 40.0, 11.5, 0.08))),
-    dict(zip(KNOBS, (0.90, 0.02, 38.0, 11.0, 0.09))),
+    dict(zip(KNOBS, (0.60, 0.10, 70.0, 22.0, 0.02))),
+    dict(zip(KNOBS, (0.70, 0.06, 62.0, 18.0, 0.04))),
+    dict(zip(KNOBS, (0.75, 0.04, 55.5, 14.3, 0.06))),
+    dict(zip(KNOBS, (0.85, 0.025, 50.0, 12.5, 0.08))),
+    dict(zip(KNOBS, (0.90, 0.02, 45.0, 11.0, 0.09))),
 ]
 SHIPPED_STEP = 2
 

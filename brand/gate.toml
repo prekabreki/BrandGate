@@ -103,16 +103,32 @@ clip_weight = 0.5
 # at 45 percent and up. A night ground is not applicable until night frames
 # are labelled.
 min_wash_frac = 0.25
+# Under thin_wash_frac there is no wash at all (a flat surface with a mark: the
+# takes measure 2 to 6 percent) and the rule is not applicable. Between the two
+# there is a wash, a starved one, and that is a fault (#22: v4 3001).
+thin_wash_frac = 0.10
 night_below_L = 40.0
 # A pixel is chromatic above this Lab chroma; paper and ink sit well under it.
 chroma_floor = 12.0
-# Mean chroma of pixels below mid luminance. Accepted frames topped out at
-# 42.2; the "too dark, too saturated" rejects started at 47.8. Midpoint 45.
-dark_chroma_max = 45.0
+# Mean chroma of pixels below mid luminance. Second pass (09-15): accepted
+# topped out at 42.2, the "too dark, too saturated" rejects started at 47.8,
+# midpoint 45. Third pass (09-16, docs/calibration.md): the designer accepted
+# the mesh band and hero-ground@7 6002 at 53 to 55, so the bar moves by the
+# same procedure to the midpoint of the worst accepted (54.7) and the best
+# clearly rejected above it (raw 1021, 56.3): 55.5. Two "too dark" rejects
+# (raw 1017 at 47.8, raw 1029 at 53.9) now sit under the bar; see the doc.
+dark_chroma_max = 55.5
 # 99th percentile of the chroma gradient after a blur of width/blur_divisor.
-# Accepted topped out at 11.6; the "strong outlines, no bleed" rejects
-# started at 14.1. Midpoint 12.9, rounded to 13.
-edge_max = 13.0
+# Second pass: accepted topped out at 11.6, the "strong outlines, no bleed"
+# rejects started at 14.1, midpoint 13. Third pass: the designer liked turbo
+# 2005 at 14.0, the best clearly rejected above it is turbo 1010 at 14.6,
+# midpoint 14.3.
+edge_max = 14.3
+# Mean chroma of the chromatic pixels: is the wash a colour or a haze? Third
+# pass: every accepted ground sits at 32.5 (turbo 1008) and up; the "muddy"
+# reject (v6 5000) at 27.1 is the best clearly rejected on this axis, the
+# watercolours sit at 16 to 22. Midpoint 29.8, rounded to 30.
+chroma_mean_min = 30.0
 blur_divisor = 128
 # Share of chromatic pixels nearest each named stop, matched on hue. The
 # thinnest stop on an accepted frame held 8.1 percent (indigo, turbo 1016);
