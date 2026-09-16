@@ -124,3 +124,19 @@ def test_the_gate_carries_the_wash_finding(cfg):
     r = gate.score_image(_ground(), cfg, doc)
     rows = [b for b in r["breakdown"] if b["rule"] == "gradient.03"]
     assert rows and rows[0]["check"] == "wash", r["manual"]
+
+
+def test_a_dark_splotch_is_measured_as_mass_not_saturation(cfg):
+    """#22: the designer refused turbo 2083 for 'a big splotch of black'. dark_chroma
+    measures how saturated the darks are, not how much of the frame they cover, so a
+    near-black, near-grey mass sailed through. dark_mass is the share of the wash
+    area sitting below the dark bar."""
+    soft = wash.measure(_ground(), list(STOPS.values()), cfg["wash"])
+    canvas = _ground().astype(np.float32)
+    _orb(canvas, int(0.3 * W), H // 2, int(0.18 * W), "#141220")  # a near-black, unsaturated mass
+    splotched = np.clip(canvas, 0, 255).astype(np.uint8)
+    m = wash.measure(splotched, list(STOPS.values()), cfg["wash"])
+    assert soft["dark_mass"] < 0.01, soft
+    assert m["dark_mass"] > 0.03, m
+    assert m["dark_chroma"] < cfg["wash"]["dark_chroma_max"],         "the splotch is grey: the existing dark_chroma bar must NOT be what catches it"
+    assert 0 <= m["L_p02"] < soft["L_p02"]

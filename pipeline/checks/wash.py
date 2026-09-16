@@ -101,6 +101,20 @@ def measure(img_rgb: np.ndarray, stops: list[str], cfg: dict,
     dark = (L < 50.0) & keep
     dark_chroma = float(C[dark].mean()) if dark.any() else 0.0
 
+    # Dark MASS, as distinct from dark chroma (#22). The designer refused the
+    # hero ground turbo 2083 for "a big splotch of black" and the gate passed
+    # it at 0.96: its darks were not saturated, they were simply large. This
+    # is the share of the judged area sitting below the dark bar, measured on
+    # a blurred L so film grain does not count as mass, plus the 2nd
+    # percentile of that blurred L, which says how deep the darkest real
+    # region goes. Both are recorded on every frame; neither has a threshold
+    # until the v4 labels set one.
+    sigma = WORK_W / cfg["blur_divisor"]
+    Lb = cv2.GaussianBlur(L, (0, 0), sigma)
+    dark_mass = float(((Lb < cfg["dark_L"]) & keep).sum() / keep.sum()) if keep.any() else 0.0
+    L_p02 = float(np.percentile(Lb[keep], 2)) if keep.any() else 100.0
+    chroma_mean = float(C[chrom].mean()) if chrom.any() else 0.0
+
     blur = cv2.GaussianBlur(C, (0, 0), WORK_W / cfg["blur_divisor"])
     gx = cv2.Sobel(blur, cv2.CV_32F, 1, 0, ksize=3)
     gy = cv2.Sobel(blur, cv2.CV_32F, 0, 1, ksize=3)
@@ -132,6 +146,8 @@ def measure(img_rgb: np.ndarray, stops: list[str], cfg: dict,
     return {"ground_L": round(ground_L, 2), "chroma_frac": round(chroma_frac, 4),
             "foreground_frac": round(float(fg.mean()), 4),
             "dark_chroma": round(dark_chroma, 3), "edge_p99": round(edge_p99, 3),
+            "dark_mass": round(dark_mass, 4), "L_p02": round(L_p02, 2),
+            "chroma_mean": round(chroma_mean, 3),
             "stop_share": {k: round(v, 4) for k, v in share.items()}}
 
 

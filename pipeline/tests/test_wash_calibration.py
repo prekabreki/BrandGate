@@ -100,4 +100,5 @@ def test_wash_measurements_printed_for_the_sweep(scored):
             continue
         d = w["detail"]
         print(f"  {r['id'][:32]:<32} {r['label']:<5}  {d['dark_chroma']:>10.1f}  "
-              f"{d['edge_p99']:>8.1f}  {min(d['stop_share'].values()):>7.3f}")
+              f"{d['edge_p99']:>8.1f}  {min(d['stop_share'].values()):>7.3f}  "
+              f"{d.get('dark_mass', 0):>9.4f}  {d.get('L_p02', 0):>5.1f}  {d.get('chroma_mean', 0):>6.1f}")

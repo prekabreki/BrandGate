@@ -111,3 +111,9 @@ blur_divisor = 128
 # the "too few colours" rejects topped out at 3.6 percent (turbo 1002).
 # Midpoint 5.9, rounded to 6.
 stop_share_min = 0.06
+# Dark MASS (#22): a pixel of the blurred L below this counts as dark mass.
+# The measurement is recorded on every frame (dark_mass, L_p02, chroma_mean
+# in the wash detail) and has NO bar yet: the v4 labels set one, or show
+# that none is needed. 30 is the L of the brand's deep indigo, the darkest
+# colour the palette allows on a paper ground.
+dark_L = 30.0
