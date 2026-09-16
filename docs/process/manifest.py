@@ -119,4 +119,24 @@ ENTRIES = [
         ],
         "verdict": "A5 has reached v7.",
     },
+    {
+        "slug": "2026-09-16-09-composed", "short": "composed", "date": "2026-09-16",
+        "title": "the surfaces on the mesh ground",
+        "lede": "Every surface recomposed on the procedural ground (seed 2), with hero-ground@6 seed 5000, "
+                "the frame called muddy, as the refused candidate beside each. The templates' paper veil "
+                "is gone from the top of the ground and kept at the foot for the type; under the old veil "
+                "the mesh read at mean chroma 23 where the bare ground scored 38. Gate verdicts in the captions.",
+        "sections": [
+            {"title": "Hero", "text": "Accepted ground: pass 0.95. Composed: gradient.03 fails by a hair, darks at chroma 56.1 against a bar of 55.5 that was set on a 1.6-unit gap. Refused: fail, the wash is dull.",
+             "frames": [("hero on the mesh ground, 1600 by 900", "surfaces/hero/accepted/hero.png"),
+                        ("hero on the refused ground (v6 5000)", "surfaces/hero/rejected/hero.png")]},
+            {"title": "Cards", "text": "Square pass 0.97, story pass 1.00, link card fails gradient.03 the same hair (55.8).",
+             "frames": [("square", "surfaces/social/accepted/square.png"), ("square, refused ground", "surfaces/social/rejected/square.png"),
+                        ("story", "surfaces/social/accepted/story.png"), ("story, refused ground", "surfaces/social/rejected/story.png"),
+                        ("link card", "surfaces/social/accepted/og.png"), ("link card, refused ground", "surfaces/social/rejected/og.png")]},
+            {"title": "Print", "text": "A4, the band shows the right seven tenths of the ground as before. Fails only on the contrast check reading the mark as text at 4.2:1, the frozen #21 fault.",
+             "frames": [("one-pager", "surfaces/print/accepted/onepager.png"), ("one-pager, refused ground", "surfaces/print/rejected/onepager.png")]},
+        ],
+        "verdict": "",
+    },
 ]

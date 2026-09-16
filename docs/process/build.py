@@ -64,6 +64,9 @@ nav a.here{background:#111114;color:#FAFAF8;border-color:#111114}
 
 
 def find(frame: str) -> str | None:
+    if "/" in frame:  # a repo-relative path, for composed surfaces
+        p = os.path.join(ROOT, frame)
+        return p if os.path.exists(p) else None
     for d in SOURCES:
         exact = os.path.join(d, frame + ".png")
         if os.path.exists(exact):
@@ -78,7 +81,8 @@ def find(frame: str) -> str | None:
 def thumb_b64(path: str) -> str:
     im = Image.open(path).convert("RGB")
     w, h = im.size
-    im = im.resize((THUMB_W, max(1, int(h * THUMB_W / w))), Image.LANCZOS)
+    tw = THUMB_W if w >= h else max(360, THUMB_W // 2)   # tall frames (story, A4) need less width
+    im = im.resize((tw, max(1, int(h * tw / w))), Image.LANCZOS)
     buf = io.BytesIO()
     im.save(buf, format="JPEG", quality=82, optimize=True)
     return "data:image/jpeg;base64," + base64.b64encode(buf.getvalue()).decode("ascii")
