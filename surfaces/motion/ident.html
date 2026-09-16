@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Handsel ident</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;800&display=swap">
+<style>
+  /* A 1920 by 1080 frame. Open with ?t=<ms> and the timeline is seeked there and held,
+     so every frame render.py captures is deterministic: no virtual time, no timers. */
+  :root { --ink:#111114; --paper:#FAFAF8; --graphite:#4A4A55; --indigo:#4B3BE8; --rose:#D9628A;
+    --flow-text: linear-gradient(90deg, #111114 0%, #111114 10%, #4B3BE8 42%, #B44C9E 100%);
+    --display: "Archivo", "Helvetica Neue", Arial, sans-serif; }
+  html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; background: var(--paper); font-family: var(--display); }
+  .frame { position: relative; width: 1920px; height: 1080px; overflow: hidden; background: var(--paper); }
+  /* The accepted procedural ground, the same file the hero and the site stand on, with two orbs of its
+     own colours breathing over it in soft-light, and the hero's veil: paper at the foot, nothing over the top. */
+  .ground { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 0%; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(90px); mix-blend-mode: soft-light; will-change: transform; }
+  .orb.a { width: 1300px; height: 1300px; left: -520px; top: -520px; background: radial-gradient(circle, var(--indigo) 0%, rgba(75,59,232,0) 66%); opacity: .2; }
+  .orb.b { width: 1200px; height: 1200px; right: -420px; top: -300px; background: radial-gradient(circle, var(--rose) 0%, rgba(217,98,138,0) 66%); opacity: .18; }
+  .veil { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 0%, transparent 42%, rgba(250,250,248,.70) 100%); }
+  /* A tenth of paper over the whole frame. At 1920 by 1080 the ground upsamples 1.15x and its darks land at chroma 57
+     against the wash rule's 56; this brings them back under without dulling the top the way a heavy veil did (#22). */
+  .lift { position: absolute; inset: 0; background: rgba(250,250,248,.10); }
+  /* ?mask=1: the foreground alone, black on white, so the gate judges the wash on the wash (surfaces/_lib.py). */
+  .mask .ground, .mask .orb, .mask .veil, .mask .lift, .mask .grain { display: none; }
+  .mask .frame { background: #fff; }
+  .mask svg.mark g { fill: #000 !important; stroke: #000 !important; }
+  .mask .word { background: none; -webkit-background-clip: border-box; background-clip: border-box; color: #000; -webkit-text-fill-color: #000; }
+  .mask .tag { color: #000; }
+  .grain { position: absolute; inset: 0; pointer-events: none; mix-blend-mode: overlay; opacity: .34;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+  .stage { position: absolute; inset: 0; display: grid; place-content: center; justify-items: start; row-gap: 44px; padding-top: 200px; }
+  svg.mark { width: 1040px; height: auto; display: block; overflow: visible; }
+  .slice { opacity: 0; }
+  .word { margin: 0; font: 800 196px/0.88 var(--display); letter-spacing: -0.05em; padding-right: .08em;
+          background: var(--flow-text); -webkit-background-clip: text; background-clip: text; color: transparent; opacity: 0; }
+  .tag { margin: -6px 0 0 4px; font: 400 38px/1.4 var(--display); color: var(--graphite); opacity: 0; }
+</style>
+</head>
+<body>
+<div class="frame">
+  <img class="ground" src="../hero/accepted/ground.png" alt="">
+  <div class="veil"></div><div class="lift"></div><div class="grain"></div>
+  <div class="stage">
+    <!-- The six slices from brand/logo/slice-mark.svg, geometry from build_mark.py. One flow through all six. -->
+    <svg class="mark" viewBox="-108.3 -105.5 739.2 251.0" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="flow" gradientUnits="userSpaceOnUse" x1="-108.3" y1="0" x2="630.8" y2="0" gradientTransform="translate(0 0)">
+          <stop offset="0.00" stop-color="#1E1A5C"/><stop offset="0.28" stop-color="#4B3BE8"/><stop offset="0.50" stop-color="#7A4FE0"/><stop offset="0.74" stop-color="#B44C9E"/><stop offset="1.00" stop-color="#D9628A"/>
+        </linearGradient>
+      </defs>
+      <g fill="url(#flow)" stroke="url(#flow)" stroke-width="22" stroke-linejoin="round">
+        <path class="slice" d="M 0.00 77.51 L -85.23 -64.33 A 180.25 180.25 0 0 1 85.23 -64.33 Z"/>
+        <path class="slice" d="M 104.50 -37.51 L 19.27 104.33 A 180.25 180.25 0 0 0 189.73 104.33 Z"/>
+        <path class="slice" d="M 209.00 77.51 L 123.77 -64.33 A 180.25 180.25 0 0 1 294.23 -64.33 Z"/>
+        <path class="slice" d="M 313.50 -37.51 L 228.27 104.33 A 180.25 180.25 0 0 0 398.73 104.33 Z"/>
+        <path class="slice" d="M 418.00 77.51 L 332.77 -64.33 A 180.25 180.25 0 0 1 503.23 -64.33 Z"/>
+        <path class="slice" d="M 522.50 -37.51 L 437.27 104.33 A 180.25 180.25 0 0 0 607.73 104.33 Z"/>
+      </g>
+    </svg>
+    <h1 class="word">Handsel</h1>
+    <p class="tag">Tools built for one person, kept in public.</p>
+  </div>
+</div>
+<script type="module">
+  import { createTimeline, stagger, utils } from "https://cdn.jsdelivr.net/npm/animejs@4.5.0/+esm";
+  await document.fonts.ready;
+  const g = document.querySelector(".ground"); if (!g.complete) await new Promise(r => { g.onload = r; g.onerror = r; });
+
+  // Rules, Motion: a rise on a soft curve, staggered 120 ms; the flow runs left to right; orbs drift slowly.
+  // The slices arrive along their own axis, apex-down ones from above and apex-up ones from below, so the
+  // band assembles rather than fades. Nothing rotates, nothing mirrors.
+  const slices = [...document.querySelectorAll(".slice")];
+  const grad = document.getElementById("flow");
+  const state = { tx: -739.2 };
+  const tl = createTimeline({ autoplay: false, defaults: { ease: "outQuart" } });
+  slices.forEach((s, i) => {
+    const from = i % 2 === 0 ? -34 : 34;   // SVG user units, about 40 px at this size
+    tl.add(s, { opacity: [0, 1], translateY: [from, 0], duration: 900 }, i * 120);
+  });
+  tl.add(state, { tx: [-739.2, 0], duration: 1800, ease: "outQuad",
+                  onUpdate: () => grad.setAttribute("gradientTransform", `translate(${state.tx} 0)`) }, 0);
+  tl.add(".word", { opacity: [0, 1], translateY: [14, 0], duration: 900 }, 1500);
+  tl.add(".tag",  { opacity: [0, 1], translateY: [14, 0], duration: 900 }, 1620);
+  tl.add(state, { tx: 0, duration: 1 }, 5999); // pin the timeline length at 6000 ms
+
+  const q = new URLSearchParams(location.search);
+  if (q.get("mask")) document.documentElement.classList.add("mask");
+  const t = q.get("t");
+  if (t !== null) { tl.seek(Number(t)); document.documentElement.dataset.ready = "1"; }
+  else { tl.play(); }
+</script>
+</body>
+</html>

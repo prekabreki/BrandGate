@@ -55,10 +55,11 @@ def serve(root: str):
 
 
 def render(html: str, out: str, width: int, height: int, binary: str, wait_ms: int,
-           scale: int = 1) -> None:
+           scale: int = 1, query: str = "") -> None:
     """Screenshot `html` at width by height CSS pixels. `scale` is the device
     scale factor, so the PNG is scale times larger in each direction; the size
-    check is against that, which is the whole point of this script."""
+    check is against that, which is the whole point of this script. `query` is
+    appended to the URL as given (`?t=1200`), for pages that seek by parameter."""
     from PIL import Image
     html = os.path.abspath(html)
     out = os.path.abspath(out)
@@ -68,7 +69,7 @@ def render(html: str, out: str, width: int, height: int, binary: str, wait_ms: i
         cmd = [binary, "--headless=new", "--hide-scrollbars",
                f"--force-device-scale-factor={scale}",
                f"--window-size={width},{height}", f"--virtual-time-budget={wait_ms}",
-               f"--screenshot={out}", f"http://127.0.0.1:{port}/{rel}"]
+               f"--screenshot={out}", f"http://127.0.0.1:{port}/{rel}{query}"]
         subprocess.run(cmd, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
                        timeout=120)
     finally:

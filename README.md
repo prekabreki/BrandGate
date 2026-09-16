@@ -32,6 +32,12 @@ Three things made it a module. It was carved down rather than copied: text-to-im
 
 The ledger, `runs/ledger.jsonl`, is one line per run: model, tier, prompt at its exact version, seed, resolved sampler settings, path, latency. Failures get a row too, with the error and no path. It exists because every later claim in this repo is a claim about a distribution, and the gate can only be calibrated against frames whose scores sit next to the prompt version that produced them. `cost_usd` is null on every row, and that is a recorded fact rather than a gap: the hardware is already owned, and inventing a per-frame price would quietly turn the scorecard into fiction.
 
+## The ident
+
+[![The Handsel ident: six slices rise into the band while the flow runs through them, then the wordmark](surfaces/motion/out/poster.jpg)](surfaces/motion/out/ident.mp4)
+
+Six seconds, 1920 by 1080, drawn in code from the mark's own geometry and the motion rules: a rise on a soft curve, staggered 120 ms, the flow left to right, nothing rotated or mirrored. `surfaces/motion/ident.html` takes `?t=<ms>` and seeks its timeline there, and `surfaces/motion/render.py` captures 180 held frames that way, because Chrome's virtual time advances timers without producing frames and a recording of a playing page is a file of the right length holding the wrong pictures. ffprobe confirms the frame count before the file is kept. One frame a second goes through the gate with its foreground declared, the way every surface is scored; the series is in `surfaces/motion/out/score.json`.
+
 ## Working with a designer
 
 [![Editing brand/rules.md while the gate scores a take](docs/rule-edit-poster.png)](docs/rule-edit.mp4)

@@ -34,7 +34,10 @@ CUTS = [
     (f"{S}/print/accepted/onepager.png", "onepager.jpg", 1240),
 ]
 COPIES = [(f"{S}/print/accepted/onepager.pdf", "handsel-onepager.pdf"),
-          (f"{ROOT}/brand/guide_04.pdf", "handsel-brand-sheet.pdf")]
+          (f"{ROOT}/brand/guide_04.pdf", "handsel-brand-sheet.pdf"),
+          # the ident, rendered by surfaces/motion/render.py; the site takes the 960 cut and its poster
+          (f"{S}/motion/out/ident-960.mp4", "ident-960.mp4"),
+          (f"{S}/motion/out/poster.jpg", "ident-poster.jpg")]
 # The brand sheet: the whole thing, and its head for the card on the page.
 SHEET = f"{ROOT}/brand/guide_04.png"
 # Screenshots of the public tools the page links to, pulled from each repo's own README

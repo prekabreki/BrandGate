@@ -1,0 +1,102 @@
+{
+ "fps": 30,
+ "seconds": 6,
+ "sampled": [
+  {
+   "t_ms": 0,
+   "verdict": "pass",
+   "on_brand": 0.9689,
+   "failed_rules": [],
+   "reasons": [],
+   "errored": [
+    "mark.01",
+    "mark.05",
+    "mark.07",
+    "mark.08",
+    "motif.01",
+    "motif.02"
+   ],
+   "foreground_frac": 0.0
+  },
+  {
+   "t_ms": 1000,
+   "verdict": "pass",
+   "on_brand": 0.9715,
+   "failed_rules": [],
+   "reasons": [],
+   "errored": [
+    "mark.01",
+    "mark.05",
+    "mark.07",
+    "mark.08",
+    "motif.01",
+    "motif.02"
+   ],
+   "foreground_frac": 0.13
+  },
+  {
+   "t_ms": 2000,
+   "verdict": "pass",
+   "on_brand": 0.9854,
+   "failed_rules": [],
+   "reasons": [],
+   "errored": [
+    "mark.01",
+    "mark.05",
+    "mark.07",
+    "mark.08",
+    "motif.01",
+    "motif.02"
+   ],
+   "foreground_frac": 0.1742
+  },
+  {
+   "t_ms": 3000,
+   "verdict": "pass",
+   "on_brand": 0.9855,
+   "failed_rules": [],
+   "reasons": [],
+   "errored": [
+    "mark.01",
+    "mark.05",
+    "mark.07",
+    "mark.08",
+    "motif.01",
+    "motif.02"
+   ],
+   "foreground_frac": 0.1742
+  },
+  {
+   "t_ms": 4000,
+   "verdict": "pass",
+   "on_brand": 0.9855,
+   "failed_rules": [],
+   "reasons": [],
+   "errored": [
+    "mark.01",
+    "mark.05",
+    "mark.07",
+    "mark.08",
+    "motif.01",
+    "motif.02"
+   ],
+   "foreground_frac": 0.1742
+  },
+  {
+   "t_ms": 5000,
+   "verdict": "pass",
+   "on_brand": 0.9855,
+   "failed_rules": [],
+   "reasons": [],
+   "errored": [
+    "mark.01",
+    "mark.05",
+    "mark.07",
+    "mark.08",
+    "motif.01",
+    "motif.02"
+   ],
+   "foreground_frac": 0.1742
+  }
+ ]
+}

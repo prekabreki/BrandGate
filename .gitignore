@@ -35,3 +35,7 @@ surfaces/_pool-v*/
 
 # The connector binary; build it with `go build` in connector/.
 connector/brandgate-connector
+
+# The ident frames: 180 PNGs, 326 MB, regenerable from ident.html by surfaces/motion/render.py.
+surfaces/motion/out/frames/
+surfaces/motion/out/masks/
