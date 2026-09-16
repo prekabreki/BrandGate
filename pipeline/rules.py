@@ -203,13 +203,17 @@ def parser_fingerprint() -> str:
     parser was written, the tests were run, and the GATE went on scoring
     against the previous parse. It cost an hour chasing a check that was
     correct, so the fingerprint covers every input.
+
+    Line endings are normalised before hashing: the same commit checked out on
+    the Windows box and the Linux box gave two fingerprints, so every gate run
+    rewrote rules.json with the other machine's hash.
     """
     h = hashlib.sha256()
     for path in (os.path.abspath(__file__),
                  os.path.join(ROOT, "brand", "tokens.json")):
         try:
             with open(path, "rb") as fh:
-                h.update(fh.read())
+                h.update(fh.read().replace(b"\r\n", b"\n"))
         except OSError:
             h.update(b"missing")
     return h.hexdigest()[:16]
