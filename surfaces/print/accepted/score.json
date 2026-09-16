@@ -1,16 +1,12 @@
 {
- "verdict": "fail",
- "on_brand": 0.956,
+ "verdict": "pass",
+ "on_brand": 1.0,
  "novelty": 1.0,
  "thresholds": {
   "on_brand_min": 0.75,
   "novelty_min": 0.12
  },
- "failed_rules": [
-  "colour.02",
-  "colour.04",
-  "type.03"
- ],
+ "failed_rules": [],
  "breakdown": [
   {
    "rule": "colour.01",
@@ -31,13 +27,13 @@
   {
    "rule": "colour.02",
    "check": "contrast",
-   "score": 0.9266,
-   "passed": false,
-   "reason": "a text region at 60,60 sits at 4.2:1 against its ground, under the 4.5:1 bar",
+   "score": 1.0,
+   "passed": true,
+   "reason": "every text region clears 4.5:1 (worst 8.4:1)",
    "detail": {
-    "worst_ratio": 4.169638840452103,
+    "worst_ratio": 8.354259245610523,
     "bar": 4.5,
-    "regions": 4
+    "regions": 2
    }
   },
   {
@@ -54,25 +50,25 @@
   {
    "rule": "colour.04",
    "check": "contrast",
-   "score": 0.9266,
-   "passed": false,
-   "reason": "a text region at 60,60 sits at 4.2:1 against its ground, under the 4.5:1 bar",
+   "score": 1.0,
+   "passed": true,
+   "reason": "every text region clears 4.5:1 (worst 8.4:1)",
    "detail": {
-    "worst_ratio": 4.169638840452103,
+    "worst_ratio": 8.354259245610523,
     "bar": 4.5,
-    "regions": 4
+    "regions": 2
    }
   },
   {
    "rule": "type.03",
    "check": "contrast",
-   "score": 0.9266,
-   "passed": false,
-   "reason": "a text region at 60,60 sits at 4.2:1 against its ground, under the 4.5:1 bar",
+   "score": 1.0,
+   "passed": true,
+   "reason": "every text region clears 4.5:1 (worst 8.4:1)",
    "detail": {
-    "worst_ratio": 4.169638840452103,
+    "worst_ratio": 8.354259245610523,
     "bar": 4.5,
-    "regions": 4
+    "regions": 2
    }
   }
  ],
@@ -181,7 +177,7 @@
  ],
  "counts": {
   "scored": 5,
-  "failed": 3,
+  "failed": 0,
   "not_applicable": 1,
   "manual": 28,
   "errored": 6

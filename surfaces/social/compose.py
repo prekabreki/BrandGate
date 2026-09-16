@@ -12,6 +12,7 @@ its own PNG, foreground mask and score.json in <out>/.
 from __future__ import annotations
 
 import argparse
+import shutil
 import os
 import sys
 
@@ -36,7 +37,12 @@ DEFAULT_HEADLINE = "Six pieces of one thing."
 # which is also what the mark is: a band.
 SIZES = {
     "square": (1080, 1080, 200, "150px", "42px", "24px", "18px", "14px", "40%", "0", "100%", "40% 50%"),
-    "story":  (1080, 1920, 220, "170px", "50px", "27px", "22px", "16px", "48%", "480px", "700px", "50% 50%"),
+    # The story carried the ground as a faded band while the ground was orbs (no 9:16 crop of
+    # that passed). On the mesh ground (#22) the designer read the band's edge as "a straight
+    # line, jarring, a gradient line going through it, should be a smooth falloff", and the
+    # mesh already has one: its colour sits at the top and falls to paper. So the story is a
+    # full cover crop now, focused a quarter in from the left where indigo turns to magenta.
+    "story":  (1080, 1920, 220, "170px", "50px", "27px", "22px", "16px", "48%", "0", "100%", "50% 0%"),
     "og":     (1200, 630, 160, "132px", "36px", "21px", "12px", "10px", "34%", "0", "100%", "20% 50%"),
 }
 BAND_FADE = "linear-gradient(180deg, transparent 0%, black 18%, black 82%, transparent 100%)"
@@ -52,20 +58,29 @@ def layout_css(name: str) -> str:
 
 
 def compose(ground: str, out_dir: str, headline: str = DEFAULT_HEADLINE,
-            only: list[str] | None = None) -> dict[str, dict]:
+            only: list[str] | None = None, story_ground: str | None = None) -> dict[str, dict]:
+    """story_ground: a portrait ground for the 9:16 card. A tall crop of the wide ground
+    drops a stop (rose, at the right); the procedural ground renders natively at any
+    aspect (`python -m pipeline.mesh --size 1080x1920`), so the story gets its own."""
     tokens = _lib.load_tokens()
     ground_copy = _lib.copy_ground(ground, out_dir)
+    story_copy = None
+    if story_ground:
+        story_copy = os.path.join(out_dir, "ground-story.png")
+        if os.path.abspath(story_ground) != os.path.abspath(story_copy):
+            shutil.copy(story_ground, story_copy)
     verdicts = {}
     for name in only or SIZES:
         w, h = SIZES[name][:2]
+        this_ground = story_copy if (name == "story" and story_copy) else ground_copy
         page = _lib.fill(TEMPLATE, {
             "tokens_css": _lib.tokens_css(tokens), "layout_css": layout_css(name),
-            "size_name": name, "width": w, "height": h, "ground": "ground.png",
+            "size_name": name, "width": w, "height": h, "ground": os.path.basename(this_ground),
             "mark": os.path.relpath(_lib.MARK, out_dir).replace(os.sep, "/"),
             "name": tokens["name"], "headline": headline, "tagline": tokens["tagline"],
         })
         png, mask = _lib.render_surface(page, out_dir, name, (w, h))
-        verdicts[name] = _lib.score(png, ground_copy, mask, {"headline": headline, "size": name},
+        verdicts[name] = _lib.score(png, this_ground, mask, {"headline": headline, "size": name},
                                     score_path=os.path.join(out_dir, f"{name}.score.json"))
     return verdicts
 
@@ -76,8 +91,10 @@ def main(argv=None) -> int:
     p.add_argument("--out", required=True)
     p.add_argument("--headline", default=DEFAULT_HEADLINE)
     p.add_argument("--only", nargs="*", choices=sorted(SIZES))
+    p.add_argument("--story-ground", default=None,
+                   help="a portrait ground for the 9:16 card (python -m pipeline.mesh --size 1080x1920)")
     a = p.parse_args(argv)
-    vs = compose(a.ground, a.out, a.headline, a.only)
+    vs = compose(a.ground, a.out, a.headline, a.only, story_ground=a.story_ground)
     for name, v in vs.items():
         _lib.report(name, v)
     return 0 if all(v["verdict"] == "pass" for v in vs.values()) else 1

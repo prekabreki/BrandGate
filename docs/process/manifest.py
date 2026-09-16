@@ -137,6 +137,25 @@ ENTRIES = [
             {"title": "Print", "text": "A4, the band shows the right seven tenths of the ground as before. Fails only on the contrast check reading the mark as text at 4.2:1, the frozen #21 fault.",
              "frames": [("one-pager", "surfaces/print/accepted/onepager.png"), ("one-pager, refused ground", "surfaces/print/rejected/onepager.png")]},
         ],
+        "verdict": "On the story: the straight line is jarring, there is also a gradient line going through it, "
+                   "should be a smooth falloff. On the one-pager: still do not love this one, we have lost colour "
+                   "variation and waves, it is just a pink purple haze. All in all much better.",
+    },
+    {
+        "slug": "2026-09-16-10-story-and-print", "short": "story, print", "date": "2026-09-16",
+        "title": "the story and the one-pager, again",
+        "lede": "Two fixes from round nine. The story no longer carries the ground as a faded band: the "
+                "procedural ground renders natively at 9:16 (python -m pipeline.mesh --size 1080x1920), so the "
+                "card gets the whole flow and the mesh's own long falloff, with nothing to fade. The one-pager's "
+                "band shows the full width of the ground from its top, indigo to rose with the edge wave, instead "
+                "of the right seven tenths it showed while the ground was orbs.",
+        "sections": [
+            {"title": "Story", "text": "Left: a portrait render of the same ground, seed 2. Right: round nine's band version for the difference. Gate: fails only the dark-chroma hair (56.1 against 55.5), the same as the hero.",
+             "frames": [("story on a portrait mesh ground", "surfaces/social/accepted/story.png"),
+                        ("story, refused ground, cover crop", "surfaces/social/rejected/story.png")]},
+            {"title": "One-pager", "text": "Full-width band from the top of the ground. Gate: pass 1.00, and the false-text fault on the mark went with the crop.",
+             "frames": [("one-pager", "surfaces/print/accepted/onepager.png"), ("one-pager, refused ground", "surfaces/print/rejected/onepager.png")]},
+        ],
         "verdict": "",
     },
 ]

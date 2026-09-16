@@ -1,26 +1,28 @@
 {
- "verdict": "pass",
- "on_brand": 0.998,
+ "verdict": "fail",
+ "on_brand": 0.9783,
  "novelty": 1.0,
  "thresholds": {
   "on_brand_min": 0.75,
   "novelty_min": 0.12
  },
- "failed_rules": [],
+ "failed_rules": [
+  "gradient.03"
+ ],
  "breakdown": [
   {
    "rule": "colour.01",
    "check": "palette",
-   "score": 0.9901,
+   "score": 0.8813,
    "passed": true,
    "reason": "the ground is #FAFAF8",
    "detail": {
     "ground_rgb": [
-     250,
      249,
-     248
+     238,
+     241
     ],
-    "distance": 0.43719726746896576,
+    "distance": 5.223425988335703,
     "tolerance_lab": 22.0
    }
   },
@@ -31,9 +33,9 @@
    "passed": true,
    "reason": "every text region clears 4.5:1 (worst 6.6:1)",
    "detail": {
-    "worst_ratio": 6.622486688863559,
+    "worst_ratio": 6.641243008723051,
     "bar": 4.5,
-    "regions": 1
+    "regions": 2
    }
   },
   {
@@ -41,10 +43,12 @@
    "check": "palette",
    "score": 1.0,
    "passed": true,
-   "reason": "no forbidden colour holds a flat area (#B44C9E under 4%)",
+   "reason": "#B44C9E holds 11.1% of the frame but as a gradient (slope 0.53 Lab per pixel), not a flat area",
    "detail": {
-    "mass": 0.0,
-    "limit": 0.04
+    "mass": 0.1112,
+    "limit": 0.04,
+    "share": 0.07734375,
+    "slope": 0.5257738828659058
    }
   },
   {
@@ -54,9 +58,31 @@
    "passed": true,
    "reason": "every text region clears 4.5:1 (worst 6.6:1)",
    "detail": {
-    "worst_ratio": 6.622486688863559,
+    "worst_ratio": 6.641243008723051,
     "bar": 4.5,
-    "regions": 1
+    "regions": 2
+   }
+  },
+  {
+   "rule": "gradient.03",
+   "check": "wash",
+   "score": 0.9885,
+   "passed": false,
+   "reason": "the darks are saturated (chroma 56, a wash stays under 56)",
+   "detail": {
+    "ground_L": 76.86,
+    "chroma_frac": 0.566,
+    "foreground_frac": 0.0902,
+    "dark_chroma": 56.138,
+    "edge_p99": 2.121,
+    "dark_mass": 0.0905,
+    "L_p02": 19.05,
+    "chroma_mean": 39.418,
+    "stop_share": {
+     "#4B3BE8": 0.5193,
+     "#B44C9E": 0.2284,
+     "#D9628A": 0.2523
+    }
    }
   },
   {
@@ -66,19 +92,13 @@
    "passed": true,
    "reason": "every text region clears 4.5:1 (worst 6.6:1)",
    "detail": {
-    "worst_ratio": 6.622486688863559,
+    "worst_ratio": 6.641243008723051,
     "bar": 4.5,
-    "regions": 1
+    "regions": 2
    }
   }
  ],
- "not_applicable": [
-  {
-   "rule": "gradient.03",
-   "check": "wash",
-   "reason": "no wash to judge: colour covers 8% of the frame, under the 10% a wash has"
-  }
- ],
+ "not_applicable": [],
  "novelty_detail": {
   "novelty": 1.0,
   "nearest": null,
@@ -176,16 +196,16 @@
   "cairosvg"
  ],
  "counts": {
-  "scored": 5,
-  "failed": 0,
-  "not_applicable": 1,
+  "scored": 6,
+  "failed": 1,
+  "not_applicable": 0,
   "manual": 28,
   "errored": 6
  },
- "ground": "surfaces/social/accepted/ground.png",
+ "ground": "surfaces/social/accepted/ground-story.png",
  "ground_verdict": {
   "verdict": "pass",
-  "on_brand": 0.9532,
+  "on_brand": 0.9534,
   "novelty": 1.0,
   "thresholds": {
    "on_brand_min": 0.75,
@@ -196,16 +216,16 @@
    {
     "rule": "colour.01",
     "check": "palette",
-    "score": 0.8597,
+    "score": 0.8603,
     "passed": true,
     "reason": "the ground is #ECEAF6",
     "detail": {
      "ground_rgb": [
       250,
-      235,
-      240
+      234,
+      239
      ],
-     "distance": 6.174879954437425,
+     "distance": 6.14731916419295,
      "tolerance_lab": 22.0
     }
    },
@@ -214,12 +234,12 @@
     "check": "palette",
     "score": 1.0,
     "passed": true,
-    "reason": "#B44C9E holds 6.0% of the frame but as a gradient (slope 0.86 Lab per pixel), not a flat area",
+    "reason": "#B44C9E holds 11.7% of the frame but as a gradient (slope 0.51 Lab per pixel), not a flat area",
     "detail": {
-     "mass": 0.06045,
+     "mass": 0.11680000000000001,
      "limit": 0.04,
-     "share": 0.07339035560344828,
-     "slope": 0.8568106889724731
+     "share": 0.07302326579670329,
+     "slope": 0.5146490931510925
     }
    },
    {
@@ -227,20 +247,20 @@
     "check": "wash",
     "score": 1.0,
     "passed": true,
-    "reason": "soft wash: darks at chroma 54, edges 3.9, every stop present",
+    "reason": "soft wash: darks at chroma 53, edges 1.9, every stop present",
     "detail": {
      "ground_L": 75.69,
-     "chroma_frac": 0.5712,
+     "chroma_frac": 0.571,
      "foreground_frac": 0.0,
-     "dark_chroma": 53.512,
-     "edge_p99": 3.917,
-     "dark_mass": 0.1056,
-     "L_p02": 16.09,
-     "chroma_mean": 38.274,
+     "dark_chroma": 53.473,
+     "edge_p99": 1.9,
+     "dark_mass": 0.1058,
+     "L_p02": 16.03,
+     "chroma_mean": 38.266,
      "stop_share": {
-      "#4B3BE8": 0.5363,
-      "#B44C9E": 0.2061,
-      "#D9628A": 0.2576
+      "#4B3BE8": 0.5362,
+      "#B44C9E": 0.2064,
+      "#D9628A": 0.2575
      }
     }
    }

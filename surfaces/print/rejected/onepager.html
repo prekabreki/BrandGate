@@ -16,10 +16,12 @@
   .surface { position: relative; width: 210mm; height: 297mm; overflow: hidden; }
   .frame { position: absolute; inset: 8mm; border: 0.25pt solid var(--ink); }
   .band { position: absolute; left: 8mm; right: 8mm; top: 8mm; height: 64mm; overflow: hidden; }
-  /* The band shows the right seven tenths of the ground, where the flow has already turned
-     from indigo to rose and there is no dark mass. The designer's note on the full-width band,
-     2026-09-15: "too blobby, too much black, saturation too high". */
-  .band img { width: 140%; height: 100%; object-fit: cover; object-position: 50% 50%; display: block; margin-left: -40%; }
+  /* The band shows the full width of the ground, from its top: indigo through magenta to rose
+     and the edge wave with it. It showed the right seven tenths while the ground was orbs
+     (09-15: "too blobby, too much black, saturation too high"); on the mesh ground (#22) that
+     crop lost the flow and the designer called it "a pink purple haze, we've lost colour
+     variation and waves". */
+  .band img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 0%; display: block; }
   .mark { position: absolute; left: 16mm; top: 16mm; width: 34mm; }
   .head { position: absolute; left: 16mm; right: 16mm; top: 80mm; }
   h1 { margin: 0; font: 800 44pt/0.9 var(--display); letter-spacing: -0.045em;

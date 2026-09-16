@@ -70,7 +70,8 @@ def test_the_falloff_is_long_and_has_no_corner(g):
 def test_generate_writes_a_frame_and_one_ledger_row(tmp_path, g):
     led = tmp_path / "ledger.jsonl"
     path, rec = mesh.generate(11, dest_dir=str(tmp_path / "out"), ledger_path=str(led), size=SMALL)
-    assert os.path.exists(path) and os.path.basename(path) == f"ground_mesh_11_v{mesh.VERSION}.png"
+    # a non-default size is named into the file, so a portrait ground never overwrites the wide one
+    assert os.path.exists(path) and os.path.basename(path) == f"ground_mesh_11_v{mesh.VERSION}_{SMALL[0]}x{SMALL[1]}.png"
     rows = [json.loads(line) for line in led.read_text(encoding="utf-8").splitlines()]
     assert len(rows) == 1
     r = rows[0]

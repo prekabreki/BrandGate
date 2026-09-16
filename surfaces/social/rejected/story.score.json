@@ -1,26 +1,29 @@
 {
- "verdict": "pass",
- "on_brand": 0.9993,
+ "verdict": "fail",
+ "on_brand": 0.7129,
  "novelty": 1.0,
  "thresholds": {
   "on_brand_min": 0.75,
   "novelty_min": 0.12
  },
- "failed_rules": [],
+ "failed_rules": [
+  "colour.01",
+  "gradient.03"
+ ],
  "breakdown": [
   {
    "rule": "colour.01",
    "check": "palette",
-   "score": 0.9963,
-   "passed": true,
-   "reason": "the ground is #FAFAF8",
+   "score": 0.2774,
+   "passed": false,
+   "reason": "the ground is #DA9DAC, 32 from the nearest allowed ground #ECEAF6",
    "detail": {
     "ground_rgb": [
-     249,
-     249,
-     247
+     218,
+     157,
+     172
     ],
-    "distance": 0.16063510037253276,
+    "distance": 31.793834076566583,
     "tolerance_lab": 22.0
    }
   },
@@ -29,11 +32,11 @@
    "check": "contrast",
    "score": 1.0,
    "passed": true,
-   "reason": "every text region clears 4.5:1 (worst 6.6:1)",
+   "reason": "every text region clears 4.5:1 (worst 6.3:1)",
    "detail": {
-    "worst_ratio": 6.622486688863559,
+    "worst_ratio": 6.252021850355536,
     "bar": 4.5,
-    "regions": 1
+    "regions": 4
    }
   },
   {
@@ -41,10 +44,12 @@
    "check": "palette",
    "score": 1.0,
    "passed": true,
-   "reason": "no forbidden colour holds a flat area (#B44C9E under 4%)",
+   "reason": "#B44C9E holds 8.3% of the frame but as a gradient (slope 0.32 Lab per pixel), not a flat area",
    "detail": {
-    "mass": 0.0,
-    "limit": 0.04
+    "mass": 0.0828,
+    "limit": 0.04,
+    "share": 0.056559065934065934,
+    "slope": 0.31958404183387756
    }
   },
   {
@@ -52,11 +57,33 @@
    "check": "contrast",
    "score": 1.0,
    "passed": true,
-   "reason": "every text region clears 4.5:1 (worst 6.6:1)",
+   "reason": "every text region clears 4.5:1 (worst 6.3:1)",
    "detail": {
-    "worst_ratio": 6.622486688863559,
+    "worst_ratio": 6.252021850355536,
     "bar": 4.5,
-    "regions": 1
+    "regions": 4
+   }
+  },
+  {
+   "rule": "gradient.03",
+   "check": "wash",
+   "score": 0.0,
+   "passed": false,
+   "reason": "#4B3BE8 holds 0.0% of the wash; every stop needs 6%",
+   "detail": {
+    "ground_L": 71.37,
+    "chroma_frac": 0.7214,
+    "foreground_frac": 0.092,
+    "dark_chroma": 41.393,
+    "edge_p99": 2.17,
+    "dark_mass": 0.0,
+    "L_p02": 40.56,
+    "chroma_mean": 30.569,
+    "stop_share": {
+     "#4B3BE8": 0.0,
+     "#B44C9E": 0.138,
+     "#D9628A": 0.862
+    }
    }
   },
   {
@@ -64,21 +91,15 @@
    "check": "contrast",
    "score": 1.0,
    "passed": true,
-   "reason": "every text region clears 4.5:1 (worst 6.6:1)",
+   "reason": "every text region clears 4.5:1 (worst 6.3:1)",
    "detail": {
-    "worst_ratio": 6.622486688863559,
+    "worst_ratio": 6.252021850355536,
     "bar": 4.5,
-    "regions": 1
+    "regions": 4
    }
   }
  ],
- "not_applicable": [
-  {
-   "rule": "gradient.03",
-   "check": "wash",
-   "reason": "no wash to judge: colour covers 14% of the frame, under the 10% a wash has"
-  }
- ],
+ "not_applicable": [],
  "novelty_detail": {
   "novelty": 1.0,
   "nearest": null,
@@ -176,9 +197,9 @@
   "cairosvg"
  ],
  "counts": {
-  "scored": 5,
-  "failed": 0,
-  "not_applicable": 1,
+  "scored": 6,
+  "failed": 2,
+  "not_applicable": 0,
   "manual": 28,
   "errored": 6
  },

@@ -167,7 +167,8 @@ def generate(seed: int, *, dest_dir: str | None = None, tokens_path: str = TOKEN
     # those two, so the same seed on another machine writes the same file, and a label in
     # docs/calibration-labels.json keyed on this name finds it there too. The run id
     # lives in the ledger row.
-    path = os.path.join(dest_dir, f"ground_mesh_{seed}_v{VERSION}.png")
+    tag = "" if tuple(size) == (W, H) else f"_{size[0]}x{size[1]}"
+    path = os.path.join(dest_dir, f"ground_mesh_{seed}_v{VERSION}{tag}.png")
     Image.fromarray(frame).save(path)
     record = ledger.row(
         run_id=run_id, model="mesh", tier="procedural", prompt_id=f"ground-mesh@{VERSION}",
@@ -186,10 +187,14 @@ def main(argv=None) -> int:
     p.add_argument("--count", type=int, default=1, help="render this many seeds from --seed-start")
     p.add_argument("--seed-start", type=int, default=None)
     p.add_argument("--out", default=SCRATCH)
+    p.add_argument("--size", default=f"{W}x{H}",
+                   help="WxH. The ground is procedural, so a portrait surface gets a portrait "
+                        "ground with the whole flow in it rather than a crop of the wide one (#22)")
     a = p.parse_args(argv)
+    size = tuple(int(v) for v in a.size.lower().split("x"))
     start = a.seed if a.seed_start is None else a.seed_start
     for s in range(start, start + a.count):
-        path, rec = generate(s, dest_dir=a.out)
+        path, rec = generate(s, dest_dir=a.out, size=size)
         print(f"seed {s}  {rec['latency_s']}s  {path}", flush=True)
     return 0
 
