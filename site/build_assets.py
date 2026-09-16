@@ -9,9 +9,11 @@ follows. Until #22 these were cut by hand in a session and the recipe lived nowh
 """
 from __future__ import annotations
 
+import io
 import os
 import shutil
 import sys
+import urllib.request
 
 from PIL import Image
 
@@ -32,6 +34,12 @@ CUTS = [
     (f"{S}/print/accepted/onepager.png", "onepager.jpg", 1240),
 ]
 COPIES = [(f"{S}/print/accepted/onepager.pdf", "handsel-onepager.pdf")]
+# Screenshots of the public tools the page links to, pulled from each repo's own README
+# so the site shows what the repo shows. (raw URL, asset stem, widths)
+TOOLS = [
+    ("https://raw.githubusercontent.com/prekabreki/ck3-llm-chronicler/HEAD/docs/images/chronicle.png",
+     "ck3-chronicle", (1600, 800)),
+]
 
 
 def cut(src: str, name: str, width: int | None, quality: int = 86) -> str:
@@ -43,6 +51,17 @@ def cut(src: str, name: str, width: int | None, quality: int = 86) -> str:
     return out
 
 
+def fetch(url: str, stem: str, widths: tuple[int, ...]) -> None:
+    with urllib.request.urlopen(url, timeout=60) as r:
+        im = Image.open(io.BytesIO(r.read())).convert("RGB")
+    for w in widths:
+        name = f"{stem}.jpg" if w == widths[0] else f"{stem}-{w}.jpg"
+        out = os.path.join(ASSETS, name)
+        im.resize((w, round(im.height * w / im.width)), Image.LANCZOS).save(
+            out, "JPEG", quality=86, optimize=True, progressive=True)
+        print(f"{name:26s} {os.path.getsize(out) // 1024:>5} KB  <- {url}")
+
+
 def main() -> int:
     os.makedirs(ASSETS, exist_ok=True)
     for src, name, width in CUTS:
@@ -52,6 +71,8 @@ def main() -> int:
         out = os.path.join(ASSETS, name)
         shutil.copy(src, out)
         print(f"{name:26s} {os.path.getsize(out) // 1024:>5} KB  <- {os.path.relpath(src, ROOT)}")
+    for url, stem, widths in TOOLS:
+        fetch(url, stem, widths)
     return 0
 
 

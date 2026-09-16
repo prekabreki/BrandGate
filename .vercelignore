@@ -3,3 +3,6 @@
 !site
 !site/**
 !vercel.json
+
+# Check screenshots are evidence for the repo, not part of the site.
+site/checks/**

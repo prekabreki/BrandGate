@@ -114,6 +114,12 @@ def main(argv=None) -> int:
         print_pdf(a.html, a.out, a.chrome or chrome(), a.wait_ms)
         return 0
     w, h = (int(v) for v in a.size.lower().split("x"))
+    if w < 500:
+        # Chrome clamps the window to 500 CSS px wide and crops the PNG to what was asked,
+        # so a narrower "check" is a 500 px layout with its right edge cut off (found on the
+        # site's 420 check, 2026-09-16). Use device emulation for anything under that.
+        raise SystemExit(f"{w} px is under Chrome's 500 px window floor; the page would lay out at 500. "
+                         "Emulate instead: chrome-devtools-axi emulate --viewport '420x900x1,mobile'")
     render(a.html, a.out, w, h, a.chrome or chrome(), a.wait_ms, a.scale)
     return 0
 

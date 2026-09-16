@@ -12,59 +12,107 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;800&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<script>document.documentElement.classList.add("js")</script>
 <style>
-  /* Values from brand/tokens.json. The site never hardcodes a colour the tokens do not name. */
-  :root { --ink:#111114; --paper:#FAFAF8; --mist:#ECEAF6; --graphite:#4A4A55; --indigo:#4B3BE8; --magenta:#B44C9E; --rose:#D9628A;
-    --flow: linear-gradient(90deg, #1E1A5C 0%, #4B3BE8 28%, #7A4FE0 50%, #B44C9E 74%, #D9628A 100%);
+  /* Values from brand/tokens.json and brand/fonts.css. The site never hardcodes a colour the tokens do not name. */
+  :root { --ink:#111114; --paper:#FAFAF8; --mist:#ECEAF6; --night:#0D0B18; --graphite:#4A4A55;
+    --indigo:#4B3BE8; --deep:#1E1A5C; --violet:#7A4FE0; --magenta:#B44C9E; --rose:#D9628A;
     --flow-text: linear-gradient(90deg, #111114 0%, #111114 10%, #4B3BE8 42%, #B44C9E 100%);
-    --display: "Archivo", "Helvetica Neue", Arial, sans-serif; --mono: "IBM Plex Mono", Consolas, monospace; }
+    --display: "Archivo", "Helvetica Neue", Arial, sans-serif; --mono: "IBM Plex Mono", Consolas, monospace;
+    --glass-bg: rgba(255,255,255,0.52);
+    --glass-shadow: inset 0 1px 0 rgba(255,255,255,0.95), inset 0 -1px 0 rgba(17,17,20,0.04), 0 1px 2px rgba(17,17,20,0.04), 0 12px 28px -8px rgba(40,32,110,0.14), 0 40px 80px -32px rgba(40,32,110,0.20);
+    --ease-out: cubic-bezier(0.23, 1, 0.32, 1); }
   * { box-sizing: border-box; min-width: 0; }
   html, body { margin: 0; background: var(--paper); color: var(--ink); font: 400 17px/1.5 var(--display); -webkit-font-smoothing: antialiased; }
   img { display: block; max-width: 100%; height: auto; }
+  a { color: var(--indigo); }
+  :focus-visible { outline: 2px solid var(--indigo); outline-offset: 3px; border-radius: 4px; }
 
-  /* The hero: the generated ground under live type. Same recipe as surfaces/hero/compose.py. */
+  /* The ground under the whole page: paper, two orbs of the flow drifting, grain over that (brand/rules.md, Gradient and Surface). */
+  .wash { position: fixed; inset: 0; z-index: -1; overflow: hidden; background: var(--paper); }
+  .orb { position: absolute; border-radius: 50%; pointer-events: none; will-change: transform; }
+  .wash .orb { width: 70vmax; height: 70vmax; filter: blur(48px); }
+  .wash .orb.a { left: -28vmax; top: 4vh;  background: radial-gradient(circle, var(--indigo) 0%, rgba(75,59,232,0) 68%); opacity: .18; }
+  .wash .orb.b { right: -30vmax; top: 46vh; background: radial-gradient(circle, var(--rose) 0%, rgba(217,98,138,0) 68%); opacity: .16; }
+  .grain { position: absolute; inset: 0; pointer-events: none; mix-blend-mode: overlay; opacity: .38;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+
+  /* The hero: the accepted ground under live type, with two orbs of its own colours breathing over it. */
   .hero { position: relative; min-height: 88vh; overflow: hidden; display: grid; align-items: end; }
   .hero .ground { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 0%; }
+  .hero .orb { width: 60vmax; height: 60vmax; filter: blur(40px); mix-blend-mode: soft-light; }
+  .hero .orb.a { left: -18vmax; top: -22vmax; background: radial-gradient(circle, var(--indigo) 0%, rgba(75,59,232,0) 66%); opacity: .5; }
+  .hero .orb.b { right: -16vmax; top: -10vmax; background: radial-gradient(circle, var(--rose) 0%, rgba(217,98,138,0) 66%); opacity: .45; }
   /* Paper at the foot for the type, nothing over the top: the procedural ground carries its own falloff (#22). */
   .hero .veil { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 0%, transparent 42%, rgba(250,250,248,.70) 100%); }
-  .grain { position: absolute; inset: 0; pointer-events: none; mix-blend-mode: overlay; opacity: .34;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
   .hero .mark { position: absolute; left: clamp(16px, 4.5vw, 72px); top: clamp(20px, 5vw, 64px); width: clamp(120px, 15vw, 236px); }
   .hero .in { position: relative; padding: 32vh clamp(16px, 4.5vw, 72px) clamp(56px, 9vw, 96px); max-width: 1100px; }
   h1 { margin: 0; font: 800 clamp(64px, 11vw, 176px)/0.88 var(--display); letter-spacing: -0.05em;
        background: var(--flow-text); -webkit-background-clip: text; background-clip: text; color: transparent; padding-right: .08em; width: max-content; max-width: 100%; }
   h2 { margin: 18px 0 0; font: 800 clamp(24px, 2.75vw, 44px)/1.05 var(--display); letter-spacing: -0.035em; max-width: 18ch; }
   .tag { margin: 14px 0 0; color: var(--graphite); font-size: clamp(17px, 1.4vw, 22px); max-width: 34ch; }
+  /* The one orchestrated entrance (rules: 14 px over 900 ms, staggered 120 ms). JS hides, anime.js reveals; no JS, nothing hides. */
+  .js .rise { opacity: 0; }
 
   section { padding: clamp(48px, 7vw, 96px) clamp(16px, 4.5vw, 72px); max-width: 1240px; margin: 0 auto; }
   .eyebrow { font: 500 12px/1.6 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--graphite); }
   h3 { margin: 6px 0 12px; font: 800 clamp(26px, 3.2vw, 36px)/1.05 var(--display); letter-spacing: -0.035em; }
   .lede { color: var(--graphite); max-width: 62ch; margin: 0 0 32px; }
-  .pair { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 28px; }
-  figure { margin: 0; }
-  figure img { border-radius: 10px; border: 1px solid rgba(17,17,20,.08); box-shadow: 0 18px 40px -28px rgba(40,32,110,.28); }
-  figcaption { margin-top: 12px; font: 400 13px/1.55 var(--mono); color: var(--graphite); }
+
+  /* Cards are glass where there is depth: white at 52 percent, backdrop blur, inset specular, the Direction A shadow stack. */
+  .glass { background: var(--glass-bg); backdrop-filter: blur(28px) saturate(180%); -webkit-backdrop-filter: blur(28px) saturate(180%);
+           border: 1px solid rgba(255,255,255,0.75); box-shadow: var(--glass-shadow); border-radius: 20px; }
+  figure { margin: 0; padding: 12px; }
+  figure img { border-radius: 10px; }
+  figcaption { padding: 12px 6px 2px; font: 400 13px/1.55 var(--mono); color: var(--graphite); }
   figcaption b { color: var(--ink); font-weight: 500; }
-  figcaption .verdict { display: inline-block; padding: 2px 8px; border-radius: 999px; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; font-size: 10.5px; margin-right: 6px; }
-  .pass { background: var(--flow); color: #fff; } .fail { background: var(--mist); color: var(--ink); }
+  .verdict { display: inline-block; padding: 2px 8px; border-radius: 999px; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; font-size: 11px; margin-right: 6px; }
+  .pass { background: var(--indigo); color: #fff; } .fail { background: var(--mist); color: var(--ink); }
+  .pair { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 28px; }
   .set { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 24px; align-items: start; }
   .set .sq { grid-column: span 4; } .set .st { grid-column: span 3; } .set .og { grid-column: span 5; } .set .pr { grid-column: span 12; max-width: 620px; }
-  .set a { color: var(--indigo); }
   @media (max-width: 860px) { .set .sq, .set .st, .set .og { grid-column: span 6; } .set .pr { grid-column: span 12; } }
   @media (max-width: 520px) { .set .sq, .set .st, .set .og { grid-column: span 12; } }
-  footer { padding: 0 clamp(16px, 4.5vw, 72px) 64px; max-width: 1240px; margin: 0 auto; font: 400 12px/1.6 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--graphite); }
-  @media (prefers-reduced-motion: no-preference) { .hero .in { animation: rise 900ms cubic-bezier(.2,.7,.2,1) both; } @keyframes rise { from { opacity: 0; transform: translateY(14px); } } }
+
+  /* The tools: one card per public piece, the whole card the link. */
+  .tools { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 420px), 1fr)); gap: 28px; }
+  .tool { display: block; color: inherit; text-decoration: none; padding: 12px; cursor: pointer;
+          transition: transform 200ms var(--ease-out), box-shadow 200ms var(--ease-out); }
+  .tool:active { transform: scale(0.98); }
+  @media (hover: hover) and (pointer: fine) { .tool:hover { transform: translateY(-2px); } }
+  .tool img { border-radius: 10px; }
+  .tool .t { padding: 14px 6px 4px; }
+  .tool .t b { display: block; font: 800 20px/1.15 var(--display); letter-spacing: -0.02em; color: var(--ink); }
+  .tool .t span { display: block; margin-top: 6px; color: var(--graphite); font-size: 15px; }
+  .tool .t small { display: block; margin-top: 10px; font: 400 12px/1.6 var(--mono); letter-spacing: .04em; color: var(--indigo); }
+
+  footer { padding: 0 clamp(16px, 4.5vw, 72px) 64px; max-width: 1240px; margin: 0 auto; font: 400 13px/1.6 var(--mono); color: var(--graphite); }
+
+  /* Ground orbs drift for 26 to 38 seconds, alternate, and never faster (rules, Motion). */
+  @media (prefers-reduced-motion: no-preference) {
+    .wash .orb.a { animation: drift-a 38s ease-in-out infinite alternate; }
+    .wash .orb.b { animation: drift-b 30s ease-in-out infinite alternate; }
+    .hero .orb.a { animation: drift-b 34s ease-in-out infinite alternate; }
+    .hero .orb.b { animation: drift-a 26s ease-in-out infinite alternate; }
+    @keyframes drift-a { from { transform: translate(0, 0); } to { transform: translate(9vmax, 6vmax); } }
+    @keyframes drift-b { from { transform: translate(0, 0); } to { transform: translate(-7vmax, 8vmax); } }
+  }
 </style>
 </head>
 <body>
+<!-- impeccable-disable all-caps-body: brand rule, mono caps labels at 0.14em tracking (brand/rules.md, Type) -->
+<!-- impeccable-disable gpt-thin-border-wide-shadow: the Direction A glass recipe, one hairline specular over a deep soft stack (brand/fonts.css .glass) -->
+<div class="wash" aria-hidden="true"><div class="orb a"></div><div class="orb b"></div><div class="grain"></div></div>
+
 <header class="hero">
   <img class="ground" src="assets/ground-accepted.jpg" alt="" fetchpriority="high">
+  <div class="orb a" aria-hidden="true"></div><div class="orb b" aria-hidden="true"></div>
   <div class="veil"></div><div class="grain"></div>
-  <img class="mark" src="assets/slice-mark.svg" alt="Handsel mark, six slices">
+  <img class="mark rise" src="assets/slice-mark.svg" alt="Handsel mark, six slices">
   <div class="in">
-    <h1>Handsel</h1>
-    <h2>Six pieces of one thing.</h2>
-    <p class="tag">Tools built for one person, kept in public.</p>
+    <h1 class="rise">Handsel</h1>
+    <h2 class="rise">Six pieces of one thing.</h2>
+    <p class="tag rise">Tools built for one person, kept in public.</p>
   </div>
 </header>
 
@@ -73,14 +121,26 @@
   <h3>Every surface here was made, then judged.</h3>
   <p class="lede">The ground behind the wordmark is drawn by code, fitted by measurement to the one frame out of four prompt versions the designer liked, after asking whether an image model was the right tool for a gradient at all. The candidate beside it is the model's own frame from the version before. A gate written from the brand's own rules scored both before either could land here. Same type, same mark, same veil. One of them is Handsel.</p>
   <div class="pair">
-    <figure>
-      <img src="assets/hero-accepted.jpg" srcset="assets/hero-accepted-800.jpg 800w, assets/hero-accepted.jpg 1600w" sizes="(min-width: 900px) 560px, 100vw" alt="The accepted hero: a clean indigo to rose gradient falling into paper under the Handsel wordmark" loading="lazy">
+    <figure class="glass">
+      <img src="assets/hero-accepted.jpg" srcset="assets/hero-accepted-800.jpg 800w, assets/hero-accepted.jpg 1600w" sizes="(min-width: 900px) 560px, 100vw" width="1600" height="900" alt="The accepted hero: a clean indigo to rose gradient falling into paper under the Handsel wordmark" loading="lazy">
       <figcaption><span class="verdict pass">pass</span><b>on-brand 0.97.</b> Soft wash: darks at chroma 56, edges 5.2, every stop present.</figcaption>
     </figure>
-    <figure>
-      <img src="assets/hero-rejected.jpg" srcset="assets/hero-rejected-800.jpg 800w, assets/hero-rejected.jpg 1600w" sizes="(min-width: 900px) 560px, 100vw" alt="The refused candidate: a muddy, greyed gradient from the model, composed the same way" loading="lazy">
+    <figure class="glass">
+      <img src="assets/hero-rejected.jpg" srcset="assets/hero-rejected-800.jpg 800w, assets/hero-rejected.jpg 1600w" sizes="(min-width: 900px) 560px, 100vw" width="1600" height="900" alt="The refused candidate: a muddy, greyed gradient from the model, composed the same way" loading="lazy">
       <figcaption><span class="verdict fail">fail</span><b>on-brand 0.84.</b> The wash is dull: mean chroma 27, a ground carries at least 30.</figcaption>
     </figure>
+  </div>
+</section>
+
+<section>
+  <div class="eyebrow">the tools</div>
+  <h3>Built for one person's work, then kept in public.</h3>
+  <p class="lede">Each one began as a problem in the studio's own work and was finished properly before it was left in public. The repos are the proof. More arrive here as they ship.</p>
+  <div class="tools">
+    <a class="tool glass" href="https://github.com/prekabreki/ck3-llm-chronicler">
+      <img src="assets/ck3-chronicle.jpg" srcset="assets/ck3-chronicle-800.jpg 800w, assets/ck3-chronicle.jpg 1600w" sizes="(min-width: 900px) 560px, 100vw" width="1600" height="1000" alt="A chronicle page in the ck3 chronicler: a drop-capped biography set on vellum, the character's arms and titles down the left margin" loading="lazy">
+      <div class="t"><b>ck3 llm chronicler</b><span>Turns a Crusader Kings III campaign into a readable chronicle. Tails the saves, melts them, and writes biographies with a model that is forbidden to invent.</span><small>github.com/prekabreki/ck3-llm-chronicler</small></div>
+    </a>
   </div>
 </section>
 
@@ -89,13 +149,26 @@
   <h3>The same brand at every size, and on paper.</h3>
   <p class="lede">Square, story and card from one ground and one headline, and an A4 sheet with the ground kept to a band. Each one was scored by the gate before it landed here. The story's ground is the same ground drawn again at its own aspect, which a procedural ground can do and a cropped one cannot.</p>
   <div class="set">
-    <figure class="sq"><img src="assets/square.jpg" alt="Handsel square social card" loading="lazy"><figcaption><span class="verdict pass">pass</span><b>square</b> 1080 by 1080</figcaption></figure>
-    <figure class="st"><img src="assets/story.jpg" alt="Handsel story card, the gradient at portrait aspect" loading="lazy"><figcaption><span class="verdict pass">pass</span><b>story</b> 1080 by 1920</figcaption></figure>
-    <figure class="og"><img src="assets/og.jpg" alt="Handsel link card" loading="lazy"><figcaption><span class="verdict pass">pass</span><b>card</b> 1200 by 630</figcaption></figure>
-    <figure class="pr"><a href="assets/handsel-onepager.pdf"><img src="assets/onepager.jpg" alt="Handsel one-pager, A4" loading="lazy"></a><figcaption><span class="verdict pass">pass</span><b>print</b> A4, flat, <a href="assets/handsel-onepager.pdf">the PDF</a></figcaption></figure>
+    <figure class="sq glass"><img src="assets/square.jpg" width="1080" height="1080" alt="Handsel square social card" loading="lazy"><figcaption><span class="verdict pass">pass</span><b>square</b> 1080 by 1080</figcaption></figure>
+    <figure class="st glass"><img src="assets/story.jpg" width="1080" height="1920" alt="Handsel story card, the gradient at portrait aspect" loading="lazy"><figcaption><span class="verdict pass">pass</span><b>story</b> 1080 by 1920</figcaption></figure>
+    <figure class="og glass"><img src="assets/og.jpg" width="1200" height="630" alt="Handsel link card" loading="lazy"><figcaption><span class="verdict pass">pass</span><b>card</b> 1200 by 630</figcaption></figure>
+    <figure class="pr glass"><a href="assets/handsel-onepager.pdf"><img src="assets/onepager.jpg" width="1240" height="1754" alt="Handsel one-pager, A4" loading="lazy"></a><figcaption><span class="verdict pass">pass</span><b>print</b> A4, flat, <a href="assets/handsel-onepager.pdf">the PDF</a></figcaption></figure>
   </div>
 </section>
 
 <footer>Site under construction. Tools arrive here through September.</footer>
+
+<script type="module">
+  // One orchestrated entrance, anime.js v4. If the CDN never answers, the type shows anyway.
+  const els = [...document.querySelectorAll(".rise")];
+  const show = () => els.forEach(e => { e.style.opacity = 1; });
+  const fallback = setTimeout(show, 2500);
+  try {
+    const { animate, stagger } = await import("https://cdn.jsdelivr.net/npm/animejs@4.5.0/+esm");
+    clearTimeout(fallback);
+    const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    animate(els, { opacity: [0, 1], y: still ? 0 : [14, 0], duration: 900, delay: stagger(120), ease: "outQuart" });
+  } catch { clearTimeout(fallback); show(); }
+</script>
 </body>
 </html>
