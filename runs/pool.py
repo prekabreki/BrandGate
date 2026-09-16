@@ -2,6 +2,7 @@
 
     python -m runs.pool --count 200
     python -m runs.pool --count 200 --dry-run
+    python -m runs.pool --count 40 --seed-start 3000 --out surfaces/_pool-v4 --prompt-version 4
 
 The calibration batch spreads seeds across both models and both tiers on
 purpose. The sameness run (#10) wants the opposite: hold everything still
@@ -40,11 +41,26 @@ def existing_seeds(dest: str, prompt: str, tier: str) -> set[int]:
     return seeds
 
 
+class PromptVersionMismatch(ValueError):
+    """The prompt on disk is not the version this pool was declared for."""
+
+
 def fill(count: int, prompt: str, model: str, tier: str, dest: str,
          seed_start: int = SEED_START, dry_run: bool = False,
-         backend=None, ledger_path: str | None = None) -> list[dict]:
-    from pipeline import gen
+         backend=None, ledger_path: str | None = None,
+         prompt_version: int | None = None, prompt_dir: str | None = None) -> list[dict]:
+    from pipeline import gen, prompts
 
+    if prompt_version is not None:
+        # A pool directory is named for one prompt version (#22: _pool is v3,
+        # _pool-v4 is v4). The frames themselves do not say which words made
+        # them, only the ledger does, so refusing here is what keeps a v3
+        # frame from landing in the v4 pool and being labelled as one.
+        spec = prompts.load(prompt, prompt_dir)
+        if spec.version != prompt_version:
+            raise PromptVersionMismatch(
+                f"{prompt} on disk is version {spec.version}, this pool is for "
+                f"version {prompt_version}; not generating into {dest}")
     os.makedirs(dest, exist_ok=True)
     done = existing_seeds(dest, prompt, tier)
     rows, t0 = [], time.monotonic()
@@ -80,10 +96,13 @@ def main(argv=None):
     p.add_argument("--tier", default="turbo", choices=("turbo", "raw"))
     p.add_argument("--out", default=POOL_DIR)
     p.add_argument("--seed-start", type=int, default=SEED_START)
+    p.add_argument("--prompt-version", type=int, default=None,
+                   help="refuse to run unless brand/prompts/<prompt>.md is this version")
     p.add_argument("--dry-run", action="store_true")
     a = p.parse_args(argv)
     rows = fill(a.count, a.prompt, a.model, a.tier, a.out,
-                seed_start=a.seed_start, dry_run=a.dry_run)
+                seed_start=a.seed_start, dry_run=a.dry_run,
+                prompt_version=a.prompt_version)
     failed = [r for r in rows if r.get("error")]
     print(f"{len(rows) - len(failed)} generated, {len(failed)} failed, "
           f"{len(existing_seeds(a.out, a.prompt, a.tier))} in the pool")

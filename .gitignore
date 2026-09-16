@@ -28,8 +28,10 @@ surfaces/_calibration-*/
 _calibrate-*.log
 
 # The sameness pool (#10): 200 grounds, one model, one tier, regenerable from
-# the ledger's seeds. Lives on the 4080 box only.
+# the ledger's seeds. Lives on the 4080 box only. _pool-v4 and any later
+# _pool-vN (#22) are the same thing at a later prompt version.
 surfaces/_pool/
+surfaces/_pool-v*/
 
 # The connector binary; build it with `go build` in connector/.
 connector/brandgate-connector
