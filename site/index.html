@@ -264,7 +264,7 @@
     const img = f.querySelector("img");
     f.setAttribute("tabindex", "0"); f.setAttribute("role", "button"); f.setAttribute("aria-label", "Open a bigger view: " + img.alt);
     const open = () => {
-      big.src = largest(img); big.alt = img.alt; cap.textContent = f.querySelector("figcaption").textContent.trim();
+      big.src = largest(img); big.alt = img.alt; const c = f.querySelector("figcaption").cloneNode(true), v = c.querySelector(".verdict"); const vt = v ? v.textContent.trim() + ", " : ""; if (v) v.remove(); cap.textContent = vt + c.textContent.trim().replace(/\s+/g, " ");
       lb.showModal();
       if (animate && !matchMedia("(prefers-reduced-motion: reduce)").matches) animate(card, { opacity: [0, 1], scale: [0.95, 1], duration: 260, ease: "outQuart" });
     };
