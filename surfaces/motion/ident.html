@@ -15,12 +15,23 @@
   /* The accepted procedural ground, the same file the hero and the site stand on, under the hero's veil:
      paper at the foot, nothing over the top. */
   .ground { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 0%; }
-  /* ?ground=orbs: the candidate the gate refused on 09-16. Two orbs of the brand's own colours breathing over
-     the ground in soft-light at half strength, no lift. It looked right by eye; the wash rule read the darks at
-     chroma 62 against 56, so the orbs went and the lift came instead. Kept as the refused ident (#11). */
+  /* ?ground=ramp: the refused ident (#11). The flow itself as the ground, the first thing anyone does with a
+     gradient brand, and the one move rules.md forbids by name: "Never the raw ramp." The gate refuses it on two
+     rules (the ground colour, darks at chroma 78 against 56) and the eye sees why: the six slices vanish into
+     their own colours. render.py --variant ramp renders it into out/refused/. */
+  .ramp .ground, .ramp .veil, .ramp .lift { display: none; }
+  .ramp .frame { background: linear-gradient(90deg, #1E1A5C 0%, #4B3BE8 28%, #7A4FE0 50%, #B44C9E 74%, #D9628A 100%); }
+  .ramp .tag { color: #FAFAF8; }
+  /* Weaker refusals kept for the record, 16 Sep: ?ground=orbs, two orbs of the brand's colours in soft-light
+     over the ground (darks at chroma 62 to 64; by eye it reads the same as the accepted frame, which is why it
+     did not ship as the refused one), and ?ground=thin, the orbs alone on paper (wash too thin, chroma 21). */
   .orb { display: none; position: absolute; border-radius: 50%; filter: blur(90px); mix-blend-mode: soft-light; will-change: transform; }
   .orbs .orb { display: block; }
   .orbs .lift { display: none; }
+  .orb.a { width: 1300px; height: 1300px; left: -520px; top: -520px; background: radial-gradient(circle, var(--indigo) 0%, rgba(75,59,232,0) 66%); opacity: .5; }
+  .orb.b { width: 1200px; height: 1200px; right: -420px; top: -300px; background: radial-gradient(circle, var(--rose) 0%, rgba(217,98,138,0) 66%); opacity: .45; }
+  .thin .ground, .thin .lift, .thin .veil { display: none; }
+  .thin .orb { display: block; mix-blend-mode: normal; opacity: .55; }
   .orb.a { width: 1300px; height: 1300px; left: -520px; top: -520px; background: radial-gradient(circle, var(--indigo) 0%, rgba(75,59,232,0) 66%); opacity: .5; }
   .orb.b { width: 1200px; height: 1200px; right: -420px; top: -300px; background: radial-gradient(circle, var(--rose) 0%, rgba(217,98,138,0) 66%); opacity: .45; }
   .veil { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 0%, transparent 42%, rgba(250,250,248,.70) 100%); }
@@ -89,14 +100,15 @@
                   onUpdate: () => grad.setAttribute("gradientTransform", `translate(${state.tx} 0)`) }, 0);
   tl.add(".word", { opacity: [0, 1], translateY: [14, 0], duration: 900 }, 1500);
   tl.add(".tag",  { opacity: [0, 1], translateY: [14, 0], duration: 900 }, 1620);
-  // The refused variant's orbs drift slowly, as the motion rules say orbs do; a no-op when they are hidden.
+  // The orb variants' orbs drift slowly, as the motion rules say orbs do; a no-op when they are hidden.
   tl.add(".orb.a", { translateX: [0, 90], translateY: [0, 60], duration: 6000, ease: "inOutSine" }, 0);
   tl.add(".orb.b", { translateX: [0, -70], translateY: [0, 40], duration: 6000, ease: "inOutSine" }, 0);
   tl.add(state, { tx: 0, duration: 1 }, 5999); // pin the timeline length at 6000 ms
 
   const q = new URLSearchParams(location.search);
   if (q.get("mask")) document.documentElement.classList.add("mask");
-  if (q.get("ground") === "orbs") document.documentElement.classList.add("orbs");
+  const ground = q.get("ground");
+  if (ground) document.documentElement.classList.add(ground);
   const t = q.get("t");
   if (t !== null) { tl.seek(Number(t)); document.documentElement.dataset.ready = "1"; }
   else { tl.play(); }

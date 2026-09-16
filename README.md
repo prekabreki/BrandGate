@@ -36,14 +36,14 @@ The ledger, `runs/ledger.jsonl`, is one line per run: model, tier, prompt at its
 
 | accepted | refused |
 |---|---|
-| [![The Handsel ident: six slices rise into the band while the flow runs through them, then the wordmark](surfaces/motion/out/poster.jpg)](surfaces/motion/out/ident.mp4) | [![The refused ident: the same animation over saturated indigo and rose orbs](surfaces/motion/out/refused/poster.jpg)](surfaces/motion/out/refused/ident.mp4) |
-| the accepted ground under a tenth of paper, `ident.html` | the same ground with two soft-light orbs breathing over it, `ident.html?ground=orbs` |
-| **pass, 6 of 6 frames, on-brand 0.98** | **fail, 6 of 6 frames, on-brand 0.95 to 0.96**, gradient.03 |
-| soft wash: darks at chroma 51 | the darks are saturated (chroma 62 to 64, a wash stays under 56) |
+| [![The Handsel ident: six slices rise into the band while the flow runs through them, then the wordmark](surfaces/motion/out/poster.jpg)](surfaces/motion/out/ident.mp4) | [![The refused ident: the same animation over the raw flow gradient, the mark vanishing into it](surfaces/motion/out/refused/poster.jpg)](surfaces/motion/out/refused/ident.mp4) |
+| the accepted ground under a tenth of paper, `ident.html` | the flow itself as the ground, `ident.html?ground=ramp` |
+| **pass, 6 of 6 frames, on-brand 0.98** | **fail, 6 of 6 frames, on-brand 0.72 to 0.83**, colour.01 and gradient.03 on every frame, the tagline's contrast too as it lands |
+| soft wash: darks at chroma 51 | the ground is #8751AA, 63 from the nearest allowed ground; the darks are saturated (chroma 78 to 80, a wash stays under 56) |
 
 Six seconds, 1920 by 1080, drawn in code from the mark's own geometry and the motion rules: a rise on a soft curve, staggered 120 ms, the flow left to right, nothing rotated or mirrored. `surfaces/motion/ident.html` takes `?t=<ms>` and seeks its timeline there, and `surfaces/motion/render.py` captures 180 held frames that way, because Chrome's virtual time advances timers without producing frames and a recording of a playing page is a file of the right length holding the wrong pictures. ffprobe confirms the frame count before the file is kept. One frame a second goes through the gate with its foreground declared, the way every surface is scored; the series is in `surfaces/motion/out/score.json`.
 
-The refused cut came first, and it is the one a designer reaches for: the brand's own indigo and rose as two orbs drifting over the ground, the motion rules' "orbs drift slowly" taken literally. By eye it is the richer frame. The wash rule read its darks at chroma 62 to 64 against the 56 a soft wash stays under, on every sampled frame, and that is the whole difference between the two files: the orbs went, a tenth of paper came, and the same 180 frames were drawn again. `render.py --variant orbs` regenerates it into `surfaces/motion/out/refused/`, score series included, because a refusal you cannot play is a claim.
+The refused cut is the first thing anyone does with a gradient brand: put the flow behind the mark. `brand/rules.md` forbids it by name, "never the raw ramp", and the frame shows why the sentence exists: the six slices vanish into their own colours, and the wordmark's ink-to-flow gradient has nothing to turn against. The gate refuses it on two rules on every sampled frame, the ground colour and the wash, and the same 180 frames were drawn again over it. `render.py --variant ramp` regenerates it into `surfaces/motion/out/refused/`, score series included, because a refusal you cannot play is a claim. Two weaker refusals from the same evening are kept in `ident.html` as `?ground=orbs` and `?ground=thin`; the orbs one failed the wash at chroma 62 to 64 but by eye read the same as the accepted frame, which is not a refusal anyone can see.
 
 ## Working with a designer
 

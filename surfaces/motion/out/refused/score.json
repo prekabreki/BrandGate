@@ -1,5 +1,5 @@
 {
- "variant": "orbs",
+ "variant": "ramp",
  "fps": 30,
  "seconds": 6,
  "verdict": "fail",
@@ -7,12 +7,14 @@
   {
    "t_ms": 0,
    "verdict": "fail",
-   "on_brand": 0.9577,
+   "on_brand": 0.7171,
    "failed_rules": [
+    "colour.01",
     "gradient.03"
    ],
    "reasons": [
-    "the darks are saturated (chroma 62, a wash stays under 56)"
+    "the ground is #D06199, 60 from the nearest allowed ground #ECEAF6",
+    "the darks are saturated (chroma 80, a wash stays under 56)"
    ],
    "errored": [],
    "foreground_frac": 0.0
@@ -20,12 +22,14 @@
   {
    "t_ms": 1000,
    "verdict": "fail",
-   "on_brand": 0.9573,
+   "on_brand": 0.719,
    "failed_rules": [
+    "colour.01",
     "gradient.03"
    ],
    "reasons": [
-    "the darks are saturated (chroma 63, a wash stays under 56)"
+    "the ground is #D06199, 60 from the nearest allowed ground #ECEAF6",
+    "the darks are saturated (chroma 79, a wash stays under 56)"
    ],
    "errored": [],
    "foreground_frac": 0.13
@@ -33,12 +37,20 @@
   {
    "t_ms": 2000,
    "verdict": "fail",
-   "on_brand": 0.9561,
+   "on_brand": 0.7765,
    "failed_rules": [
-    "gradient.03"
+    "colour.01",
+    "colour.02",
+    "colour.04",
+    "gradient.03",
+    "type.03"
    ],
    "reasons": [
-    "the darks are saturated (chroma 63, a wash stays under 56)"
+    "the ground is #8751AA, 63 from the nearest allowed ground #0D0B18",
+    "a text region at 1066,930 sits at 3.9:1 against its ground, under the 4.5:1 bar",
+    "a text region at 1066,930 sits at 3.9:1 against its ground, under the 4.5:1 bar",
+    "the darks are saturated (chroma 78, a wash stays under 56)",
+    "a text region at 1066,930 sits at 3.9:1 against its ground, under the 4.5:1 bar"
    ],
    "errored": [],
    "foreground_frac": 0.1747
@@ -46,12 +58,14 @@
   {
    "t_ms": 3000,
    "verdict": "fail",
-   "on_brand": 0.9552,
+   "on_brand": 0.8271,
    "failed_rules": [
+    "colour.01",
     "gradient.03"
    ],
    "reasons": [
-    "the darks are saturated (chroma 63, a wash stays under 56)"
+    "the ground is #8751AA, 63 from the nearest allowed ground #0D0B18",
+    "the darks are saturated (chroma 78, a wash stays under 56)"
    ],
    "errored": [],
    "foreground_frac": 0.1747
@@ -59,12 +73,14 @@
   {
    "t_ms": 4000,
    "verdict": "fail",
-   "on_brand": 0.9542,
+   "on_brand": 0.8271,
    "failed_rules": [
+    "colour.01",
     "gradient.03"
    ],
    "reasons": [
-    "the darks are saturated (chroma 63, a wash stays under 56)"
+    "the ground is #8751AA, 63 from the nearest allowed ground #0D0B18",
+    "the darks are saturated (chroma 78, a wash stays under 56)"
    ],
    "errored": [],
    "foreground_frac": 0.1747
@@ -72,12 +88,14 @@
   {
    "t_ms": 5000,
    "verdict": "fail",
-   "on_brand": 0.9536,
+   "on_brand": 0.8271,
    "failed_rules": [
+    "colour.01",
     "gradient.03"
    ],
    "reasons": [
-    "the darks are saturated (chroma 64, a wash stays under 56)"
+    "the ground is #8751AA, 63 from the nearest allowed ground #0D0B18",
+    "the darks are saturated (chroma 78, a wash stays under 56)"
    ],
    "errored": [],
    "foreground_frac": 0.1747

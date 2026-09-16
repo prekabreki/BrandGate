@@ -12,11 +12,13 @@ Outputs, in --out: frames/f_0000.png ..., masks/ for the sampled frames, ident.m
 (1920x1080), ident-960.mp4 for the site, poster.jpg (the last frame), and score.json with
 the gate's verdict on one frame a second, foreground declared.
 
-    uv run python -m surfaces.motion.render --variant orbs
+    uv run python -m surfaces.motion.render --variant ramp
 
-renders the candidate the gate refused, ident.html?ground=orbs, into out/refused/, the
+renders the candidate the gate refused, ident.html?ground=ramp, into out/refused/, the
 same way and with the same score series, so the ident shows one rejected candidate
-like every other surface.
+like every other surface. Any variant but accepted lands in out/refused/, and its
+frames/ and masks/ are cleared first so a cached frame of another variant cannot be
+stitched in; score.json names the variant.
 """
 from __future__ import annotations
 
@@ -34,8 +36,9 @@ if ROOT not in sys.path:
 from lookdev import render as renderer  # noqa: E402
 
 HTML = os.path.join(ROOT, "surfaces", "motion", "ident.html")
-# ?ground=<variant> on ident.html; "accepted" is the page as it stands, "orbs" the refused candidate.
-VARIANTS = {"accepted": "", "orbs": "&ground=orbs"}
+# ?ground=<variant> on ident.html; "accepted" is the page as it stands, "ramp" the refused candidate
+# that ships, "orbs" and "thin" the weaker refusals kept for the record.
+VARIANTS = {"accepted": "", "ramp": "&ground=ramp", "orbs": "&ground=orbs", "thin": "&ground=thin"}
 FPS = 30
 SECONDS = 6
 W, H = 1920, 1080
@@ -114,15 +117,18 @@ def score(out: str, binary: str, wait_ms: int, variant: str) -> None:
 def main(argv=None) -> int:
     p = argparse.ArgumentParser(prog="python -m surfaces.motion.render")
     p.add_argument("--variant", choices=sorted(VARIANTS), default="accepted",
-                   help="accepted: the ident as shipped; orbs: the candidate the gate refused")
-    p.add_argument("--out", default=None, help="default: surfaces/motion/out, or out/refused for --variant orbs")
+                   help="accepted: the ident as shipped; ramp: the candidate the gate refused; orbs, thin: weaker refusals")
+    p.add_argument("--out", default=None, help="default: surfaces/motion/out, or out/refused for any other variant")
     p.add_argument("--chrome", default=None)
     p.add_argument("--wait-ms", type=int, default=3500, help="virtual time for fonts and the anime.js import")
     p.add_argument("--no-score", action="store_true")
     a = p.parse_args(argv)
     binary = a.chrome or renderer.chrome()
-    out = a.out or os.path.join(ROOT, "surfaces", "motion", "out", *([] if a.variant == "accepted" else ["refused"]))
-    a.out = out
+    a.out = a.out or os.path.join(ROOT, "surfaces", "motion", "out", *([] if a.variant == "accepted" else ["refused"]))
+    if a.variant != "accepted":
+        # frames are cached by existence, so another variant's frames would be stitched in silently
+        for sub in ("frames", "masks"):
+            shutil.rmtree(os.path.join(a.out, sub), ignore_errors=True)
     paths = frames(a.out, binary, a.wait_ms, a.variant)
     stitch(a.out, W, "ident.mp4")
     stitch(a.out, 960, "ident-960.mp4")
