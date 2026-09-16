@@ -158,4 +158,19 @@ ENTRIES = [
         ],
         "verdict": "Looking much better.",
     },
+    {
+        "slug": "2026-09-16-11-accepted", "short": "accepted", "date": "2026-09-16",
+        "title": "accepted, and on the site",
+        "lede": "The designer said accept. The five surfaces joined the labelled set, the dark-chroma bar moved by "
+                "the procedure to 56.2, the site assets were cut from the surfaces and master deployed. This is "
+                "what shipped.",
+        "sections": [
+            {"title": "Hero pair", "text": "Accepted: pass 0.97. Refused (the model's muddy v6 frame): fail 0.84, the wash is dull.",
+             "frames": [("hero", "surfaces/hero/accepted/hero.png"), ("hero, refused ground", "surfaces/hero/rejected/hero.png")]},
+            {"title": "Cards and print", "text": "Square 0.97, story 0.98, link card 0.98, one-pager 1.00, all pass.",
+             "frames": [("square", "surfaces/social/accepted/square.png"), ("story", "surfaces/social/accepted/story.png"),
+                        ("link card", "surfaces/social/accepted/og.png"), ("one-pager", "surfaces/print/accepted/onepager.png")]},
+        ],
+        "verdict": "Accept.",
+    },
 ]
