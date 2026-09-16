@@ -93,7 +93,7 @@ def test_every_take_still_passes(scored):
 def test_wash_measurements_printed_for_the_sweep(scored):
     """Not an assertion, a record: the per-frame numbers the thresholds came
     from, so the toml comments can be checked against the data."""
-    print("\n  id                               label  dark_chroma  edge_p99  min stop share")
+    print("\n  id                               label  dark_chroma  edge_p99  min stop share  dark_mass  L_p02  chroma_mean")
     for r in sorted(scored, key=lambda r: r["label"]):
         w = r["wash"]
         if not w or "dark_chroma" not in w.get("detail", {}):

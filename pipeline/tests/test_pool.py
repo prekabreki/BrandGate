@@ -43,8 +43,10 @@ def test_no_version_means_no_check(prompt_dir, tmp_path):
 
 
 def test_the_flag_reaches_fill_from_the_command_line(tmp_path, capsys):
-    # The real prompt on disk is v4; asking for v3 must refuse, asking for v4 runs dry.
+    # Whatever version the real prompt is on disk, one past it must refuse and it itself runs dry.
+    from pipeline import prompts
+    live = prompts.load("hero-ground").version
     with pytest.raises(pool.PromptVersionMismatch):
-        pool.main(["--count", "1", "--dry-run", "--prompt-version", "3", "--out", str(tmp_path / "a")])
-    assert pool.main(["--count", "1", "--dry-run", "--prompt-version", "4", "--out", str(tmp_path / "b")]) == 0
+        pool.main(["--count", "1", "--dry-run", "--prompt-version", str(live + 1), "--out", str(tmp_path / "a")])
+    assert pool.main(["--count", "1", "--dry-run", "--prompt-version", str(live), "--out", str(tmp_path / "b")]) == 0
     assert "would generate" in capsys.readouterr().out
