@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Handsel</title>
-<meta name="description" content="Tools built for one person, kept in public.">
+<meta name="description" content="Handsel: an invented brand for one person's public repos, and the gate that keeps every surface on it.">
 <meta property="og:title" content="Handsel">
 <meta property="og:description" content="Tools built for one person, kept in public.">
 <meta property="og:image" content="https://handsel-lovat.vercel.app/assets/hero-accepted.jpg">
@@ -58,11 +58,24 @@
   .eyebrow { font: 500 12px/1.6 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--graphite); }
   h3 { margin: 6px 0 12px; font: 800 clamp(26px, 3.2vw, 36px)/1.05 var(--display); letter-spacing: -0.035em; }
   .lede { color: var(--graphite); max-width: 62ch; margin: 0 0 32px; }
+  .lede b { color: var(--ink); font-weight: 500; }
 
   /* Cards are glass where there is depth: white at 52 percent, backdrop blur, inset specular, the Direction A shadow stack. */
   .glass { background: var(--glass-bg); backdrop-filter: blur(28px) saturate(180%); -webkit-backdrop-filter: blur(28px) saturate(180%);
            border: 1px solid rgba(255,255,255,0.75); box-shadow: var(--glass-shadow); border-radius: 20px; }
   figure { margin: 0; padding: 12px; }
+  figure.zoom { cursor: zoom-in; transition: transform 200ms var(--ease-out), box-shadow 200ms var(--ease-out); }
+  figure.zoom:active { transform: scale(0.98); }
+  @media (hover: hover) and (pointer: fine) { figure.zoom:hover { transform: translateY(-2px); } }
+  /* The bigger view: a real dialog, so Escape, focus and the backdrop click come for free. */
+  .lb { border: 0; padding: 0; background: transparent; max-width: none; max-height: none; width: 100vw; height: 100vh; margin: 0; display: none; place-items: center; }
+  .lb[open] { display: grid; }
+  .lb::backdrop { background: rgba(13,11,24,.62); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); }
+  .lb figure { padding: 10px; max-width: min(1400px, 94vw); cursor: default; }
+  .lb img { max-width: calc(94vw - 20px); max-height: 82vh; width: auto; height: auto; border-radius: 12px; }
+  .lb figcaption { display: flex; justify-content: space-between; gap: 16px; align-items: center; }
+  .lb button { font: 500 12px/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--ink); background: var(--mist); border: 0; border-radius: 999px; padding: 9px 14px; cursor: pointer; min-height: 32px; transition: transform 160ms var(--ease-out); }
+  .lb button:active { transform: scale(0.96); }
   figure img { border-radius: 10px; }
   figcaption { padding: 12px 6px 2px; font: 400 13px/1.55 var(--mono); color: var(--graphite); }
   figcaption b { color: var(--ink); font-weight: 500; }
@@ -143,13 +156,13 @@
 <section>
   <div class="eyebrow">the hero, and the one the gate refused</div>
   <h3>Every surface here was made, then judged.</h3>
-  <p class="lede">The ground behind the wordmark is drawn by code, fitted by measurement to the one frame out of four prompt versions the designer liked, after asking whether an image model was the right tool for a gradient at all. The candidate beside it is the model's own frame from the version before. A gate written from the brand's own rules scored both before either could land here. Same type, same mark, same veil. One of them is Handsel.</p>
+  <p class="lede"><b>Handsel is an invented brand.</b> It is the house style for one person's public repos, made as the proof of concept for a brand consistency tool: the gate that scored every surface on this page. The ground behind the wordmark is drawn by code, fitted by measurement to the one frame out of four prompt versions the designer liked, after asking whether an image model was the right tool for a gradient at all. The candidate beside it is the model's own frame from the version before. A gate written from the brand's own rules scored both before either could land here. Same type, same mark, same veil. One of them is Handsel.</p>
   <div class="pair">
-    <figure class="glass">
+    <figure class="glass zoom">
       <img src="assets/hero-accepted.jpg" srcset="assets/hero-accepted-800.jpg 800w, assets/hero-accepted.jpg 1600w" sizes="(min-width: 900px) 560px, 100vw" width="1600" height="900" alt="The accepted hero: a clean indigo to rose gradient falling into paper under the Handsel wordmark" loading="lazy">
       <figcaption><span class="verdict pass">pass</span><b>on-brand 0.97.</b> Soft wash: darks at chroma 56, edges 5.2, every stop present.</figcaption>
     </figure>
-    <figure class="glass">
+    <figure class="glass zoom">
       <img src="assets/hero-rejected.jpg" srcset="assets/hero-rejected-800.jpg 800w, assets/hero-rejected.jpg 1600w" sizes="(min-width: 900px) 560px, 100vw" width="1600" height="900" alt="The refused candidate: a muddy, greyed gradient from the model, composed the same way" loading="lazy">
       <figcaption><span class="verdict fail">fail</span><b>on-brand 0.84.</b> The wash is dull: mean chroma 27, a ground carries at least 30.</figcaption>
     </figure>
@@ -212,12 +225,17 @@
   <h3>The same brand at every size, and on paper.</h3>
   <p class="lede">Square, story and card from one ground and one headline, and an A4 sheet with the ground kept to a band. Each one was scored by the gate before it landed here. The story's ground is the same ground drawn again at its own aspect, which a procedural ground can do and a cropped one cannot.</p>
   <div class="set">
-    <figure class="sq glass"><img src="assets/square.jpg" width="1080" height="1080" alt="Handsel square social card" loading="lazy"><figcaption><span class="verdict pass">pass</span><b>square</b> 1080 by 1080</figcaption></figure>
-    <figure class="st glass"><img src="assets/story.jpg" width="1080" height="1920" alt="Handsel story card, the gradient at portrait aspect" loading="lazy"><figcaption><span class="verdict pass">pass</span><b>story</b> 1080 by 1920</figcaption></figure>
-    <figure class="og glass"><img src="assets/og.jpg" width="1200" height="630" alt="Handsel link card" loading="lazy"><figcaption><span class="verdict pass">pass</span><b>card</b> 1200 by 630</figcaption></figure>
+    <figure class="sq glass zoom"><img src="assets/square.jpg" width="1080" height="1080" alt="Handsel square social card" loading="lazy"><figcaption><span class="verdict pass">pass</span><b>square</b> 1080 by 1080</figcaption></figure>
+    <figure class="st glass zoom"><img src="assets/story.jpg" width="1080" height="1920" alt="Handsel story card, the gradient at portrait aspect" loading="lazy"><figcaption><span class="verdict pass">pass</span><b>story</b> 1080 by 1920</figcaption></figure>
+    <figure class="og glass zoom"><img src="assets/og.jpg" width="1200" height="630" alt="Handsel link card" loading="lazy"><figcaption><span class="verdict pass">pass</span><b>card</b> 1200 by 630</figcaption></figure>
     <figure class="pr glass"><a href="assets/handsel-onepager.pdf"><img src="assets/onepager.jpg" width="1240" height="1754" alt="Handsel one-pager, A4" loading="lazy"></a><figcaption><span class="verdict pass">pass</span><b>print</b> A4, flat, <a href="assets/handsel-onepager.pdf">the PDF</a></figcaption></figure>
   </div>
 </section>
+
+<!-- impeccable-disable broken-image: the dialog image gets its src when a surface is clicked, and loses it on close -->
+<dialog class="lb" aria-label="A bigger view">
+  <figure class="glass"><img alt=""><figcaption><span class="t"></span><button type="button" autofocus>close</button></figcaption></figure>
+</dialog>
 
 <footer>Site under construction. Tools arrive here through September.</footer>
 
@@ -231,12 +249,31 @@
   const els = [...document.querySelectorAll(".rise")];
   const show = () => els.forEach(e => { e.style.opacity = 1; });
   const fallback = setTimeout(show, 2500);
+  let animate = null, stagger = null;
   try {
-    const { animate, stagger } = await import("https://cdn.jsdelivr.net/npm/animejs@4.5.0/+esm");
+    ({ animate, stagger } = await import("https://cdn.jsdelivr.net/npm/animejs@4.5.0/+esm"));
     clearTimeout(fallback);
     const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
     animate(els, { opacity: [0, 1], y: still ? 0 : [14, 0], duration: 900, delay: stagger(120), ease: "outQuart" });
   } catch { clearTimeout(fallback); show(); }
+
+  // The bigger view. Click a surface, it opens at full size in a dialog; Escape, the button or the backdrop close it.
+  const lb = document.querySelector(".lb"), big = lb.querySelector("img"), cap = lb.querySelector(".t"), card = lb.querySelector("figure");
+  const largest = img => { const c = (img.getAttribute("srcset") || "").split(",").map(s => s.trim().split(/\s+/)[0]).filter(Boolean); return c.length ? c[c.length - 1] : img.getAttribute("src"); };
+  document.querySelectorAll("figure.zoom").forEach(f => {
+    const img = f.querySelector("img");
+    f.setAttribute("tabindex", "0"); f.setAttribute("role", "button"); f.setAttribute("aria-label", "Open a bigger view: " + img.alt);
+    const open = () => {
+      big.src = largest(img); big.alt = img.alt; cap.textContent = f.querySelector("figcaption").textContent.trim();
+      lb.showModal();
+      if (animate && !matchMedia("(prefers-reduced-motion: reduce)").matches) animate(card, { opacity: [0, 1], scale: [0.95, 1], duration: 260, ease: "outQuart" });
+    };
+    f.addEventListener("click", open);
+    f.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(); } });
+  });
+  lb.querySelector("button").addEventListener("click", () => lb.close());
+  lb.addEventListener("click", e => { if (e.target === lb) lb.close(); });
+  lb.addEventListener("close", () => { big.removeAttribute("src"); });
 </script>
 </body>
 </html>
