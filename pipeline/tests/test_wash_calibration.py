@@ -34,7 +34,11 @@ TAKES = os.path.join(ROOT, "lookdev", "archive", "takes_02.png")
 # passes are the frames whose fault no axis measures yet: four say "too much dark on the
 # left" or "a big splotch of black", which is the dark-mass axis waiting on a relabel
 # decision recorded in the doc; two say "not enough bleed" in a way edge_p99 does not see.
-MIN_AGREE = 36
+# Ruled 2026-09-16, late (docs/calibration.md, "eight disagreements, one page"): the
+# calibration scores brand rules only, so the two novelty refusals agree; the six false
+# passes stay off as known misses, with a placement check filed as #25 for after the
+# submit; the floor follows the count, 37 of 43 on linuxheima.
+MIN_AGREE = 37
 MAX_FALSE_PASS = 6
 
 
@@ -74,7 +78,11 @@ def scored():
             r = gate.score_image(gate.load_image(path), gate.load_config(), rules.load(),
                                  accepted_paths=[], foreground=mask)
         else:
-            r = gate.score_path(path, crop)
+            # Brand rules only. Novelty is measured against whatever accepted set this
+            # machine holds, so the same labels went red on linuxheima and green on the
+            # Windows box over two mesh near-twins. The labels say "this is Handsel";
+            # they never said "this is new". Ruled 2026-09-16, docs/calibration.md.
+            r = gate.score_path(path, crop, accepted_paths=[])
         washrow = next((b for b in r["breakdown"] if b["check"] == "wash"), None)
         out.append({"id": tid, "label": lab, "verdict": r["verdict"],
                     "failed": r["failed_rules"], "wash": washrow})

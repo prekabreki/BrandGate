@@ -488,3 +488,15 @@ The labelling page itself is worth a line: `lookdev/tuning.png` is a screenshot
 of it mid-pass, gate verdict beside designer verdict, the disagreement in the
 designer's words. That picture is the whole argument of this document in one
 frame, and it belongs in the README (#12).
+
+## Ruled 2026-09-16, late: eight disagreements, one page
+
+The agreement test went red at 35 of 43 on linuxheima once every rule ran there. Put to the designer as one Lavish page, `.lavish/23-ruling.html`, with the frames beside the frames they sit among. Four answers, all his.
+
+**The mesh twins are not a wash call.** `ground_mesh_2_v1` and `ground_mesh_3_v1`, labelled on, failed with no failed rule: the novelty check refused them at 0.00 and 0.11 against 0.12, nearest neighbour the shipped hero ground, which is mesh 1. Novelty is measured against whatever accepted set a machine holds, so the same labels could go red on one box and green on the other. Ruling: the calibration scores brand rules only, `accepted_paths=[]`, on every frame. The labels say "this is Handsel"; they never said "this is new".
+
+**The six false passes stay off, as known misses.** `raw 1017`, `raw 1029`, `turbo 1000`, `turbo 1012`, `turbo 1024`, `turbo 2083`. On edge steepness and dark chroma they sit inside the accepted cluster (turbo 2005, 1008, 1004, 1020, 1016); no bar on either axis separates them without refusing an accepted frame. The designer's notes on four of them name the same thing in different words: too much dark on the far left, blobs too far apart. That is placement, which nothing measures yet. `MAX_FALSE_PASS` stays at 6 and there are exactly 6.
+
+**The floor follows the count.** With the twins scored on brand rules, 37 of 43 agree; `MIN_AGREE` is 37, so any later slip of one frame is red.
+
+**A placement check is filed, frozen till after the 25 Sep submit.** #25: dark mass in the leftmost fifth relative to the rest, and the distance between the two dominant colour centroids as a fraction of width, bound to a sentence in `rules.md` like the wash rule. It would be the fourth check set from these labels rather than from a threshold.
