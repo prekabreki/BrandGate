@@ -2,10 +2,13 @@
 
 The judge is an instrument, and this is its datasheet.
 
-**Status: 27 designer-labelled images, 2026-09-15. The gate agreed with the
-designer on 19 of them; after the wash check built from those disagreements
-(second pass, below), 24.** 21 are generated grounds from `hero-ground@2` across
-two models and two tiers, 6 are the designer's own takes. The 8 disagreements
+**Status: 38 designer-labelled frames, 2026-09-16. The gate agreed with the
+designer on 19 of the first 27; after the wash check built from those disagreements
+(second pass), 24; after the third pass, 31 of 38 with six false passes, four of
+them waiting on one relabel decision (third pass, below).** 21 of the original set
+are generated grounds from `hero-ground@2` across two models and two tiers, 6 are
+the designer's own takes; the 09-15 hero pair and nine frames from the 09-16
+review, the day the ground went procedural, make up the rest. The 8 disagreements
 are written up below, one line each, in the designer's words. The headline is
 not the agreement rate. It is that the seven false passes all fail on
 qualities no check measures, so the bar cannot be fixed by moving a threshold.
