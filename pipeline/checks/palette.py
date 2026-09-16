@@ -34,6 +34,37 @@ def _forbidden_mass(centres, weights, heavy, forbid_hex, tol):
     return float(weights[near].sum()), forbid_hex[int(idx[near.argmax()])]
 
 
+def flatness(img: np.ndarray, forbid_hex: list[str], tol: float) -> tuple[float, float]:
+    """(share of the frame near a forbidden colour, median spatial gradient there).
+
+    "Magenta is never a flat accent" is a rule about flat regions: a button, a chip, a
+    block. A stop of the wash is magenta too, and until #22 the prohibition could not
+    tell them apart: k-means handed every gradient a magenta cluster of 6 to 18 percent
+    and the designer's accepted grounds (hero-ground@7 seed 6002, the mesh band) failed
+    a rule they do not break. Flatness is the spatial gradient of Lab across the
+    near-forbidden pixels, measured on a copy 512 wide after a blur that removes film
+    grain: a flat block reads near zero, a gradient reads its slope. The bar between them
+    is palette.flat_grad_max.
+    """
+    import cv2
+    work_w = 512
+    h = max(1, int(img.shape[0] * work_w / img.shape[1]))
+    im = cv2.resize(img, (work_w, h), interpolation=cv2.INTER_AREA)
+    lab = rgb_to_lab(im.reshape(-1, 3)).reshape(h, work_w, 3).astype(np.float32)
+    forbid_lab = rgb_to_lab(np.array([hex_to_rgb(x) for x in forbid_hex]))
+    d = np.stack([np.sqrt(((lab - f) ** 2).sum(axis=-1)) for f in forbid_lab], axis=-1)
+    near = d.min(axis=-1) <= tol
+    if not near.any():
+        return 0.0, 0.0
+    blur = cv2.GaussianBlur(lab, (0, 0), work_w / 128)
+    grad = np.zeros((h, work_w), np.float32)
+    for ch in range(3):
+        gx = cv2.Sobel(blur[..., ch], cv2.CV_32F, 1, 0, ksize=3) / 8.0
+        gy = cv2.Sobel(blur[..., ch], cv2.CV_32F, 0, 1, ksize=3) / 8.0
+        grad += np.sqrt(gx * gx + gy * gy)
+    return float(near.mean()), float(np.median(grad[near]))
+
+
 @register("palette")
 def check(img: np.ndarray, rule: dict, cfg: dict, ctx: dict) -> Finding:
     params = rule["params"]
@@ -71,12 +102,21 @@ def check(img: np.ndarray, rule: dict, cfg: dict, ctx: dict) -> Finding:
         mass, which = _forbidden_mass(centres, weights, heavy, forbid,
                                       c["forbid_tolerance_lab"])
         limit = c["forbid_mass"]
+        spread = None
+        if mass >= limit:
+            # A cluster of the forbidden colour is only a breach if it is FLAT (#22).
+            share, spread = flatness(img, forbid, c["forbid_tolerance_lab"])
+            if spread > c["flat_grad_max"]:
+                return Finding(rule["id"], "palette", 1.0, True,
+                               f"{which} holds {mass:.1%} of the frame but as a gradient "
+                               f"(slope {spread:.2f} Lab per pixel), not a flat area",
+                               {"mass": mass, "limit": limit, "share": share, "slope": spread})
         if mass >= limit:
             return Finding(
                 rule["id"], "palette", 0.0, False,
                 f"{which} holds {mass:.1%} of the frame as a flat area, over "
                 f"the {limit:.0%} the rule allows",
-                {"forbidden": which, "mass": mass, "limit": limit})
+                {"forbidden": which, "mass": mass, "limit": limit, "slope": spread})
         # A prohibition that is not breached is simply satisfied. It used to
         # score a fraction of its headroom, which quietly dragged the on-brand
         # mean down for a rule nothing had violated.

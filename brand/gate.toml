@@ -34,6 +34,14 @@ forbid_mass = 0.04
 # because fewer pixels then count as magenta and the forbidden mass shrinks.
 # Kept separate so tightening the palette never switches the prohibition off (#19).
 forbid_tolerance_lab = 22.0
+# A forbidden colour only breaches the rule where it is FLAT (#22). Flatness is the
+# median spatial gradient of Lab across the near-forbidden pixels, on a 512-wide
+# copy after a grain-removing blur, in Lab units per pixel. Measured 2026-09-16: a
+# flat magenta block 0.00, the same block under the brand's film grain 0.12, a
+# magenta-to-paper gradient across 40 percent of the width 0.30, hero-ground@7
+# seed 6002 0.69, the mesh band 0.86. The bar is the midpoint of the two nearest
+# cases, grainy flat and the synthetic gradient.
+flat_grad_max = 0.2
 
 [band]
 # Normalised cross-correlation over the mark template, across a scale pyramid.

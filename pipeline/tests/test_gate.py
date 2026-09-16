@@ -223,6 +223,27 @@ def test_a_forbidden_flat_accent_fails(cfg, doc):
     assert "#B44C9E" in _rule_named(r, "colour.03")["reason"]
 
 
+def test_a_magenta_gradient_is_not_a_flat_accent(cfg, doc):
+    """#22: the same block as above, but fading from magenta to paper across its width.
+    A gradient stop is not a flat accent, and the prohibition must not fire on it."""
+    img = gate.load_image(TAKES, "t3").copy()
+    mag = np.array(colour.hex_to_rgb("#B44C9E"), dtype=np.float64)
+    pap = np.array(colour.hex_to_rgb("#FAFAF8"), dtype=np.float64)
+    t = np.linspace(0.0, 1.0, 640)[None, :, None]
+    img[500:760, 60:700] = (mag * (1 - t) + pap * t).astype(np.uint8)
+    r = _score(img, cfg, doc)
+    assert "colour.03" not in r["failed_rules"], _rule_named(r, "colour.03")["reason"]
+    assert "gradient" in _rule_named(r, "colour.03")["reason"]
+
+
+def test_the_procedural_ground_passes_the_magenta_prohibition(cfg, doc):
+    from pipeline import mesh
+    g = mesh.load_ground_tokens()
+    img = mesh.render(2, g["stops"], g["paper"], g["shape"], (416, 236))
+    r = _score(img, cfg, doc)
+    assert "colour.03" not in r["failed_rules"], _rule_named(r, "colour.03")["reason"]
+
+
 # -- the two palette tolerances (#19) ----------------------------------------
 #
 # tolerance_lab serves the permission ("the ground is paper"), where lower is
