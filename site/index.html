@@ -74,6 +74,30 @@
   @media (max-width: 860px) { .set .sq, .set .st, .set .og { grid-column: span 6; } .set .pr { grid-column: span 12; } }
   @media (max-width: 520px) { .set .sq, .set .st, .set .og { grid-column: span 12; } }
 
+  /* How it stays itself: four steps, then one real score, then the numbers. */
+  .steps { list-style: none; margin: 0 0 28px; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr)); gap: 20px; counter-reset: step; }
+  .steps li { padding: 22px 22px 24px; }
+  .steps li::before { counter-increment: step; content: "0" counter(step); display: block; font: 500 12px/1.6 var(--mono); letter-spacing: .14em; color: var(--indigo); margin-bottom: 14px; }
+  .steps b { display: block; font: 800 20px/1.15 var(--display); letter-spacing: -0.02em; margin-bottom: 8px; }
+  .steps p { margin: 0; color: var(--graphite); font-size: 15px; }
+  .score { padding: 22px 24px; font: 400 13px/1.7 var(--mono); color: var(--graphite); overflow-x: auto; }
+  .score .k { color: var(--indigo); letter-spacing: .14em; text-transform: uppercase; font-size: 11px; font-weight: 500; }
+  .score q { quotes: none; color: var(--ink); display: block; margin: 4px 0 18px; font: 400 17px/1.5 var(--display); max-width: 62ch; }
+  .score table { border-collapse: collapse; white-space: nowrap; }
+  .score td { padding: 3px 18px 3px 0; vertical-align: top; }
+  .score td:first-child { color: var(--ink); } .score td:nth-child(2) { text-align: right; font-weight: 500; }
+  .score tr.fail td { color: var(--ink); } .score tr.fail td:first-child .verdict { margin-right: 10px; }
+  .score .foot { margin-top: 14px; }
+  .nums { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 20px; margin-top: 28px; padding: 0 6px; }
+  .nums b { display: block; font: 800 clamp(40px, 4.5vw, 56px)/1 var(--display); letter-spacing: -0.045em; }
+  .nums span { display: block; margin-top: 8px; font: 400 12px/1.6 var(--mono); letter-spacing: .04em; color: var(--graphite); max-width: 24ch; }
+
+  /* The sheet: its head in a card, the whole thing as a PDF. */
+  .sheet { max-width: 720px; }
+  .sheet .head { position: relative; border-radius: 10px; overflow: hidden; }
+  .sheet .head::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 30%; background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,.96) 100%); }
+  .sheet a.head { display: block; cursor: pointer; }
+
   /* The tools: one card per public piece, the whole card the link. */
   .tools { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 420px), 1fr)); gap: 28px; }
   .tool { display: block; color: inherit; text-decoration: none; padding: 12px; cursor: pointer;
@@ -133,6 +157,45 @@
 </section>
 
 <section>
+  <div class="eyebrow">how it stays itself</div>
+  <h3>The rules are sentences. The gate reads them.</h3>
+  <p class="lede">A brand that lives in a PDF drifts the day the second person touches it. Here the rules are written as plain sentences, and a program scores every generated surface against those same sentences before it can ship. Change a sentence and the scores change. Nothing is copied into code.</p>
+  <ol class="steps">
+    <li class="glass"><b>Write the rules as prose.</b><p>One markdown file a designer would write anyway. Each sentence is parsed into a check that reads its numbers out of the sentence itself. A rule no program can measure stays listed as manual, so the gap is visible instead of quietly gone.</p></li>
+    <li class="glass"><b>Generate, and keep the ledger.</b><p>Grounds come from a versioned prompt and a seed on a local image model, or from a procedure fitted to the frame the designer liked. Every run lands as one row in an append-only ledger, refusals and failures included.</p></li>
+    <li class="glass"><b>Score two axes.</b><p>On-brand: palette by mass, the mark found by its edges and checked level, text contrast against the ground around it, one gesture per surface, the softness of the wash. Novelty: distance from everything already accepted, so a pass is never a repeat.</p></li>
+    <li class="glass"><b>Calibrate against a person.</b><p>The designer labels frames beside the gate's verdict. Every disagreement is written up in their words, and the ones that recur become checks. The wash check exists because seven frames passed that a person refused for "too dark, not enough bleed".</p></li>
+  </ol>
+  <div class="score glass">
+    <span class="k">brand/rules.md, gradient, third sentence</span>
+    <q>As a ground it is softened: blurred orbs over paper or night, indigo at the left and magenta warming to rose at the right, bleeding into one another, with a paper veil and film grain over that. No other colour enters the wash. Never the raw ramp.</q>
+    <span class="k">the refused hero above, scored</span>
+    <table>
+      <tr><td>colour.01</td><td>0.63</td><td>the ground is #ECEAF6</td></tr>
+      <tr><td>colour.03</td><td>1.00</td><td>no forbidden colour holds a flat area (#B44C9E under 4%)</td></tr>
+      <tr><td>gradient.03</td><td>0.89</td><td>the wash is dull (mean chroma 27, a ground carries at least 30)</td></tr>
+      <tr class="fail"><td><span class="verdict fail">fail</span>on-brand 0.84</td><td></td><td>3 rules not applicable, no text in the frame. 28 rules manual.</td></tr>
+    </table>
+    <div class="foot">Thresholds sit in a TOML file a designer can open and argue with. The calibration write-up is the instrument's datasheet, disagreements first.</div>
+  </div>
+  <div class="nums">
+    <div><b data-stat="n_pool">200</b><span>grounds generated for one prompt</span></div>
+    <div><b data-stat="n_pass">79</b><span>passed the gate as it ships</span></div>
+    <div><b data-stat="n_labels">44</b><span>frames labelled by hand to set it</span></div>
+  </div>
+</section>
+
+<section>
+  <div class="eyebrow">the sheet</div>
+  <h3>The brand sheet a team would be handed.</h3>
+  <p class="lede">Mark, clear space, colour, the flow, type, do and do not, geometry. It is rendered from the same tokens, rules and mark geometry the gate reads, so the sheet, this page and the score above never disagree about a number. Every rule on it is one the gate can check.</p>
+  <figure class="sheet glass">
+    <a class="head" href="assets/handsel-brand-sheet.pdf"><img src="assets/brand-sheet-head.jpg" width="1240" height="1500" alt="The head of the Handsel brand sheet: the mark, the title, the mark on four grounds, clear space" loading="lazy"></a>
+    <figcaption><b>brand sheet</b> exploration 02, 1240 by 4200, <a href="assets/handsel-brand-sheet.pdf">the PDF</a> (4.8 MB)</figcaption>
+  </figure>
+</section>
+
+<section>
   <div class="eyebrow">the tools</div>
   <h3>Built for one person's work, then kept in public.</h3>
   <p class="lede">Each one began as a problem in the studio's own work and was finished properly before it was left in public. The repos are the proof. More arrive here as they ship.</p>
@@ -158,6 +221,11 @@
 
 <footer>Site under construction. Tools arrive here through September.</footer>
 
+<script>
+  // The three numbers come from the same function the one-pager prints them with (site/build_assets.py).
+  fetch("assets/stats.json").then(r => r.ok ? r.json() : null).then(d => { if (!d) return;
+    document.querySelectorAll("[data-stat]").forEach(e => { if (d[e.dataset.stat] != null) e.textContent = d[e.dataset.stat]; }); }).catch(() => {});
+</script>
 <script type="module">
   // One orchestrated entrance, anime.js v4. If the CDN never answers, the type shows anyway.
   const els = [...document.querySelectorAll(".rise")];

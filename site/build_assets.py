@@ -33,7 +33,10 @@ CUTS = [
     (f"{S}/social/accepted/og.png", "og.jpg", 1200),
     (f"{S}/print/accepted/onepager.png", "onepager.jpg", 1240),
 ]
-COPIES = [(f"{S}/print/accepted/onepager.pdf", "handsel-onepager.pdf")]
+COPIES = [(f"{S}/print/accepted/onepager.pdf", "handsel-onepager.pdf"),
+          (f"{ROOT}/brand/guide_04.pdf", "handsel-brand-sheet.pdf")]
+# The brand sheet: the whole thing, and its head for the card on the page.
+SHEET = f"{ROOT}/brand/guide_04.png"
 # Screenshots of the public tools the page links to, pulled from each repo's own README
 # so the site shows what the repo shows. (raw URL, asset stem, widths)
 TOOLS = [
@@ -62,8 +65,34 @@ def fetch(url: str, stem: str, widths: tuple[int, ...]) -> None:
         print(f"{name:26s} {os.path.getsize(out) // 1024:>5} KB  <- {url}")
 
 
+def sheet() -> None:
+    im = Image.open(SHEET).convert("RGB")
+    out = os.path.join(ASSETS, "brand-sheet.jpg")
+    im.save(out, "JPEG", quality=86, optimize=True, progressive=True)
+    print(f"{'brand-sheet.jpg':26s} {os.path.getsize(out) // 1024:>5} KB  <- brand/guide_04.png")
+    head = im.crop((0, 0, im.width, 1500))
+    out = os.path.join(ASSETS, "brand-sheet-head.jpg")
+    head.save(out, "JPEG", quality=86, optimize=True, progressive=True)
+    print(f"{'brand-sheet-head.jpg':26s} {os.path.getsize(out) // 1024:>5} KB  <- brand/guide_04.png, top 1500")
+
+
+def stats() -> None:
+    """The three numbers the one-pager prints, from the same function, so the site and
+    the sheet never disagree. The page reads assets/stats.json and falls back to the
+    numbers written into its HTML."""
+    import json
+    sys.path.insert(0, ROOT)
+    from surfaces.print.compose import run_numbers
+    out = os.path.join(ASSETS, "stats.json")
+    with open(out, "w", encoding="utf-8") as fh:
+        json.dump(run_numbers(), fh)
+    print(f"{'stats.json':26s} {open(out).read()}")
+
+
 def main() -> int:
     os.makedirs(ASSETS, exist_ok=True)
+    sheet()
+    stats()
     for src, name, width in CUTS:
         out = cut(src, name, width)
         print(f"{name:26s} {os.path.getsize(out) // 1024:>5} KB  <- {os.path.relpath(src, ROOT)}")
