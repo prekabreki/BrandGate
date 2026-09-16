@@ -28,6 +28,15 @@
     "takes_02_t5": "on",
     "takes_02_t6": "on",
     "hero-ground_turbo_2083_033d4aebd9d4_00001_": "off",
-    "hero-ground_turbo_2005_bd922599fd22_00001_": "on"
+    "hero-ground_turbo_2005_bd922599fd22_00001_": "on",
+    "ground_mesh_1_v1": "on",
+    "ground_mesh_2_v1": "on",
+    "ground_mesh_3_v1": "on",
+    "hero-ground_turbo_6002_e6b5d4913597_00001_": "on",
+    "hero-ground_turbo_3000_7367f39e42a3_00001_": "off",
+    "hero-ground_turbo_3001_116e859c21f5_00001_": "off",
+    "hero-ground_turbo_4000_214ebe248d8c_00001_": "off",
+    "hero-ground_turbo_4001_3704896da18f_00001_": "off",
+    "hero-ground_turbo_5000_cc0e837328b1_00001_": "off"
   }
 }
