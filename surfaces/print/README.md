@@ -9,9 +9,9 @@ file; `onepager.png` is the same page at 2x for the gate.
 | accepted | refused ground |
 |---|---|
 | ![the one-pager](accepted/onepager.png) | ![the one-pager on the refused ground](rejected/onepager.png) |
-| ground `ground.png`, at the gate **pass, on-brand 0.96** | ground `ground.png`, at the gate **fail, on-brand 0.76** |
+| ground `ground.png`, at the gate **pass, on-brand 0.97** | ground `ground.png`, at the gate **fail, on-brand 0.95**, gradient.03 |
 | page: **pass, on-brand 1.00** | page: **pass, on-brand 1.00** |
-| | #B44C9E holds 5.4% of the frame as a flat area, over the 4% the rule allows |
+| | the wash is dull (mean chroma 27, a ground carries at least 30) |
 
 The three figures at the foot of the page are read from `runs/sameness/results.json` and
 `docs/calibration-labels.json` when the page is composed, not typed, so the sheet cannot
@@ -26,3 +26,5 @@ show what the band recipe does to a fault, which is shrink it, not remove it.
 ```bash
 python -m surfaces.print.compose --ground surfaces/_pool/<frame>.png --out surfaces/print/accepted
 ```
+
+Scores are from 2026-09-16 late, recomposed with the lockup rule (the text column sits on the first apex line, 21 mm) on a box where every rule runs. The page passes on either ground because the band is a strip and the page is paper; the ground's own verdict is what keeps the refused one off the site.

@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="fonts.css">
 <style>
-  @page { size: 1240px 4200px; margin: 0; }
+  @page { size: 1240px 4760px; margin: 0; }
   html, body { margin: 0; background: #fff; }
   body { font-family: var(--body); color: var(--ink); width: 1240px; }
   .page { width: 1240px; padding: 88px 96px 96px; box-sizing: border-box; }
@@ -34,6 +34,17 @@
   .clear .r { position: absolute; font: 400 12px/1 var(--mono); color: var(--indigo); }
   .note { margin-top: 14px; font: 400 15px/1.5 var(--body); color: #4A4560; max-width: 60ch; }
 
+  .lock { position: relative; background: var(--paper); box-shadow: inset 0 0 0 1px rgba(17,17,20,0.06); height: 420px; }
+  /* mark drawn at 420 px wide from x=60: the first apex line is 14.65% in, 60 + 61.5 = 121.5 px */
+  .lock img { position: absolute; left: 60px; top: 64px; width: 420px; }
+  .lock .apex { position: absolute; left: 121.5px; top: 40px; bottom: 40px; border-left: 1.5px dashed rgba(75,59,232,0.8); }
+  .lock .apex span { position: absolute; left: 8px; top: -4px; font: 400 12px/1 var(--mono); color: var(--indigo); white-space: nowrap; }
+  /* the visible band starts 12.1 of 739 units inside the SVG box: 60 + 6.9 px */
+  .lock .edge { position: absolute; left: 66.9px; top: 40px; bottom: 40px; border-left: 1.5px dashed rgba(17,17,20,0.25); }
+  .lock .edge span { position: absolute; left: -46px; bottom: -22px; font: 400 12px/1 var(--mono); color: #6B6780; white-space: nowrap; }
+  .lock .word { position: absolute; left: 121.5px; top: 246px; font: 800 96px/0.88 var(--display); letter-spacing: -0.05em; padding-right: .08em; }
+  .lock .tag { position: absolute; left: 121.5px; top: 346px; margin: 0; font: 400 19px/1.4 var(--body); color: var(--graphite); }
+  .lock .who { position: absolute; right: 24px; top: 24px; font: 400 12px/1.6 var(--mono); color: #6B6780; text-align: right; }
   .swatches { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
   .sw { border-radius: 14px; padding: 16px 16px 14px; height: 118px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: space-between; }
   .sw b { font: 700 16px/1 var(--body); }
@@ -74,10 +85,11 @@
 <body>
 <div class="page">
 
-  <img src="logo/slice-mark.svg" alt="" style="width:330px;display:block;margin-bottom:40px">
+  <!-- the sheet keeps its own lockup rule: 330 px mark, apex line 48 px in, so the mark hangs 48 px into the margin and the title stands on the apex -->
+  <img src="logo/slice-mark.svg" alt="" style="width:330px;display:block;margin:0 0 40px -48px">
   <h1>Handsel<br>brand sheet</h1>
   <p class="lede">Six pieces of one thing. A mark built from geometry, one gradient that flows through everything it touches, glass and grain where there is depth, and heavy type that stays quiet around it. This is the sheet a brand team hands over; everything on it is also a rule the gate can score.</p>
-  <div class="meta">exploration 02 · 2026-09-14 · Slice mark on Direction A · source: brand/tokens.json, brand/rules.md, brand/build_mark.py</div>
+  <div class="meta">exploration 02 · 2026-09-14, lockup 2026-09-16 · Slice mark on Direction A · source: brand/tokens.json, brand/rules.md, brand/build_mark.py</div>
 
   <section>
     <h2>The mark<small>Six pie slices, apex down, apex up, in a 3:1 band. The flow runs through all six as one field.</small></h2>
@@ -99,6 +111,21 @@
         <div class="r" style="right:calc(50% - 317px + 12px);bottom:calc(50% - 178px + 10px)">r</div>
       </div>
       <p class="note">The mark is never rotated, mirrored, outlined or given a shadow. A single slice may stand alone as the avatar or favicon unit.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>The lockup<small>Type beside the mark starts on the first slice's apex line, the lower corner of the leftmost slice. Never on the band's edge.</small></h2>
+    <div>
+      <div class="board lock">
+        <div class="edge"><span>band edge</span></div>
+        <div class="apex"><span>apex line · 14.65% of the mark's width</span></div>
+        <img src="logo/slice-mark.svg" alt="">
+        <div class="word grad-text">Handsel</div>
+        <p class="tag">Tools built for one person, kept in public.</p>
+        <div class="who">wordmark, headline, tagline<br>share the apex line<br>mark.lockup in tokens.json</div>
+      </div>
+      <p class="note">The leftmost slice points down, so its lower corner is its own centre line, 108.3 units of the 739 unit band in from the left edge. Every line of type on a surface takes that x, whether the mark sits above it or beside it, so the H stem reads as hanging from the first apex. The first corner of the second slice sits 19 units further right; the apex is the datum.</p>
     </div>
   </section>
 
@@ -199,6 +226,7 @@
         <tr><td>seam</td><td>6</td></tr>
         <tr><td>corner round</td><td>22 stroke, round join</td></tr>
         <tr><td>band aspect</td><td>2.95 : 1</td></tr>
+        <tr><td>type left edge</td><td>first apex, 108.3 in</td></tr>
       </table>
     </div>
   </section>

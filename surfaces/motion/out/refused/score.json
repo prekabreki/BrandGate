@@ -37,7 +37,7 @@
   {
    "t_ms": 2000,
    "verdict": "fail",
-   "on_brand": 0.7765,
+   "on_brand": 0.7668,
    "failed_rules": [
     "colour.01",
     "colour.02",
@@ -46,11 +46,11 @@
     "type.03"
    ],
    "reasons": [
-    "the ground is #8751AA, 63 from the nearest allowed ground #0D0B18",
-    "a text region at 1066,930 sits at 3.9:1 against its ground, under the 4.5:1 bar",
-    "a text region at 1066,930 sits at 3.9:1 against its ground, under the 4.5:1 bar",
-    "the darks are saturated (chroma 78, a wash stays under 56)",
-    "a text region at 1066,930 sits at 3.9:1 against its ground, under the 4.5:1 bar"
+    "the ground is #CF6199, 60 from the nearest allowed ground #ECEAF6",
+    "a text region at 1218,930 sits at 3.8:1 against its ground, under the 4.5:1 bar",
+    "a text region at 1218,930 sits at 3.8:1 against its ground, under the 4.5:1 bar",
+    "the darks are saturated (chroma 79, a wash stays under 56)",
+    "a text region at 1218,930 sits at 3.8:1 against its ground, under the 4.5:1 bar"
    ],
    "errored": [],
    "foreground_frac": 0.1747
@@ -58,14 +58,20 @@
   {
    "t_ms": 3000,
    "verdict": "fail",
-   "on_brand": 0.8271,
+   "on_brand": 0.8231,
    "failed_rules": [
     "colour.01",
-    "gradient.03"
+    "colour.02",
+    "colour.04",
+    "gradient.03",
+    "type.03"
    ],
    "reasons": [
-    "the ground is #8751AA, 63 from the nearest allowed ground #0D0B18",
-    "the darks are saturated (chroma 78, a wash stays under 56)"
+    "the ground is #D06199, 60 from the nearest allowed ground #ECEAF6",
+    "a text region at 1037,928 sits at 4.5:1 against its ground, under the 4.5:1 bar",
+    "a text region at 1037,928 sits at 4.5:1 against its ground, under the 4.5:1 bar",
+    "the darks are saturated (chroma 79, a wash stays under 56)",
+    "a text region at 1037,928 sits at 4.5:1 against its ground, under the 4.5:1 bar"
    ],
    "errored": [],
    "foreground_frac": 0.1747
@@ -73,14 +79,20 @@
   {
    "t_ms": 4000,
    "verdict": "fail",
-   "on_brand": 0.8271,
+   "on_brand": 0.8231,
    "failed_rules": [
     "colour.01",
-    "gradient.03"
+    "colour.02",
+    "colour.04",
+    "gradient.03",
+    "type.03"
    ],
    "reasons": [
-    "the ground is #8751AA, 63 from the nearest allowed ground #0D0B18",
-    "the darks are saturated (chroma 78, a wash stays under 56)"
+    "the ground is #D06199, 60 from the nearest allowed ground #ECEAF6",
+    "a text region at 1037,928 sits at 4.5:1 against its ground, under the 4.5:1 bar",
+    "a text region at 1037,928 sits at 4.5:1 against its ground, under the 4.5:1 bar",
+    "the darks are saturated (chroma 79, a wash stays under 56)",
+    "a text region at 1037,928 sits at 4.5:1 against its ground, under the 4.5:1 bar"
    ],
    "errored": [],
    "foreground_frac": 0.1747
@@ -88,14 +100,20 @@
   {
    "t_ms": 5000,
    "verdict": "fail",
-   "on_brand": 0.8271,
+   "on_brand": 0.8231,
    "failed_rules": [
     "colour.01",
-    "gradient.03"
+    "colour.02",
+    "colour.04",
+    "gradient.03",
+    "type.03"
    ],
    "reasons": [
-    "the ground is #8751AA, 63 from the nearest allowed ground #0D0B18",
-    "the darks are saturated (chroma 78, a wash stays under 56)"
+    "the ground is #D06199, 60 from the nearest allowed ground #ECEAF6",
+    "a text region at 1037,928 sits at 4.5:1 against its ground, under the 4.5:1 bar",
+    "a text region at 1037,928 sits at 4.5:1 against its ground, under the 4.5:1 bar",
+    "the darks are saturated (chroma 79, a wash stays under 56)",
+    "a text region at 1037,928 sits at 4.5:1 against its ground, under the 4.5:1 bar"
    ],
    "errored": [],
    "foreground_frac": 0.1747

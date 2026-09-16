@@ -15,6 +15,7 @@ Every line here is a check something can score.
 - Minimum width is 96 px on screen. The seam between slices is 9 units of the 739 unit band, which is 1.2 px at that size; below it, use the lone slice.
 - The mark is never rotated, mirrored, outlined, or shown with a drop shadow.
 - A single slice may stand alone as the avatar or favicon unit.
+- Type beside the mark sets its left edge on the first slice's lowest point, the lower corner of the leftmost slice: 108.3 of the mark's 739 units in from its left edge, 14.65% of its width. The wordmark, headline and tagline share that line. Type never aligns to the mark's left edge.
 
 ## Colour
 

@@ -10,11 +10,11 @@ The brand is Handsel, a one-person software studio that keeps its tools in publi
 
 | | accepted | refused |
 |---|---|---|
-| [hero](surfaces/hero/) | <img src="surfaces/hero/accepted/hero.png" alt="hero, accepted" width="300"> pass 0.99 | <img src="surfaces/hero/rejected/hero.png" alt="hero, refused ground" width="300"> flat magenta at 6.8 percent; then the wordmark over that magenta at 1.6:1 |
-| [square](surfaces/social/) | <img src="surfaces/social/accepted/square.png" alt="square, accepted" width="300"> pass 0.99 | <img src="surfaces/social/rejected/square.png" alt="square, refused ground" width="300"> the orbs separate, no bleed |
-| [story](surfaces/social/) | <img src="surfaces/social/accepted/story.png" alt="story, accepted" width="300"> pass 1.00 | <img src="surfaces/social/rejected/story.png" alt="story, refused ground" width="300"> same ground; the band shrinks the fault and the card itself passes |
-| [OG](surfaces/social/) | <img src="surfaces/social/accepted/og.png" alt="OG, accepted" width="300"> pass 0.97 | <img src="surfaces/social/rejected/og.png" alt="OG, refused ground" width="300"> the orbs separate, no bleed |
-| [print, A4](surfaces/print/) | <img src="surfaces/print/accepted/onepager.png" alt="one-pager, accepted" width="300"> pass 1.00 | <img src="surfaces/print/rejected/onepager.png" alt="one-pager, refused ground" width="300"> flat magenta; a band of it on A4 passes the page |
+| [hero](surfaces/hero/) | <img src="surfaces/hero/accepted/hero.png" alt="hero, accepted" width="300"> pass 0.99 | <img src="surfaces/hero/rejected/hero.png" alt="hero, refused ground" width="300"> the wash is dull, mean chroma 27 where a ground carries at least 30 |
+| [square](surfaces/social/) | <img src="surfaces/social/accepted/square.png" alt="square, accepted" width="300"> pass 0.98 | <img src="surfaces/social/rejected/square.png" alt="square, refused ground" width="300"> the wash is dull, and composed the ground reads a rose-grey no rule allows |
+| [story](surfaces/social/) | <img src="surfaces/social/accepted/story.png" alt="story, accepted" width="300"> pass 0.99 | <img src="surfaces/social/rejected/story.png" alt="story, refused ground" width="300"> same ground; the band loses indigo from the wash entirely |
+| [OG](surfaces/social/) | <img src="surfaces/social/accepted/og.png" alt="OG, accepted" width="300"> pass 0.98 | <img src="surfaces/social/rejected/og.png" alt="OG, refused ground" width="300"> the wash is dull, mean chroma 26 |
+| [print, A4](surfaces/print/) | <img src="surfaces/print/accepted/onepager.png" alt="one-pager, accepted" width="300"> pass 1.00 | <img src="surfaces/print/rejected/onepager.png" alt="one-pager, refused ground" width="300"> the page passes, its ground does not: dull wash, mean chroma 27, refused before the page was laid |
 
 The recipe is the same on every row: ground, paper veil, grain where the rules allow it, the mark, the wordmark in the text gradient, a headline in ink. What changes between a hero and a story card is one row of numbers in a table. Where the numbers came from is worth saying. The square's crop was scored at six positions across the ground and passes at two of them; no 9:16 crop of a 16:9 ground passes at all, so the story carries its ground as a band. The gate chose those, not an eye, and the comment above the table says which verdicts it was.
 
@@ -38,7 +38,7 @@ The ledger, `runs/ledger.jsonl`, is one line per run: model, tier, prompt at its
 |---|---|
 | [![The Handsel ident: six slices rise into the band while the flow runs through them, then the wordmark](surfaces/motion/out/poster.jpg)](surfaces/motion/out/ident.mp4) | [![The refused ident: the same animation over the raw flow gradient, the mark vanishing into it](surfaces/motion/out/refused/poster.jpg)](surfaces/motion/out/refused/ident.mp4) |
 | the accepted ground under a tenth of paper, `ident.html` | the flow itself as the ground, `ident.html?ground=ramp` |
-| **pass, 6 of 6 frames, on-brand 0.98** | **fail, 6 of 6 frames, on-brand 0.72 to 0.83**, colour.01 and gradient.03 on every frame, the tagline's contrast too as it lands |
+| **pass, 6 of 6 frames, on-brand 0.98** | **fail, 6 of 6 frames, on-brand 0.72 to 0.82**, colour.01 and gradient.03 on every frame, the tagline's contrast too as it lands |
 | soft wash: darks at chroma 51 | the ground is #8751AA, 63 from the nearest allowed ground; the darks are saturated (chroma 78 to 80, a wash stays under 56) |
 
 Six seconds, 1920 by 1080, drawn in code from the mark's own geometry and the motion rules: a rise on a soft curve, staggered 120 ms, the flow left to right, nothing rotated or mirrored. `surfaces/motion/ident.html` takes `?t=<ms>` and seeks its timeline there, and `surfaces/motion/render.py` captures 180 held frames that way, because Chrome's virtual time advances timers without producing frames and a recording of a playing page is a file of the right length holding the wrong pictures. ffprobe confirms the frame count before the file is kept. One frame a second goes through the gate with its foreground declared, the way every surface is scored; the series is in `surfaces/motion/out/score.json`.

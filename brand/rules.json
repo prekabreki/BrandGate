@@ -1,11 +1,11 @@
 {
   "source": "brand/rules.md",
   "generated_from_prose": true,
-  "parser": "d444b0b83807f7a0",
+  "parser": "dcde9861da0f7065",
   "counts": {
-    "total": 40,
+    "total": 41,
     "checked": 12,
-    "manual": 28
+    "manual": 29
   },
   "rules": [
     {
@@ -82,6 +82,13 @@
       "id": "mark.09",
       "section": "mark",
       "prose": "A single slice may stand alone as the avatar or favicon unit.",
+      "check": "manual",
+      "params": {}
+    },
+    {
+      "id": "mark.10",
+      "section": "mark",
+      "prose": "Type beside the mark sets its left edge on the first slice's lowest point, the lower corner of the leftmost slice: 108.3 of the mark's 739 units in from its left edge, 14.65% of its width. The wordmark, headline and tagline share that line. Type never aligns to the mark's left edge.",
       "check": "manual",
       "params": {}
     },

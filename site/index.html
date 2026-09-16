@@ -47,7 +47,8 @@
   /* Paper at the foot for the type, nothing over the top: the procedural ground carries its own falloff (#22). */
   .hero .veil { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 0%, transparent 42%, rgba(250,250,248,.70) 100%); }
   .hero .mark { position: absolute; left: clamp(16px, 4.5vw, 72px); top: clamp(20px, 5vw, 64px); width: clamp(120px, 15vw, 236px); }
-  .hero .in { position: relative; padding: 32vh clamp(16px, 4.5vw, 72px) clamp(56px, 9vw, 96px); max-width: 1100px; }
+  /* Lockup rule: the header type starts on the mark's first apex line, 14.65% of the mark's width in from its left edge. */
+  .hero .in { position: relative; padding: 32vh clamp(16px, 4.5vw, 72px) clamp(56px, 9vw, 96px) calc(clamp(16px, 4.5vw, 72px) + clamp(120px, 15vw, 236px) * 0.14651); max-width: 1100px; }
   h1 { margin: 0; font: 800 clamp(64px, 11vw, 176px)/0.88 var(--display); letter-spacing: -0.05em;
        background: var(--flow-text); -webkit-background-clip: text; background-clip: text; color: transparent; padding-right: .08em; width: max-content; max-width: 100%; }
   h2 { margin: 18px 0 0; font: 800 clamp(24px, 2.75vw, 44px)/1.05 var(--display); letter-spacing: -0.035em; max-width: 18ch; }
@@ -168,11 +169,11 @@
   <div class="pair">
     <figure class="glass zoom">
       <img src="assets/hero-accepted.jpg" srcset="assets/hero-accepted-800.jpg 800w, assets/hero-accepted.jpg 1600w" sizes="(min-width: 900px) 560px, 100vw" width="1600" height="900" alt="The accepted hero: a clean indigo to rose gradient falling into paper under the Handsel wordmark" loading="lazy">
-      <figcaption><span class="verdict pass">pass</span><b>on-brand 0.97.</b> Soft wash: darks at chroma 56, edges 5.2, every stop present.</figcaption>
+      <figcaption><span class="verdict pass">pass</span><b>on-brand 0.99.</b> Soft wash: darks at chroma 55, edges 5.3, every stop present.</figcaption>
     </figure>
     <figure class="glass zoom">
       <img src="assets/hero-rejected.jpg" srcset="assets/hero-rejected-800.jpg 800w, assets/hero-rejected.jpg 1600w" sizes="(min-width: 900px) 560px, 100vw" width="1600" height="900" alt="The refused candidate: a muddy, greyed gradient from the model, composed the same way" loading="lazy">
-      <figcaption><span class="verdict fail">fail</span><b>on-brand 0.84.</b> The wash is dull: mean chroma 27, a ground carries at least 30.</figcaption>
+      <figcaption><span class="verdict fail">fail</span><b>on-brand 0.95.</b> The wash is dull: mean chroma 27, a ground carries at least 30.</figcaption>
     </figure>
   </div>
 </section>
@@ -192,10 +193,10 @@
     <q>As a ground it is softened: blurred orbs over paper or night, indigo at the left and magenta warming to rose at the right, bleeding into one another, with a paper veil and film grain over that. No other colour enters the wash. Never the raw ramp.</q>
     <span class="k">the refused hero above, scored</span>
     <table>
-      <tr><td>colour.01</td><td>0.63</td><td>the ground is #ECEAF6</td></tr>
+      <tr><td>colour.01</td><td>0.88</td><td>the ground is #FAFAF8</td></tr>
       <tr><td>colour.03</td><td>1.00</td><td>no forbidden colour holds a flat area (#B44C9E under 4%)</td></tr>
       <tr><td>gradient.03</td><td>0.89</td><td>the wash is dull (mean chroma 27, a ground carries at least 30)</td></tr>
-      <tr class="fail"><td><span class="verdict fail">fail</span>on-brand 0.84</td><td></td><td>3 rules not applicable, no text in the frame. 28 rules manual.</td></tr>
+      <tr class="fail"><td><span class="verdict fail">fail</span>on-brand 0.95</td><td></td><td>7 rules not applicable: no text region found, and the mark not found on this ground. 29 rules manual.</td></tr>
     </table>
     <div class="foot">Thresholds sit in a TOML file a designer can open and argue with. The calibration write-up is the instrument's datasheet, disagreements first.</div>
   </div>
@@ -221,7 +222,7 @@
       <video preload="metadata" muted playsinline poster="assets/ident-refused-poster.jpg" width="960" height="540" aria-label="The refused ident: the same animation over the raw flow gradient, the mark vanishing into it">
         <source src="assets/ident-refused-960.mp4" type="video/mp4">
       </video>
-      <figcaption><span><span class="verdict fail">fail</span><b>on-brand 0.72 to 0.83</b>, the raw ramp, two rules on every frame</span><button type="button" class="replay">play it anyway</button></figcaption>
+      <figcaption><span><span class="verdict fail">fail</span><b>on-brand 0.72 to 0.82</b>, the raw ramp, two rules on every frame</span><button type="button" class="replay">play it anyway</button></figcaption>
     </figure>
   </div>
 </section>

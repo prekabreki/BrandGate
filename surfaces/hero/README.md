@@ -6,9 +6,9 @@ One generated ground under a coded foreground, and the candidate the gate refuse
 |---|---|
 | ![the accepted hero](accepted/hero.png) | ![the refused candidate, composed anyway](rejected/hero.png) |
 | ground `ground.png`: the procedural band, `ground_mesh_2_v1` | ground `ground.png`: krea2 turbo, `hero-ground@6` seed 5000 |
-| ground at the gate: **pass, on-brand 0.95** | ground at the gate: **fail, on-brand 0.91**, gradient.03 |
-| composed hero: **pass, on-brand 0.97** | composed anyway: **fail, on-brand 0.84**, gradient.03 |
-| wash: soft wash: darks at chroma 56, edges 5.2, every stop present | the wash is dull (mean chroma 27, a ground carries at least 30) |
+| ground at the gate: **pass, on-brand 0.97** | ground at the gate: **fail, on-brand 0.95**, gradient.03 |
+| composed hero: **pass, on-brand 0.99** | composed anyway: **fail, on-brand 0.95**, gradient.03 |
+| wash: soft wash: darks at chroma 55, edges 5.3, every stop present | the wash is dull (mean chroma 27, a ground carries at least 30) |
 
 The accepted ground is code: `pipeline/mesh.py`, fitted by measurement to the frame the
 designer liked best out of four prompt versions in one day (krea2 turbo, `hero-ground@7`,
@@ -42,3 +42,5 @@ python -m pipeline.mesh --seed 2 --out surfaces/_calibration
 python -m surfaces.hero.compose --ground surfaces/_calibration/ground_mesh_2_v1.png --out surfaces/hero/accepted
 python -m surfaces.hero.compose --ground <png> --out <dir> --headline "Six pieces of one thing."
 ```
+
+Scores above are from 2026-09-16 late, recomposed with the lockup rule (type on the first apex line) and scored on a box where every rule runs. The refused hero's mark is not found by the band check on its muddy ground, so its four mark rules read not applicable rather than scoring (#24).

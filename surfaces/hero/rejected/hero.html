@@ -22,13 +22,15 @@
           background: linear-gradient(180deg, transparent 0%, transparent 42%, var(--paper-a70) 100%); }
   .grain { position: absolute; inset: 0; pointer-events: none; mix-blend-mode: overlay; opacity: 0.34;
            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+  /* Lockup rule (brand/tokens.json mark.lockup): type sits on the first slice's apex line, 14.65% of the
+     mark's width in from its left edge. Mark 236 px at 72 px puts that line at 107 px. */
   .mark { position: absolute; left: 72px; top: 64px; width: 236px; }
-  h1 { position: absolute; left: 66px; bottom: 236px; margin: 0; font: 800 176px/0.88 var(--display);
+  h1 { position: absolute; left: 101px; bottom: 236px; margin: 0; font: 800 176px/0.88 var(--display);
        letter-spacing: -0.05em; background: var(--flow-text); -webkit-background-clip: text;
        background-clip: text; color: transparent; padding-right: 0.08em; width: max-content; max-width: 100%; }
-  h2 { position: absolute; left: 72px; bottom: 150px; margin: 0; font: 800 44px/1.05 var(--display);
+  h2 { position: absolute; left: 107px; bottom: 150px; margin: 0; font: 800 44px/1.05 var(--display);
        letter-spacing: -0.035em; color: var(--ink); max-width: 18ch; }
-  p  { position: absolute; left: 72px; bottom: 88px; margin: 0; font: 400 22px/1.4 var(--body);
+  p  { position: absolute; left: 107px; bottom: 88px; margin: 0; font: 400 22px/1.4 var(--body);
        color: var(--graphite); max-width: 34ch; }
 </style>
 </head>

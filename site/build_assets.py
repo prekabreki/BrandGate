@@ -34,14 +34,14 @@ CUTS = [
     (f"{S}/print/accepted/onepager.png", "onepager.jpg", 1240),
 ]
 COPIES = [(f"{S}/print/accepted/onepager.pdf", "handsel-onepager.pdf"),
-          (f"{ROOT}/brand/guide_04.pdf", "handsel-brand-sheet.pdf"),
+          (f"{ROOT}/brand/guide_05.pdf", "handsel-brand-sheet.pdf"),
           # the ident, rendered by surfaces/motion/render.py; the site takes the 960 cut and its poster
           (f"{S}/motion/out/ident-960.mp4", "ident-960.mp4"),
           (f"{S}/motion/out/poster.jpg", "ident-poster.jpg"),
           (f"{S}/motion/out/refused/ident-960.mp4", "ident-refused-960.mp4"),
           (f"{S}/motion/out/refused/poster.jpg", "ident-refused-poster.jpg")]
 # The brand sheet: the whole thing, and its head for the card on the page.
-SHEET = f"{ROOT}/brand/guide_04.png"
+SHEET = f"{ROOT}/brand/guide_05.png"
 # Screenshots of the public tools the page links to, pulled from each repo's own README
 # so the site shows what the repo shows. (raw URL, asset stem, widths)
 TOOLS = [
@@ -74,11 +74,11 @@ def sheet() -> None:
     im = Image.open(SHEET).convert("RGB")
     out = os.path.join(ASSETS, "brand-sheet.jpg")
     im.save(out, "JPEG", quality=86, optimize=True, progressive=True)
-    print(f"{'brand-sheet.jpg':26s} {os.path.getsize(out) // 1024:>5} KB  <- brand/guide_04.png")
+    print(f"{'brand-sheet.jpg':26s} {os.path.getsize(out) // 1024:>5} KB  <- brand/guide_05.png")
     head = im.crop((0, 0, im.width, 1500))
     out = os.path.join(ASSETS, "brand-sheet-head.jpg")
     head.save(out, "JPEG", quality=86, optimize=True, progressive=True)
-    print(f"{'brand-sheet-head.jpg':26s} {os.path.getsize(out) // 1024:>5} KB  <- brand/guide_04.png, top 1500")
+    print(f"{'brand-sheet-head.jpg':26s} {os.path.getsize(out) // 1024:>5} KB  <- brand/guide_05.png, top 1500")
 
 
 def stats() -> None:

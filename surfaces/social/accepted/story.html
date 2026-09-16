@@ -22,7 +22,8 @@
   .grain { position: absolute; inset: 0; pointer-events: none; mix-blend-mode: overlay; opacity: 0.34;
            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
   .mark { position: absolute; left: var(--pad); top: var(--pad); width: var(--mark-w); }
-  .stack { position: absolute; left: var(--pad); right: var(--pad); bottom: var(--pad); }
+  /* Lockup rule: the type stack starts on the first slice's apex line, 14.65% of the mark's width in. */
+  .stack { position: absolute; left: calc(var(--pad) + var(--mark-w) * 0.14651); right: var(--pad); bottom: var(--pad); }
   h1 { margin: 0; font: 800 var(--h1)/0.88 var(--display); letter-spacing: -0.05em;
        background: var(--flow-text); -webkit-background-clip: text; background-clip: text; color: transparent;
        padding-right: 0.08em; width: max-content; max-width: 100%; }

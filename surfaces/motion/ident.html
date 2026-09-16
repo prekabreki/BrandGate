@@ -49,9 +49,12 @@
   .stage { position: absolute; inset: 0; display: grid; place-content: center; justify-items: start; row-gap: 44px; padding-top: 200px; }
   svg.mark { width: 1040px; height: auto; display: block; overflow: visible; }
   .slice { opacity: 0; }
-  .word { margin: 0; font: 800 196px/0.88 var(--display); letter-spacing: -0.05em; padding-right: .08em;
+  /* Lockup rule: type sits on the first slice's apex line, 14.65% of the mark's width in from its left edge
+     (brand/tokens.json mark.lockup). At 1040 px that is 152 px. Not on the band's edge. */
+  .word, .tag { margin-left: 152px; }
+  .word { margin: 0 0 0 152px; font: 800 196px/0.88 var(--display); letter-spacing: -0.05em; padding-right: .08em;
           background: var(--flow-text); -webkit-background-clip: text; background-clip: text; color: transparent; opacity: 0; }
-  .tag { margin: -6px 0 0 4px; font: 400 38px/1.4 var(--display); color: var(--graphite); opacity: 0; }
+  .tag { margin: -6px 0 0 156px; font: 400 38px/1.4 var(--display); color: var(--graphite); opacity: 0; }
 </style>
 </head>
 <body>

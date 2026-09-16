@@ -25,7 +25,7 @@
   {
    "t_ms": 2000,
    "verdict": "pass",
-   "on_brand": 0.9817,
+   "on_brand": 0.9815,
    "failed_rules": [],
    "reasons": [],
    "errored": [],
@@ -34,7 +34,7 @@
   {
    "t_ms": 3000,
    "verdict": "pass",
-   "on_brand": 0.9817,
+   "on_brand": 0.9815,
    "failed_rules": [],
    "reasons": [],
    "errored": [],
@@ -43,7 +43,7 @@
   {
    "t_ms": 4000,
    "verdict": "pass",
-   "on_brand": 0.9817,
+   "on_brand": 0.9815,
    "failed_rules": [],
    "reasons": [],
    "errored": [],
@@ -52,7 +52,7 @@
   {
    "t_ms": 5000,
    "verdict": "pass",
-   "on_brand": 0.9817,
+   "on_brand": 0.9815,
    "failed_rules": [],
    "reasons": [],
    "errored": [],

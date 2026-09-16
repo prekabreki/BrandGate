@@ -5,12 +5,12 @@ One ground, one headline, three crops: 1080 square, 1080 by 1920 story, 1200 by 
 | square | story | OG |
 |---|---|---|
 | ![square](accepted/square.png) | ![story](accepted/story.png) | ![OG](accepted/og.png) |
-| **pass, on-brand 0.99** | **pass, on-brand 1.00** | **pass, on-brand 0.97** |
+| **pass, on-brand 0.98** | **pass, on-brand 0.99** | **pass, on-brand 0.98** |
 
 The recipe is the hero's. What changes per size is one row in a table in `compose.py`:
 mark width, the three type sizes, the veil's midpoint, and where the ground sits. The safe
 margin is 5 percent of the short side everywhere. Ground `ground.png`,
-which the gate passed at 0.96 before anything was laid on it.
+which the gate passed at 0.97 before anything was laid on it.
 
 **The gate chose the crops.** The square was scored at six horizontal positions across
 the ground. From 0 to 25 percent the crop concentrates the magenta orb past the 4 percent
@@ -26,7 +26,7 @@ verdicts, and the comment above the table says so.
 | square | story | OG |
 |---|---|---|
 | ![square, refused ground](rejected/square.png) | ![story, refused ground](rejected/story.png) | ![OG, refused ground](rejected/og.png) |
-| fail, on-brand 0.88 | fail, on-brand 0.75 | fail, on-brand 0.87 |
+| fail, on-brand 0.85, colour.01 and gradient.03 | fail, on-brand 0.81, colour.01 and gradient.03 | fail, on-brand 0.88, gradient.03 |
 
 Ground `ground.png`, refused at the gate for a different rule than
 the hero's: **#B44C9E holds 3.2% of the wash; every stop needs 6%** The hero's candidate was refused for flat magenta; this one keeps
@@ -40,3 +40,5 @@ the ground was refused before it got there, and that is the order the pipeline r
 python -m surfaces.social.compose --ground surfaces/_pool/<frame>.png --out surfaces/social/accepted
 python -m surfaces.social.compose --ground <png> --out <dir> --headline "..." --only og
 ```
+
+Scores are from 2026-09-16 late, recomposed with the lockup rule (the type stack starts on the first apex line) on a box where every rule runs. The refused ground is the hero's refused ground, `hero-ground@6`: dull wash, mean chroma 27. Composed, the square and story also read their ground as a rose-grey no rule allows (`colour.01`), and the story loses indigo from the wash entirely.
