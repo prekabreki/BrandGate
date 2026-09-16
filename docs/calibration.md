@@ -445,7 +445,20 @@ relabel turbo 1004, 1008, 1016 and 1020 as off, in which case the dark-mass bar 
 itself at the midpoint of L 4.5 and L 12.4, or keep them, in which case the four false
 passes stand as the honest residual of a target that moved under the gate.
 
-The floor in `pipeline/tests/test_wash_calibration.py` is 31 of 38 with at most six
+**Accepted, the same evening.** The five surfaces composed on the mesh ground (hero,
+square, story on a portrait render of the same ground, link card, one-pager) went in
+front of the designer twice (rounds nine and ten of `docs/process/`): the story's faded
+band and the one-pager's seven-tenths crop came back, then "looking much better", then
+"accept". They are in the labelled set as `surface:` entries, scored the way the composer
+scores them, with the declared foreground. Composed, under the foot veil and the
+template grain, they measure dark chroma 55.8 to 56.1 where the bare ground measures
+54.4, so the worst accepted is now the story at 56.14 and `dark_chroma_max` moves by the
+procedure to the midpoint with raw 1021: **56.2**. A tenth of a unit of margin is the axis
+saying it no longer separates this look; it stays only because the one "too saturated"
+reject is still on the far side. 44 labelled, **36 agree**, six false passes as above,
+two false fails that are the novelty bar on mesh near-twins.
+
+The floor in `pipeline/tests/test_wash_calibration.py` is 36 of 44 with at most six
 false passes, on this set, re-derived and not lowered. The sameness table in
 `runs/sameness.py` re-centres on the new shipped step; the run recorded in
 `runs/sameness/steps.md` was cut at the old one on the v3 pool and stands as recorded.

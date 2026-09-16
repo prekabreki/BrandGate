@@ -24,8 +24,9 @@
 
   /* The hero: the generated ground under live type. Same recipe as surfaces/hero/compose.py. */
   .hero { position: relative; min-height: 88vh; overflow: hidden; display: grid; align-items: end; }
-  .hero .ground { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 20% 50%; }
-  .hero .veil { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(250,250,248,.70) 0%, rgba(250,250,248,.12) 38%, rgba(250,250,248,.88) 100%); }
+  .hero .ground { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 0%; }
+  /* Paper at the foot for the type, nothing over the top: the procedural ground carries its own falloff (#22). */
+  .hero .veil { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 0%, transparent 42%, rgba(250,250,248,.70) 100%); }
   .grain { position: absolute; inset: 0; pointer-events: none; mix-blend-mode: overlay; opacity: .34;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
   .hero .mark { position: absolute; left: clamp(16px, 4.5vw, 72px); top: clamp(20px, 5vw, 64px); width: clamp(120px, 15vw, 236px); }
@@ -69,16 +70,16 @@
 
 <section>
   <div class="eyebrow">the hero, and the one the gate refused</div>
-  <h3>Every surface here was generated, then judged.</h3>
-  <p class="lede">The ground behind the wordmark came out of an image model. A gate written from the brand's own rules scored it before it was allowed on this page, and scored the candidate beside it too. Same type, same mark, same veil. One of them is Handsel.</p>
+  <h3>Every surface here was made, then judged.</h3>
+  <p class="lede">The ground behind the wordmark is drawn by code, fitted by measurement to the one frame out of four prompt versions the designer liked, after asking whether an image model was the right tool for a gradient at all. The candidate beside it is the model's own frame from the version before. A gate written from the brand's own rules scored both before either could land here. Same type, same mark, same veil. One of them is Handsel.</p>
   <div class="pair">
     <figure>
-      <img src="assets/hero-accepted.jpg" srcset="assets/hero-accepted-800.jpg 800w, assets/hero-accepted.jpg 1600w" sizes="(min-width: 900px) 560px, 100vw" alt="The accepted hero: a soft indigo to rose wash on paper under the Handsel wordmark" loading="lazy">
-      <figcaption><span class="verdict pass">pass</span><b>on-brand 0.96.</b> Soft wash: darks at chroma 34, edges 10.1, every stop present.</figcaption>
+      <img src="assets/hero-accepted.jpg" srcset="assets/hero-accepted-800.jpg 800w, assets/hero-accepted.jpg 1600w" sizes="(min-width: 900px) 560px, 100vw" alt="The accepted hero: a clean indigo to rose gradient falling into paper under the Handsel wordmark" loading="lazy">
+      <figcaption><span class="verdict pass">pass</span><b>on-brand 0.97.</b> Soft wash: darks at chroma 56, edges 5.2, every stop present.</figcaption>
     </figure>
     <figure>
-      <img src="assets/hero-rejected.jpg" srcset="assets/hero-rejected-800.jpg 800w, assets/hero-rejected.jpg 1600w" sizes="(min-width: 900px) 560px, 100vw" alt="The refused candidate: separated orbs of colour with too little gradient between them, composed the same way" loading="lazy">
-      <figcaption><span class="verdict fail">fail</span><b>on-brand 0.69.</b> #B44C9E holds 8.7% of the frame as a flat area, over the 4% the rule allows. The darks are saturated (chroma 60, a wash stays under 45); the orbs separate: steepest edges 13.8, a bleed stays under 13</figcaption>
+      <img src="assets/hero-rejected.jpg" srcset="assets/hero-rejected-800.jpg 800w, assets/hero-rejected.jpg 1600w" sizes="(min-width: 900px) 560px, 100vw" alt="The refused candidate: a muddy, greyed gradient from the model, composed the same way" loading="lazy">
+      <figcaption><span class="verdict fail">fail</span><b>on-brand 0.84.</b> The wash is dull: mean chroma 27, a ground carries at least 30.</figcaption>
     </figure>
   </div>
 </section>
@@ -86,10 +87,10 @@
 <section>
   <div class="eyebrow">one campaign, every crop</div>
   <h3>The same brand at every size, and on paper.</h3>
-  <p class="lede">Square, story and card from one ground and one headline, and an A4 sheet with the ground kept to a band. Each one was scored by the gate before it landed here. The story's ground sits as a band because no tall crop of a wide wash passed; the gate chose that, not an eye.</p>
+  <p class="lede">Square, story and card from one ground and one headline, and an A4 sheet with the ground kept to a band. Each one was scored by the gate before it landed here. The story's ground is the same ground drawn again at its own aspect, which a procedural ground can do and a cropped one cannot.</p>
   <div class="set">
     <figure class="sq"><img src="assets/square.jpg" alt="Handsel square social card" loading="lazy"><figcaption><span class="verdict pass">pass</span><b>square</b> 1080 by 1080</figcaption></figure>
-    <figure class="st"><img src="assets/story.jpg" alt="Handsel story card, the wash as a band" loading="lazy"><figcaption><span class="verdict pass">pass</span><b>story</b> 1080 by 1920</figcaption></figure>
+    <figure class="st"><img src="assets/story.jpg" alt="Handsel story card, the gradient at portrait aspect" loading="lazy"><figcaption><span class="verdict pass">pass</span><b>story</b> 1080 by 1920</figcaption></figure>
     <figure class="og"><img src="assets/og.jpg" alt="Handsel link card" loading="lazy"><figcaption><span class="verdict pass">pass</span><b>card</b> 1200 by 630</figcaption></figure>
     <figure class="pr"><a href="assets/handsel-onepager.pdf"><img src="assets/onepager.jpg" alt="Handsel one-pager, A4" loading="lazy"></a><figcaption><span class="verdict pass">pass</span><b>print</b> A4, flat, <a href="assets/handsel-onepager.pdf">the PDF</a></figcaption></figure>
   </div>

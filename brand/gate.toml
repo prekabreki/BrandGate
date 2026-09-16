@@ -117,7 +117,14 @@ chroma_floor = 12.0
 # same procedure to the midpoint of the worst accepted (54.7) and the best
 # clearly rejected above it (raw 1021, 56.3): 55.5. Two "too dark" rejects
 # (raw 1017 at 47.8, raw 1029 at 53.9) now sit under the bar; see the doc.
-dark_chroma_max = 55.5
+# Later the same day the designer accepted the five composed surfaces on the
+# mesh ground ("accept", round ten). Composed, with the foot veil and the
+# template grain, they measure 55.8 to 56.1, so the worst accepted is the
+# story at 56.14 and the bar moves to the midpoint with raw 1021 (56.3): 56.2.
+# That is a tenth of a unit of margin, which is the axis saying it no longer
+# separates this look; it stays only because the "too saturated" reject is
+# still on the far side of it.
+dark_chroma_max = 56.2
 # 99th percentile of the chroma gradient after a blur of width/blur_divisor.
 # Second pass: accepted topped out at 11.6, the "strong outlines, no bleed"
 # rejects started at 14.1, midpoint 13. Third pass: the designer liked turbo

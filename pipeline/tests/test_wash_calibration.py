@@ -14,7 +14,7 @@ import os
 
 import pytest
 
-from pipeline import gate
+from pipeline import gate, rules
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 LABELS = os.path.join(ROOT, "docs", "calibration-labels.json")
@@ -27,12 +27,14 @@ TAKES = os.path.join(ROOT, "lookdev", "archive", "takes_02.png")
 # both: 24 of 29, three false passes. Third pass, 2026-09-16 (#22, docs/calibration.md):
 # nine labels from the day's review joined the set (38), the dull-wash axis, the
 # thin-wash fault, the flatness test on colour.03 and two bars moved by the procedure
-# took it from 25 of 38 with eight false passes to 31 of 38 with six. The one false fail
-# is turbo 2005, on the aggregate and not on any rule. The six false passes are the
-# frames whose fault no axis measures yet: five say "too much dark on the left" or
-# "a big splotch of black", which is the dark-mass axis waiting on a relabel decision
-# recorded in the doc, and one has no note.
-MIN_AGREE = 31
+# took it from 25 of 38 with eight false passes to 31 of 38 with six. Then the designer
+# accepted the five composed surfaces on the mesh ground and a portrait mesh ground (44),
+# dark_chroma_max moved to 56.2 by the procedure, and the set stands at 36 of 44. The
+# two false fails are the novelty bar on mesh near-twins, not a brand rule. The six false
+# passes are the frames whose fault no axis measures yet: four say "too much dark on the
+# left" or "a big splotch of black", which is the dark-mass axis waiting on a relabel
+# decision recorded in the doc; two say "not enough bleed" in a way edge_p99 does not see.
+MIN_AGREE = 36
 MAX_FALSE_PASS = 6
 
 
@@ -45,6 +47,13 @@ def _labelled():
     for tid, lab in labels.items():
         if tid.startswith("takes_02_t"):
             rows.append((tid, lab, TAKES, tid.rsplit("_", 1)[1]))
+        elif tid.startswith("surface:"):
+            # A composed surface the designer accepted as shipped (#22, 2026-09-16). It is
+            # scored the way the composer scores it: with its declared foreground, so the
+            # wash is judged on the wash and not on the wordmark. The stem is repo-relative.
+            stem = os.path.join(ROOT, tid[len("surface:"):])
+            if os.path.exists(stem + ".png") and os.path.exists(stem + "-foreground.png"):
+                rows.append((tid, lab, stem + ".png", "surface"))
         elif tid in files:
             rows.append((tid, lab, files[tid], None))
     return rows
@@ -59,7 +68,13 @@ def scored():
                     "regenerate with `python -m pipeline.calibrate batch --count 30`")
     out = []
     for tid, lab, path, crop in rows:
-        r = gate.score_path(path, crop)
+        if crop == "surface":
+            from surfaces import _lib
+            mask = _lib.mask_from_png(path[:-4] + "-foreground.png")
+            r = gate.score_image(gate.load_image(path), gate.load_config(), rules.load(),
+                                 accepted_paths=[], foreground=mask)
+        else:
+            r = gate.score_path(path, crop)
         washrow = next((b for b in r["breakdown"] if b["check"] == "wash"), None)
         out.append({"id": tid, "label": lab, "verdict": r["verdict"],
                     "failed": r["failed_rules"], "wash": washrow})

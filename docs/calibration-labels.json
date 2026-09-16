@@ -37,6 +37,12 @@
     "hero-ground_turbo_3001_116e859c21f5_00001_": "off",
     "hero-ground_turbo_4000_214ebe248d8c_00001_": "off",
     "hero-ground_turbo_4001_3704896da18f_00001_": "off",
-    "hero-ground_turbo_5000_cc0e837328b1_00001_": "off"
+    "hero-ground_turbo_5000_cc0e837328b1_00001_": "off",
+    "ground_mesh_2_v1_1080x1920": "on",
+    "surface:surfaces/hero/accepted/hero": "on",
+    "surface:surfaces/social/accepted/square": "on",
+    "surface:surfaces/social/accepted/story": "on",
+    "surface:surfaces/social/accepted/og": "on",
+    "surface:surfaces/print/accepted/onepager": "on"
   }
 }

@@ -1,14 +1,12 @@
 {
- "verdict": "fail",
- "on_brand": 0.9625,
+ "verdict": "pass",
+ "on_brand": 0.9662,
  "novelty": 1.0,
  "thresholds": {
   "on_brand_min": 0.75,
   "novelty_min": 0.12
  },
- "failed_rules": [
-  "gradient.03"
- ],
+ "failed_rules": [],
  "breakdown": [
   {
    "rule": "colour.01",
@@ -42,9 +40,9 @@
   {
    "rule": "gradient.03",
    "check": "wash",
-   "score": 0.9889,
-   "passed": false,
-   "reason": "the darks are saturated (chroma 56, a wash stays under 56)",
+   "score": 1.0,
+   "passed": true,
+   "reason": "soft wash: darks at chroma 56, edges 5.2, every stop present",
    "detail": {
     "ground_L": 78.82,
     "chroma_frac": 0.5406,
@@ -177,7 +175,7 @@
  ],
  "counts": {
   "scored": 3,
-  "failed": 1,
+  "failed": 0,
   "not_applicable": 3,
   "manual": 28,
   "errored": 6
