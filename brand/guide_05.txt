@@ -1,0 +1,238 @@
+Handsel
+brand sheet
+
+Six pieces of one thing. A mark built from geometry, one gradient that flows
+through everything it touches, glass and grain where there is depth, and heavy
+type that stays quiet around it. This is the sheet a brand team hands over;
+everything on it is also a rule the gate can score.
+exploration 02 · 2026-09-14, lockup 2026-09-16 · Slice mark on Direction A · source: brand/tokens.json, brand/rules.md,
+brand/build_mark.py
+
+The mark
+Six pie slices, apex down, apex up, in a
+3:1 band. The flow runs through all six as
+one field.
+
+Clear space
+One slice radius on every side. Minimum
+width 96 px on screen, 28 mm in print.
+
+r
+
+r
+
+The mark is never rotated, mirrored, outlined or given a shadow. A single slice
+may stand alone as the avatar or favicon unit.
+
+The lockup
+
+wordmark, headline, tagline
+
+apex line · 14.65% of the mark's width
+
+Type beside the mark starts on the first
+slice's apex line, the lower corner of the
+leftmost slice. Never on the band's edge.
+
+share the apex line
+mark.lockup in tokens.json
+
+Handsel
+Tools built for one person, kept in public.
+band edge
+
+The leftmost slice points down, so its lower corner is its own centre line, 108.3
+units of the 739 unit band in from the left edge. Every line of type on a surface
+takes that x, whether the mark sits above it or beside it, so the H stem reads as
+hanging from the first apex. The first corner of the second slice sits 19 units
+further right; the apex is the datum.
+
+Colour
+Three grounds, one ink, five gradient
+stops. Indigo is the only flat accent. No
+stop is ever text.
+
+Ink
+
+Paper
+
+Mist
+
+Night
+
+Graphite
+
+#111114
+text, mono mark
+
+#FAFAF8
+default ground
+
+#ECEAF6
+flat surfaces
+
+#0D0B18
+dark ground
+
+#4A4A55
+secondary text
+
+Deep
+
+Indigo
+
+Violet
+
+Magenta
+
+Rose
+
+#1E1A5C
+flow start
+
+#4B3BE8
+the one flat
+accent
+
+#7A4FE0
+the seam
+
+#B44C9E
+flow, never
+flat
+
+#D9628A
+flow end, never
+text
+
+The flow
+One gradient, left to right, deep indigo to
+rose. Raw on the mark. Display type
+takes the text variant, which starts from
+ink. Softened to a wash when it is a
+ground.
+
+deep 0
+
+indigo 28
+
+violet 50
+
+ground wash, paper: orbs, veil, grain
+
+Type
+Archivo for everything that is read. IBM
+Plex Mono for labels and data.
+
+magenta 74
+
+rose 100
+
+ground wash, night
+
+Six pieces of
+one thing.
+
+Archivo 800
+display, -0.045 em
+two lines max
+
+Handsel
+
+Archivo 800
+wordmark, title case
+text gradient or ink
+
+A brand that stays itself across a hero, a story card, a Slack avatar and a
+printed poster, and still has room to move. Body copy sets in Archivo at
+17 px with a line height of 1.5, under 75 characters a line.
+
+body, 17 / 1.5
+
+gate: on_brand=0.91 novelty=0.42 seed=118234
+
+IBM Plex Mono
+
+Archivo 400
+
+code and data only
+
+Do and do not
+Each of these is a check the gate runs.
+
+yes
+
+Tools built for one
+person, kept in
+public.
+Secondary text in graphite on mist.
+Readable at any size.
+no
+
+The flow on a shape that is not a slice
+or type.
+
+no
+
+yes
+
+Tools built for one
+person, kept in
+public.
+
+Handsel
+
+A gradient stop used as text. Rose on
+mist fails contrast.
+
+The text gradient on display type, two
+lines or fewer, on paper.
+
+no
+
+Rotated mark. The band is always
+level.
+
+yes
+
+One slice alone as the avatar unit.
+
+Geometry
+
+slice radius
+
+189
+
+Measured off the PSD and regenerated
+by brand/build_mark.py, so the ident and
+the gate read the same numbers.
+
+apex angle
+
+62°
+
+pitch
+
+209
+
+stagger
+
+104.5 right, 40 down
+
+seam
+
+6
+
+corner round
+
+22 stroke, round join
+
+band aspect
+
+2.95 : 1
+
+type left edge
+
+first apex, 108.3 in
+
+
