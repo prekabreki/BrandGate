@@ -110,6 +110,19 @@ function HandselGate() {
             <p className="mt-3 max-w-[60ch] text-fg-soft">
               Review the surfaces the gate accepted and rejected. Edit a rule to see the score move.
             </p>
+            {/*
+              Said on the page, not just in the README. A reviewer who does not know this
+              is reading fixtures as if they were a running system, and the first thing
+              they will notice is the hand-typed hex codes in the reasons.
+            */}
+            <p className="mt-4 max-w-[62ch] rounded-chip border border-dashed border-hairline px-3 py-2 font-mono text-[11px] leading-[1.7] text-fg-soft">
+              <span className="tracking-[0.14em] text-indigo uppercase">prototype</span>{" "}
+              Every score here is a fixture typed by hand, hex codes and all, and the rule edit
+              is a lookup that reproduces one rehearsed path. The real gate is a Python pipeline
+              that measures rendered images and writes <code>score.json</code>. This screen was
+              built in a weekend on Lovable to test the interaction and the brand. It is not how
+              the thing would be built.
+            </p>
           </div>
           <ThemeToggle theme={theme} onChange={selectTheme} />
         </header>

@@ -4,11 +4,31 @@ The screen a brand team uses to review generated brand surfaces that the scoring
 accepted or rejected. The tool is itself a Handsel surface: it is set in the brand type,
 sits on the flow wash, and answers to the same rules it reviews.
 
-It is a static React review tool. There is no login and no backend. Data comes from typed
-fixtures under `src/fixtures/`, shaped the way the gate's own output is shaped, so the app
-can later read the same JSON from disk.
-
 Live build: https://handsel-gate.lovable.app
+
+## What this is, and what it is not
+
+It is a prototype, built in a weekend on Lovable, and it is worth being blunt about that
+because the screen looks more finished than it is.
+
+**It is** a test of two things: whether rules written as plain sentences can be the actual
+interface a person edits, and whether a generated app can be held to a brand by construction.
+Both answered yes. The rehearsed edit works, and every colour, font, radius and rule sentence
+in here is generated from `brand/tokens.json` and `brand/rules.json` rather than typed.
+
+**It is not** how this would be built. Every score on the page is a fixture typed by hand,
+hex codes and all: `reason: "the ground is #FAFAF8"` is a string somebody wrote, not a
+measurement. `src/gate/rescore.ts` is a lookup that reproduces one rehearsed path, not a
+scorer. Nothing reads the filesystem, nothing calls the pipeline, and there is no backend.
+
+In production the shape is obvious and dull: the Python gate in `pipeline/` already writes a
+`score.json` per candidate, the fixtures in `src/fixtures/` are that file's shape on purpose,
+and `rescore.ts` is the seam where the real thing plugs in. The interesting work was never
+going to be the React.
+
+That caveat is on the page itself, under the title, not only here.
+
+There is no login and no backend.
 
 ## Run it
 

@@ -9,7 +9,7 @@ Where a tool has no UI to screenshot, the card is real terminal output instead, 
 
 | file | what it is | how it was captured, 2026-09-18 |
 |---|---|---|
-| `shot-gate.png` | Handsel Gate, the review UI from #5 | The deployed Lovable build at `handsel-gate.lovable.app`, Chrome at 1600 by 1000. Cropped on the build to drop the Lovable badge in the corner. |
+| `shot-gate.png` | Handsel Gate, the review UI from #5 | The local build after the post-export pass, Chrome at 1600 by 1000. Retaken 2026-09-18 so the face shows the real mark, the real surface renders, the real sameness figure and the prototype note, none of which the deployed build has yet. |
 | `shot-swice.png` | Swice Daily, today's page | The live instance on the Pi over Tailscale, Chrome at 1500 by 1000. The day's suggestion, no submitted writing on screen. |
 | `shot-fetchforge.png` | FetchForge, the conversion panel | `github.com/prekabreki/FetchForge` at HEAD, its own server on 8765, scrolled to the Video URL and Conversion sections. The auth panel above them is a cookie state, not the tool working, so the card starts below it. |
 | `shot-scorescout.png` | ScoreScout, a real analysis report | `github.com/prekabreki/ScoreScout` at HEAD, run over Joplin's Maple Leaf Rag from the music21 corpus: `cli.py maple_leaf_rag.musicxml --no-llm --format html`. 579 of 579 chords identified locally, no model call. |
