@@ -60,7 +60,7 @@ Every line here is a check something can score.
 - A one-person software studio that builds tools for its own work and keeps them in public.
 - The word means a gift given at the start of something. Every public tool is one.
 - The audience is other makers who would rather read the code than a pitch.
-- The proof is the repos themselves: ColdRead, the ck3 chronicler, the rest of the public set. The brand exists to make them read as one studio.
+- The proof is the repos themselves: the ck3 chronicler, ScoreScout, FetchForge, the rest of the public set. The brand exists to make them read as one studio.
 
 ## What Handsel is not
 
