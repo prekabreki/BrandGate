@@ -150,3 +150,16 @@ def test_novelty_is_measured_against_the_accepted_grounds_not_the_arms_own_frame
     found = drift.reference_paths()
     assert found, "the repo ships no accepted grounds to measure novelty against"
     assert all("accepted" in p for p in found)
+
+
+def test_the_figures_pass_rate_counts_verdicts_not_scores():
+    # The panel's x label and its hollow markers both come from the verdict,
+    # because a frame fails when ANY rule fails: 21 of flux2's 48 failures
+    # scored 0.94 to 0.97, well above the 0.75 bar. A figure that keyed on the
+    # score would have drawn that arm as passing nearly everything, and would
+    # have disagreed with the scorecard printed beside it.
+    rows = (_rows("krea2", [4000, 4001]) +
+            _rows("flux2", [4000, 4001], on_brand=0.96, verdict="fail",
+                  failed=["gradient.03"]))
+    assert drift._pass_rate(rows, "krea2") == 1.0
+    assert drift._pass_rate(rows, "flux2") == 0.0

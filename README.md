@@ -18,6 +18,16 @@ The brand is Handsel, a one-person software studio that keeps its tools in publi
 
 The recipe is the same on every row: ground, paper veil, grain where the rules allow it, the mark, the wordmark in the text gradient, a headline in ink. What changes between a hero and a story card is one row of numbers in a table. Where the numbers came from is worth saying. The square's crop was scored at six positions across the ground and passes at two of them; no 9:16 crop of a 16:9 ground passes at all, so the story carries its ground as a band. The gate chose those, not an eye, and the comment above the table says which verdicts it was.
 
+## The drift run
+
+![Ninety-six grounds, forty-eight per model, the same seeds in both arms](runs/drift/plot.png)
+
+Swap the model and hold everything else: same prompt at the same version, same forty-eight seeds, same tier, same size. krea2 passes 96 percent of them at a mean of 0.9751 and a standard deviation of 0.0010, which is a flat line. flux2 passes 54 percent at a mean of 0.9511, and that two-hundredth of a point of mean hides a spread fifty-six times wider: the brand did not get worse on average, it got unreliable, and a team watching the mean would have shipped the swap. One rule did nearly all of it, `gradient.03`, twenty-one frames against krea2's two, and its sentence says what a designer would have said looking at the pile: the orbs separate, steepest edges 15.2 where a bleed stays under 14.
+
+The hollow rings are the point of the left panel. A frame fails when any single rule fails, whatever its score, so most of flux2's refusals sit at 0.94 to 0.97, well clear of the bar. A dashboard reporting the average would have shown a healthy number all the way down. The per-model numbers, the rule counts and the latencies are in [`runs/drift/scorecard.md`](runs/drift/scorecard.md), every figure read from the run's own output or the ledger rather than typed, and the ninety-six rows behind them are in [`runs/ledger.jsonl`](runs/ledger.jsonl) with their seeds, so the run regenerates without the pixels being tracked.
+
+The same gate runs in CI. [`gate.yml`](.github/workflows/gate.yml) scores every surface this repo ships on every push and fails the job when one stops passing, which is the half of "does not silently drift" that a plot cannot do.
+
 ## The sameness run
 
 ![Tightening the gate on a fixed pool of 200 grounds](runs/sameness/plot.png)

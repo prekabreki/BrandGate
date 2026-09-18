@@ -226,6 +226,11 @@ def _n(v, fmt="{:.4f}", dash="n/a"):
     return dash if v is None else fmt.format(v)
 
 
+def _pass_rate(rows: list[dict], model: str) -> float:
+    mine = [r for r in rows if r["model"] == model]
+    return sum(1 for r in mine if r["verdict"] == "pass") / len(mine) if mine else 0.0
+
+
 def shared_seeds(rows: list[dict]) -> bool:
     """Did every arm draw the same seeds? The run's one real precondition."""
     by = collections.defaultdict(set)
@@ -367,23 +372,34 @@ def figure(rows: list[dict], cfg: dict, out_path: str | None = None,
                 body.set_facecolor(col)
                 body.set_edgecolor(col)
                 body.set_alpha(0.22)
-        for i, (d, col) in enumerate(zip(data, colours)):
-            ax.scatter(i + rng.uniform(-0.09, 0.09, len(d)), d, s=26, color=col,
+        # Filled for a frame that passed, hollow for one that failed. Without
+        # this the panel quietly disagrees with the scorecard: a frame fails
+        # when ANY rule fails, so 21 of flux2's 48 failures sit at 0.94 to
+        # 0.97, well above the bar. A reader seeing only the cloud and the
+        # dashed line would conclude that arm passed nearly everything.
+        for i, (m, col) in enumerate(zip(models, colours)):
+            mine = [r for r in rows if r["model"] == m and r[key] is not None]
+            ok = [r[key] for r in mine if r["verdict"] == "pass"]
+            bad = [r[key] for r in mine if r["verdict"] != "pass"]
+            ax.scatter(i + rng.uniform(-0.09, 0.09, len(ok)), ok, s=26, color=col,
                        alpha=0.85, linewidths=0, zorder=3)
-            if d:
-                ax.hlines(statistics.mean(d), i - 0.28, i + 0.28, color=col, lw=2.4,
-                          zorder=4)
+            ax.scatter(i + rng.uniform(-0.09, 0.09, len(bad)), bad, s=30,
+                       facecolors="none", edgecolors=col, linewidths=1.3,
+                       alpha=0.95, zorder=3)
+            if data[i]:
+                ax.hlines(statistics.mean(data[i]), i - 0.28, i + 0.28, color=col,
+                          lw=2.4, zorder=4)
         ax.axhline(bar, color=c["graphite"], lw=1, ls="--")
         # Anchored in axes fraction, not in data: at the right-hand end the
         # label lands past the last violin and matplotlib clips it away
         # without a word, which leaves a bare dashed line meaning nothing.
-        ax.annotate(f"the gate's bar, {bar}", xy=(0.012, bar),
+        ax.annotate(f"the gate's {title} bar, {bar}", xy=(0.012, bar),
                     xycoords=("axes fraction", "data"), xytext=(0, 4),
                     textcoords="offset points", ha="left", va="bottom",
                     fontsize=9, color=c["graphite"])
         ax.set_xticks(range(len(models)))
-        ax.set_xticklabels([f"{m}\n{sum(1 for r in rows if r['model'] == m)} frames"
-                            for m in models])
+        ax.set_xticklabels([f"{m}\n{sum(1 for r in rows if r['model'] == m)} frames, "
+                            f"{_pass_rate(rows, m):.0%} pass" for m in models])
         ax.set_title(title, loc="left", fontsize=12, fontweight="bold", pad=10)
         ax.set_ylabel(ylabel, fontsize=9)
         ax.spines["top"].set_visible(False)
@@ -397,7 +413,19 @@ def figure(rows: list[dict], cfg: dict, out_path: str | None = None,
                  "Same prompt and tier, DIFFERENT seeds per arm: not a controlled "
                  "comparison.",
                  x=0.01, ha="left", fontsize=13, fontweight="bold")
-    fig.tight_layout(rect=(0, 0, 1, 0.94))
+    # Said once, under both panels, because "hollow" means nothing unless the
+    # figure explains that a frame can clear the bar and still be refused.
+    from matplotlib.lines import Line2D
+    ink = c["graphite"]
+    axes[0].legend(
+        handles=[Line2D([], [], marker="o", ls="", markerfacecolor=ink,
+                        markeredgecolor=ink, markersize=6, label="passed the gate"),
+                 Line2D([], [], marker="o", ls="", markerfacecolor="none",
+                        markeredgecolor=ink, markersize=6,
+                        label="failed a rule, whatever its score")],
+        loc="upper center", bbox_to_anchor=(1.09, -0.12), ncol=2, frameon=False,
+        fontsize=9, labelcolor=c["ink"])
+    fig.tight_layout(rect=(0, 0.04, 1, 0.94))
     if caption:
         fig.text(0.01, -0.02, caption, ha="left", va="top", fontsize=9,
                  color=c["graphite"], wrap=True)
