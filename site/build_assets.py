@@ -54,8 +54,9 @@ TOOLS = [
 # what makes each capture 8:5 without padding; None means it already is.
 # (source PNG under site/tools, asset stem, crop box or None)
 SHOTS = [
-    # 96 px off the right and 60 off the foot: that corner held the Lovable badge.
-    ("shot-gate.png", "tool-gate", (0, 0, 1504, 940)),
+    # Re-taken 2026-09-18 from the local build after the post-export pass: real mark,
+    # real surface renders, the real sameness figure, and no Lovable badge to crop off.
+    ("shot-gate.png", "tool-gate", None),
     ("shot-swice.png", "tool-swice", (0, 0, 1350, 844)),
     ("shot-fetchforge.png", "tool-fetchforge", (0, 0, 1500, 938)),
     ("shot-scorescout.png", "tool-scorescout", (0, 0, 1400, 875)),
