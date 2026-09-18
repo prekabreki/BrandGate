@@ -1,0 +1,201 @@
+/*
+ * Handsel brand tokens.
+ * The single source of truth for colour, gradient, type, radius and shadow.
+ * Components never restate these values.
+ */
+
+:root {
+  /* palette */
+  --hg-ink: #111114;
+  --hg-paper: #fafaf8;
+  --hg-mist: #eceaf6;
+  --hg-night: #0d0b18;
+  --hg-graphite: #4a4a55;
+  --hg-indigo: #4b3be8;
+
+  /* gradient stops, never used flat, never used as text */
+  --hg-deep: #1e1a5c;
+  --hg-violet: #7a4fe0;
+  --hg-magenta: #b44c9e;
+  --hg-rose: #d9628a;
+
+  /* roles, re-pointed by the night theme */
+  --hg-ground: var(--hg-paper);
+  --hg-text: var(--hg-ink);
+  --hg-text-soft: var(--hg-graphite);
+  --hg-accent: var(--hg-indigo);
+  --hg-hairline: rgba(74, 74, 85, 0.28);
+  --hg-veil: rgba(250, 250, 248, 0.62);
+  --hg-highlight: rgba(75, 59, 232, 0.1);
+
+  /* gradients */
+  --hg-flow: linear-gradient(
+    90deg,
+    #1e1a5c 0%,
+    #4b3be8 28%,
+    #7a4fe0 50%,
+    #b44c9e 74%,
+    #d9628a 100%
+  );
+  --hg-flow-text: linear-gradient(90deg, #111114 0%, #111114 10%, #4b3be8 42%, #b44c9e 100%);
+  --hg-orb-left: radial-gradient(circle, rgba(75, 59, 232, 0.55) 0%, rgba(75, 59, 232, 0) 70%);
+  --hg-orb-mid: radial-gradient(circle, rgba(180, 76, 158, 0.45) 0%, rgba(180, 76, 158, 0) 70%);
+  --hg-orb-right: radial-gradient(circle, rgba(217, 98, 138, 0.42) 0%, rgba(217, 98, 138, 0) 70%);
+
+  /* glass */
+  --hg-glass-bg: rgba(255, 255, 255, 0.52);
+  --hg-glass-border: rgba(255, 255, 255, 0.75);
+  --hg-glass-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.95), inset 0 -1px 0 rgba(17, 17, 20, 0.04),
+    0 1px 2px rgba(17, 17, 20, 0.04), 0 12px 28px -8px rgba(40, 32, 110, 0.14),
+    0 40px 80px -32px rgba(40, 32, 110, 0.2);
+
+  /* geometry */
+  --hg-radius-panel: 22px;
+  --hg-radius-chip: 6px;
+
+  /* type */
+  --hg-font-display: "Archivo", system-ui, sans-serif;
+  --hg-font-body: "Archivo", system-ui, sans-serif;
+  --hg-font-mono: "IBM Plex Mono", ui-monospace, monospace;
+}
+
+.dark {
+  --hg-ground: var(--hg-night);
+  --hg-text: #ffffff;
+  --hg-text-soft: rgba(255, 255, 255, 0.58);
+  --hg-hairline: rgba(255, 255, 255, 0.22);
+  --hg-veil: rgba(13, 11, 24, 0.6);
+  --hg-highlight: rgba(142, 99, 255, 0.16);
+  --hg-flow: linear-gradient(90deg, #6c56ff 0%, #8e63ff 45%, #c25ccb 75%, #ec56a8 100%);
+  --hg-flow-text: linear-gradient(90deg, #ffffff 0%, #ffffff 10%, #8e63ff 42%, #ec56a8 100%);
+  --hg-glass-bg: rgba(255, 255, 255, 0.06);
+  --hg-glass-border: rgba(255, 255, 255, 0.12);
+  --hg-glass-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 12px 28px -8px rgba(0, 0, 0, 0.45),
+    0 40px 80px -32px rgba(0, 0, 0, 0.55);
+}
+
+/* ---------- surface primitives ---------- */
+
+.hg-glass {
+  background: var(--hg-glass-bg);
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  border: 1px solid var(--hg-glass-border);
+  box-shadow: var(--hg-glass-shadow);
+  border-radius: var(--hg-radius-panel);
+}
+
+.hg-flow-fill {
+  background-image: var(--hg-flow);
+}
+
+.hg-flow-text {
+  width: max-content;
+  max-width: 100%;
+  background-image: var(--hg-flow-text);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.hg-veil {
+  background: var(--hg-veil);
+}
+
+.hg-grain {
+  opacity: 0.38;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.hg-orb {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(90px);
+}
+
+.hg-orb-a {
+  background-image: var(--hg-orb-left);
+  animation: hg-drift-a 34s ease-in-out infinite alternate;
+}
+
+.hg-orb-b {
+  background-image: var(--hg-orb-mid);
+  animation: hg-drift-b 26s ease-in-out infinite alternate;
+}
+
+.hg-orb-c {
+  background-image: var(--hg-orb-right);
+  animation: hg-drift-c 38s ease-in-out infinite alternate;
+}
+
+@keyframes hg-drift-a {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    transform: translate3d(6%, 4%, 0) scale(1.08);
+  }
+}
+
+@keyframes hg-drift-b {
+  from {
+    transform: translate3d(0, 2%, 0) scale(1.05);
+  }
+  to {
+    transform: translate3d(-5%, -3%, 0) scale(1);
+  }
+}
+
+@keyframes hg-drift-c {
+  from {
+    transform: translate3d(2%, -2%, 0) scale(1);
+  }
+  to {
+    transform: translate3d(-4%, 3%, 0) scale(1.1);
+  }
+}
+
+/* ---------- entrance ---------- */
+
+.hg-rise {
+  animation: hg-rise 900ms cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+@keyframes hg-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hg-mark-flow {
+  background-image: var(--hg-flow);
+  border-radius: var(--hg-radius-chip);
+}
+
+.hg-row-changed {
+  animation: hg-row-changed 1200ms ease-out 1;
+}
+
+@keyframes hg-row-changed {
+  from {
+    background-color: var(--hg-highlight);
+  }
+  to {
+    background-color: transparent;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hg-orb,
+  .hg-rise,
+  .hg-row-changed {
+    animation: none;
+  }
+}
