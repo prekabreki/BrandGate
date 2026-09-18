@@ -491,7 +491,7 @@ frame, and it belongs in the README (#12).
 
 ## Ruled 2026-09-16, late: eight disagreements, one page
 
-The agreement test went red at 35 of 43 on linuxheima once every rule ran there. Put to the designer as one Lavish page, `.lavish/23-ruling.html`, with the frames beside the frames they sit among. Four answers, all his.
+The agreement test went red at 35 of 43 on the Linux box once every rule ran there. Put to the designer as one Lavish page, `.lavish/23-ruling.html`, with the frames beside the frames they sit among. Four answers, all his.
 
 **The mesh twins are not a wash call.** `ground_mesh_2_v1` and `ground_mesh_3_v1`, labelled on, failed with no failed rule: the novelty check refused them at 0.00 and 0.11 against 0.12, nearest neighbour the shipped hero ground, which is mesh 1. Novelty is measured against whatever accepted set a machine holds, so the same labels could go red on one box and green on the other. Ruling: the calibration scores brand rules only, `accepted_paths=[]`, on every frame. The labels say "this is Handsel"; they never said "this is new".
 

@@ -63,7 +63,7 @@ it, gated frame by frame. That also makes the drift plot work on video.
 
 ## The pipeline
 
-`gen.py` carved out of vibe-comfyUI: Krea with Turbo and Raw tiers, `runs.jsonl` provenance,
+`gen.py` carved out of a local ComfyUI harness: Krea with Turbo and Raw tiers, `runs.jsonl` provenance,
 tested. Every output is versioned by model, prompt, params, LoRA and seed. Scoring is a judge
 that is itself calibrated and written up, because a validated judge is not a validated gate,
 and the calibration write-up is part of the deliverable, not an appendix.

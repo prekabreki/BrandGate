@@ -174,12 +174,22 @@ def sweep_binary(f: Findings, rel: str, full: str, pats) -> None:
         except Exception as e:
             f.rows.append((rel, "UNREADABLE-image-metadata", f"{type(e).__name__}: {e}"))
     elif low.endswith(".pdf"):
+        # Both halves matter. The /Info dict carries the producing tool and often a
+        # source path; the page text carries whatever the document actually says. A
+        # sweep that reads only the metadata skips the words and still prints a total.
         try:
             from pypdf import PdfReader
-            meta = PdfReader(full).metadata or {}
+            reader = PdfReader(full)
+            meta = reader.metadata or {}
             f.scan(f"{rel} [pdf info]", " ".join(f"{k}={v}" for k, v in meta.items()), pats)
         except Exception as e:
             f.rows.append((rel, "UNREADABLE-pdf-info", f"{type(e).__name__}: {e}"))
+            return
+        try:
+            text = chr(10).join((pg.extract_text() or "") for pg in reader.pages)
+            f.scan(f"{rel} [pdf text, {len(reader.pages)}pp]", text, pats)
+        except Exception as e:
+            f.rows.append((rel, "UNREADABLE-pdf-text", f"{type(e).__name__}: {e}"))
 
 
 def sweep_history(f: Findings, pats) -> None:

@@ -37,7 +37,7 @@ TAKES = os.path.join(ROOT, "lookdev", "archive", "takes_02.png")
 # Ruled 2026-09-16, late (docs/calibration.md, "eight disagreements, one page"): the
 # calibration scores brand rules only, so the two novelty refusals agree; the six false
 # passes stay off as known misses, with a placement check filed as #25 for after the
-# submit; the floor follows the count, 37 of 43 on linuxheima.
+# submit; the floor follows the count, 37 of 43 on the Linux box.
 MIN_AGREE = 37
 MAX_FALSE_PASS = 6
 
@@ -79,7 +79,7 @@ def scored():
                                  accepted_paths=[], foreground=mask)
         else:
             # Brand rules only. Novelty is measured against whatever accepted set this
-            # machine holds, so the same labels went red on linuxheima and green on the
+            # machine holds, so the same labels went red on the Linux box and green on the
             # Windows box over two mesh near-twins. The labels say "this is Handsel";
             # they never said "this is new". Ruled 2026-09-16, docs/calibration.md.
             r = gate.score_path(path, crop, accepted_paths=[])

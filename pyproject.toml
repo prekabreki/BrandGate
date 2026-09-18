@@ -19,7 +19,10 @@ clip = ["open-clip-torch>=2.24", "torch>=2.4"]
 runs = ["matplotlib>=3.9"]
 
 [dependency-groups]
-dev = ["pytest>=8"]
+# pypdf is the leak sweep's eyes on PDFs (scripts/sweep.py). Without it the
+# sweep skips every PDF and still prints a total, which reads like a complete
+# answer; it now reports them as unreadable instead.
+dev = ["pytest>=8", "pypdf>=5"]
 
 [tool.pytest.ini_options]
 testpaths = ["pipeline/tests"]
