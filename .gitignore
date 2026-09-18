@@ -9,6 +9,9 @@ runs/*
 !runs/ledger.jsonl
 !runs/*.py
 !runs/sameness/
+# The drift run's three artifacts (#9): the raw table, the figure and the
+# scorecard. The 96 frames behind them are not tracked, see surfaces/_drift.
+!runs/drift/
 
 # Hunting frames. Only a chosen surface graduates out of _scratch into the repo.
 surfaces/_scratch/
@@ -26,6 +29,10 @@ lookdev/_render*
 # Parked calibration sets and local run logs.
 surfaces/_calibration-*/
 _calibrate-*.log
+
+# The drift arms (#9): 48 grounds per model, same prompt version, same seeds,
+# regenerable from the ledger. Lives on the 4080 box only, like the pool.
+surfaces/_drift/
 
 # The sameness pool (#10): 200 grounds, one model, one tier, regenerable from
 # the ledger's seeds. Lives on the 4080 box only. _pool-v4 and any later
