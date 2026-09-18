@@ -50,7 +50,14 @@ export function SurfaceList({
       <div className="mt-6 space-y-4 border-t border-hairline pt-5">
         {runs.map((run) => (
           <figure key={run.id}>
-            <img src={run.image} alt={run.caption} className="w-full rounded-chip" />
+            {run.image ? (
+              <img src={run.image} alt={run.caption} className="w-full rounded-chip" />
+            ) : (
+              // No run, no picture. The panel says what is missing instead.
+              <div className="flex h-24 items-center justify-center rounded-chip border border-dashed border-hairline px-3 text-center font-mono text-[11px] leading-relaxed tracking-[0.06em] text-fg-soft">
+                {run.note}
+              </div>
+            )}
             <figcaption className="mt-1 font-mono text-[11px] tracking-[0.14em] uppercase text-fg-soft">
               {run.caption}
             </figcaption>

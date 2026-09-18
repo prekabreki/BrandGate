@@ -10,43 +10,33 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as ApiPublicHandsgatePushRouteImport } from './routes/api/public/handsgate-push'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiPublicHandsgatePushRoute = ApiPublicHandsgatePushRouteImport.update({
-  id: '/api/public/handsgate-push',
-  path: '/api/public/handsgate-push',
-  getParentRoute: () => rootRouteImport,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/api/public/handsgate-push': typeof ApiPublicHandsgatePushRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/api/public/handsgate-push': typeof ApiPublicHandsgatePushRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/api/public/handsgate-push': typeof ApiPublicHandsgatePushRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/api/public/handsgate-push'
+  fullPaths: '/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/api/public/handsgate-push'
-  id: '__root__' | '/' | '/api/public/handsgate-push'
+  to: '/'
+  id: '__root__' | '/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  ApiPublicHandsgatePushRoute: typeof ApiPublicHandsgatePushRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -58,19 +48,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/public/handsgate-push': {
-      id: '/api/public/handsgate-push'
-      path: '/api/public/handsgate-push'
-      fullPath: '/api/public/handsgate-push'
-      preLoaderRoute: typeof ApiPublicHandsgatePushRouteImport
-      parentRoute: typeof rootRouteImport
-    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  ApiPublicHandsgatePushRoute: ApiPublicHandsgatePushRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -1,0 +1,20 @@
+/*
+ * The one declaration that cannot live in tokens.css.
+ *
+ * Tailwind v4 runs its own Lightning CSS pass over everything reached through
+ * styles.css, and that pass targets Safari only. Lightning therefore rewrites
+ * `backdrop-filter` to `-webkit-backdrop-filter` and DELETES the standard property
+ * as redundant. Chrome 153 supports the standard property and not the prefixed one
+ * (CSS.supports('-webkit-backdrop-filter', 'blur(2px)') is false), so the result was
+ * a glass recipe that silently rendered as a flat white fill in every Chromium
+ * browser, in dev and in the build, with nothing logged.
+ *
+ * This file carries no Tailwind at-rule, so Tailwind's plugin does not claim it and
+ * the property survives. It is linked separately from styles.css. Keep it that way,
+ * and keep it to this one rule: everything else about the glass is in tokens.css
+ * where it belongs.
+ */
+
+.hg-glass {
+  backdrop-filter: blur(28px) saturate(180%);
+}

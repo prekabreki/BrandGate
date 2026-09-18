@@ -25,4 +25,11 @@ export type Surface = { id: SurfaceId; accepted: Candidate; rejected: Candidate 
 
 export type Rule = { id: string | null; section: string; prose: string; check: string };
 
-export type RunPlot = { id: "drift" | "sameness"; image: string; caption: string };
+export type RunPlot = {
+  id: "drift" | "sameness";
+  caption: string;
+  // null when the run has not been made. The panel says so rather than drawing
+  // a shape: this tool is about not shipping things that were never measured.
+  image: string | null;
+  note?: string;
+};

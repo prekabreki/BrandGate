@@ -1,0 +1,10 @@
+# Lovable's export carried no ignore file, so node_modules, the nitro build and the
+# wrangler scratch were all untracked and one `git add -A` away from the repo.
+node_modules/
+.output/
+.wrangler/
+.nitro/
+.tanstack/
+dist/
+*.local
+.env*

@@ -13,7 +13,7 @@ import { surfaceById, surfaces } from "@/fixtures/surfaces";
 import type { Rule, Surface, SurfaceId } from "@/fixtures/types";
 import { rescore } from "@/gate/rescore";
 
-const title = "Handsel Gate — brand surface review";
+const title = "Handsel Gate, brand surface review";
 const description =
   "An internal review screen for generated brand surfaces the scoring gate accepted or rejected.";
 

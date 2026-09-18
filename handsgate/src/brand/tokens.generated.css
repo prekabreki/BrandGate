@@ -1,0 +1,48 @@
+/*
+ * GENERATED FILE. Do not edit.
+ *
+ * Written by handsgate/scripts/tokens-to-tailwind.py from brand/tokens.json,
+ * the same source the gate, the brand sheet and the one-pager read. Edit the
+ * token there and run the script; editing this file is how the UI starts
+ * disagreeing with the brand it is supposed to be reviewing.
+ */
+
+:root {
+  /* palette, every hex from brand/tokens.json */
+  --hg-ink: #111114; /* text, mono mark on light ground */
+  --hg-paper: #fafaf8; /* default light ground (Direction A) */
+  --hg-mist: #eceaf6; /* tinted light ground, indigo-grey */
+  --hg-night: #0d0b18; /* dark ground (Direction A2) */
+  --hg-graphite: #4a4a55; /* secondary text on light */
+  --hg-indigo: #4b3be8; /* primary accent, links, gradient stop */
+  --hg-deep: #1e1a5c; /* gradient start */
+  --hg-violet: #7a4fe0; /* gradient seam */
+  --hg-magenta: #b44c9e; /* secondary accent, gradient stop */
+  --hg-rose: #d9628a; /* gradient end; never as text */
+
+  /* gradients: the flow, its night variant, the text cut and the ground */
+  --hg-flow-base: linear-gradient(90deg, #1E1A5C 0%, #4B3BE8 28%, #7A4FE0 50%, #B44C9E 74%, #D9628A 100%);
+  --hg-flow-night-base: linear-gradient(90deg, #6C56FF 0%, #8E63FF 45%, #C25CCB 75%, #EC56A8 100%);
+  --hg-flow-text-base: linear-gradient(90deg, #111114 0%, #111114 10%, #4B3BE8 42%, #B44C9E 100%);
+
+  /* type: families and the metrics the display face is drawn at */
+  --hg-font-display: "Archivo", 'Helvetica Neue', Arial, sans-serif;
+  --hg-font-body: "Archivo", system-ui, sans-serif;
+  --hg-font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --hg-display-weight: 800;
+  --hg-display-tracking: -0.045em;
+  --hg-body-weight: 400;
+  --hg-body-size: 17px;
+  --hg-body-leading: 1.5;
+
+  /* mark geometry, so a lockup here cannot drift from the sheet */
+  --hg-mark-aspect: 2.945;
+  --hg-mark-seam: 9.0;
+  --hg-lockup-left: 0.14651;
+  --hg-mark-min: 96px;
+}
+
+/* Night takes the flow's own night stops, not a filtered copy of the day one. */
+.dark {
+  --hg-flow-base: var(--hg-flow-night-base);
+}

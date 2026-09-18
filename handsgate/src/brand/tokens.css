@@ -1,24 +1,18 @@
 /*
- * Handsel brand tokens.
- * The single source of truth for colour, gradient, type, radius and shadow.
- * Components never restate these values.
+ * Handsel brand tokens, the UI half.
+ *
+ * The VALUES are not here. Every hex, gradient, font and mark measurement comes
+ * from brand/tokens.json through tokens.generated.css, so this app cannot drift
+ * from the brand sheet, the one-pager or the gate that scores all three.
+ *
+ * What IS here is the part a token file cannot hold: which token plays which role,
+ * what night does to those roles, and the surface recipes. Those are decisions, and
+ * they belong somewhere a person reviews them.
  */
 
+@import "./tokens.generated.css";
+
 :root {
-  /* palette */
-  --hg-ink: #111114;
-  --hg-paper: #fafaf8;
-  --hg-mist: #eceaf6;
-  --hg-night: #0d0b18;
-  --hg-graphite: #4a4a55;
-  --hg-indigo: #4b3be8;
-
-  /* gradient stops, never used flat, never used as text */
-  --hg-deep: #1e1a5c;
-  --hg-violet: #7a4fe0;
-  --hg-magenta: #b44c9e;
-  --hg-rose: #d9628a;
-
   /* roles, re-pointed by the night theme */
   --hg-ground: var(--hg-paper);
   --hg-text: var(--hg-ink);
@@ -28,21 +22,14 @@
   --hg-veil: rgba(250, 250, 248, 0.62);
   --hg-highlight: rgba(75, 59, 232, 0.1);
 
-  /* gradients */
-  --hg-flow: linear-gradient(
-    90deg,
-    #1e1a5c 0%,
-    #4b3be8 28%,
-    #7a4fe0 50%,
-    #b44c9e 74%,
-    #d9628a 100%
-  );
-  --hg-flow-text: linear-gradient(90deg, #111114 0%, #111114 10%, #4b3be8 42%, #b44c9e 100%);
+  /* the generated flow, under the names the primitives below use */
+  --hg-flow: var(--hg-flow-base);
+  --hg-flow-text: var(--hg-flow-text-base);
   --hg-orb-left: radial-gradient(circle, rgba(75, 59, 232, 0.55) 0%, rgba(75, 59, 232, 0) 70%);
   --hg-orb-mid: radial-gradient(circle, rgba(180, 76, 158, 0.45) 0%, rgba(180, 76, 158, 0) 70%);
   --hg-orb-right: radial-gradient(circle, rgba(217, 98, 138, 0.42) 0%, rgba(217, 98, 138, 0) 70%);
 
-  /* glass */
+  /* glass: the Direction A recipe from brand/fonts.css */
   --hg-glass-bg: rgba(255, 255, 255, 0.52);
   --hg-glass-border: rgba(255, 255, 255, 0.75);
   --hg-glass-shadow:
@@ -53,11 +40,6 @@
   /* geometry */
   --hg-radius-panel: 22px;
   --hg-radius-chip: 6px;
-
-  /* type */
-  --hg-font-display: "Archivo", system-ui, sans-serif;
-  --hg-font-body: "Archivo", system-ui, sans-serif;
-  --hg-font-mono: "IBM Plex Mono", ui-monospace, monospace;
 }
 
 .dark {
@@ -67,7 +49,7 @@
   --hg-hairline: rgba(255, 255, 255, 0.22);
   --hg-veil: rgba(13, 11, 24, 0.6);
   --hg-highlight: rgba(142, 99, 255, 0.16);
-  --hg-flow: linear-gradient(90deg, #6c56ff 0%, #8e63ff 45%, #c25ccb 75%, #ec56a8 100%);
+  /* --hg-flow-base is re-pointed to the night stops by tokens.generated.css. */
   --hg-flow-text: linear-gradient(90deg, #ffffff 0%, #ffffff 10%, #8e63ff 42%, #ec56a8 100%);
   --hg-glass-bg: rgba(255, 255, 255, 0.06);
   --hg-glass-border: rgba(255, 255, 255, 0.12);
@@ -80,8 +62,7 @@
 
 .hg-glass {
   background: var(--hg-glass-bg);
-  backdrop-filter: blur(28px) saturate(180%);
-  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  /* backdrop-filter lives in glass.css; Tailwind's Lightning pass deletes it here. */
   border: 1px solid var(--hg-glass-border);
   box-shadow: var(--hg-glass-shadow);
   border-radius: var(--hg-radius-panel);
@@ -111,7 +92,7 @@
 
 .hg-orb {
   position: absolute;
-  border-radius: 9999px;
+  border-radius: 50%;
   filter: blur(90px);
 }
 

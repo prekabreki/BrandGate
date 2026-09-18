@@ -1,11 +1,17 @@
-import heroAccepted from "./images/hero-accepted.svg";
-import heroRejected from "./images/hero-rejected.svg";
-import motionAccepted from "./images/motion-accepted.svg";
-import motionRejected from "./images/motion-rejected.svg";
-import printAccepted from "./images/print-accepted.svg";
-import printRejected from "./images/print-rejected.svg";
-import socialAccepted from "./images/social-accepted.svg";
-import socialRejected from "./images/social-rejected.svg";
+/*
+ * The real renders, cut into public/surfaces by scripts/tokens-to-tailwind.py. These
+ * slots used to hold hand-drawn SVG gradients: abstract shapes under the labels HERO,
+ * SOCIAL, PRINT and MOTION, captioned with the real scores below. A picture of a
+ * surface that was never made, sitting beside that surface's genuine verdict.
+ */
+const heroAccepted = "/surfaces/hero-accepted.jpg";
+const heroRejected = "/surfaces/hero-rejected.jpg";
+const motionAccepted = "/surfaces/motion-accepted.jpg";
+const motionRejected = "/surfaces/motion-rejected.jpg";
+const printAccepted = "/surfaces/print-accepted.jpg";
+const printRejected = "/surfaces/print-rejected.jpg";
+const socialAccepted = "/surfaces/social-accepted.jpg";
+const socialRejected = "/surfaces/social-rejected.jpg";
 import type { Surface } from "./types";
 
 const thresholds = { on_brand_min: 0.75, novelty_min: 0.12 };

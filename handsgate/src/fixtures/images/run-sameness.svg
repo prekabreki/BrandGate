@@ -1,7 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="600" height="220" viewBox="0 0 600 220">
-<rect width="600" height="220" fill="#FAFAF8"/>
-<line x1="40" y1="180" x2="570" y2="180" stroke="#4A4A55" stroke-width="1" opacity="0.5"/>
-<line x1="40" y1="20" x2="40" y2="180" stroke="#4A4A55" stroke-width="1" opacity="0.5"/>
-<path d="M40.0 110.0 L62.1 82.1 L84.2 58.8 L106.3 44.0 L128.3 40.2 L150.4 47.9 L172.5 65.9 L194.6 91.2 L216.7 119.7 L238.8 146.5 L260.8 167.3 L282.9 178.6 L305.0 178.5 L327.1 167.1 L349.2 146.2 L371.3 119.3 L393.3 90.9 L415.4 65.6 L437.5 47.7 L459.6 40.1 L481.7 44.1 L503.8 59.1 L525.8 82.4 L547.9 110.4 L570.0 138.2 " fill="none" stroke="#4B3BE8" stroke-width="2"/>
-<text x="570" y="16" text-anchor="end" font-family="monospace" font-size="12" fill="#4A4A55">sameness</text>
-</svg>

@@ -1,7 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="600" height="220" viewBox="0 0 600 220">
-<rect width="600" height="220" fill="#FAFAF8"/>
-<line x1="40" y1="180" x2="570" y2="180" stroke="#4A4A55" stroke-width="1" opacity="0.5"/>
-<line x1="40" y1="20" x2="40" y2="180" stroke="#4A4A55" stroke-width="1" opacity="0.5"/>
-<path d="M40.0 110.0 L62.1 64.9 L84.2 41.0 L106.3 49.6 L128.3 86.6 L150.4 134.6 L172.5 171.0 L194.6 178.8 L216.7 154.2 L238.8 108.8 L260.8 64.0 L282.9 40.8 L305.0 50.2 L327.1 87.7 L349.2 135.7 L371.3 171.6 L393.3 178.5 L415.4 153.3 L437.5 107.6 L459.6 63.1 L481.7 40.7 L503.8 50.8 L525.8 88.8 L547.9 136.7 L570.0 172.1 " fill="none" stroke="#4B3BE8" stroke-width="2"/>
-<text x="570" y="16" text-anchor="end" font-family="monospace" font-size="12" fill="#4A4A55">drift</text>
-</svg>
