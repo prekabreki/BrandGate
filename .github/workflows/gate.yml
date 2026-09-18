@@ -1,0 +1,76 @@
+# The brand, checked on every push. ci.yml is the test suite; this is the gate
+# turned on the repo's own output, and the two are separate files on purpose so
+# a reviewer reads two names and knows which one went red.
+#
+# What it enforces: every PNG a surface ships still passes the gate it passed
+# when it was accepted. A commit that drops an off-brand ground into
+# surfaces/hero/accepted/, or a rule change that quietly lowers the bar, turns
+# this check red with the file and the rule named in the job summary.
+#
+# This job never generates and never calls a model. It reads tracked PNGs and
+# scores them offline: no API key, no GPU. If it ever needs a key, that is a
+# gate bug, not a workflow to give a key to.
+name: gate
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  brand:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+    steps:
+      - uses: actions/checkout@v4
+
+      # Not optional here, unlike a convenience dependency. Without libcairo2
+      # the six mark and motif checks cannot render the reference mark, they
+      # error, and the gate returns a pass it did not earn: a rotated mark
+      # sails through and nothing in the log says why (#17). `recheck` exits 2
+      # rather than 0 in that state, so a leaner image fails this job loudly
+      # instead of weakening it silently.
+      - name: cairo
+        run: sudo apt-get install -y --no-install-recommends libcairo2
+
+      - uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+          cache-dependency-glob: uv.lock
+
+      - name: python
+        run: uv python install 3.13
+
+      - name: sync
+        run: uv sync --locked
+
+      - name: score every shipped surface
+        run: |
+          uv run python -m pipeline.recheck \
+            --summary "$GITHUB_STEP_SUMMARY" \
+            --emit runs/verdicts.jsonl
+
+      # The verdicts as the connector reads them, kept whether the job passed
+      # or failed: the failing run is the one worth downloading.
+      - name: verdicts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: verdicts
+          path: runs/verdicts.jsonl
+          if-no-files-found: ignore
+
+      # Optional by construction. With no SLACK_WEBHOOK_URL secret every step
+      # below is skipped and the job is unaffected, so a fork and a fresh clone
+      # both work with no secrets at all (#8).
+      - uses: actions/setup-go@v5
+        if: always() && env.SLACK_WEBHOOK_URL != ''
+        with:
+          go-version-file: connector/go.mod
+
+      - name: post the verdicts to slack
+        if: always() && env.SLACK_WEBHOOK_URL != ''
+        run: |
+          (cd connector && go build -o /tmp/brandgate-connector .)
+          /tmp/brandgate-connector post runs/verdicts.jsonl
