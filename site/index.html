@@ -21,9 +21,13 @@
     --display: "Archivo", "Helvetica Neue", Arial, sans-serif; --mono: "IBM Plex Mono", Consolas, monospace;
     --glass-bg: rgba(255,255,255,0.52);
     --glass-shadow: inset 0 1px 0 rgba(255,255,255,0.95), inset 0 -1px 0 rgba(17,17,20,0.04), 0 1px 2px rgba(17,17,20,0.04), 0 12px 28px -8px rgba(40,32,110,0.14), 0 40px 80px -32px rgba(40,32,110,0.20);
-    --ease-out: cubic-bezier(0.23, 1, 0.32, 1); }
+    --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+    --hero-fade: linear-gradient(180deg, #000 0%, #000 34%, rgba(0,0,0,.72) 58%, rgba(0,0,0,.34) 80%, rgba(0,0,0,.08) 93%, rgba(0,0,0,0) 100%); }
   * { box-sizing: border-box; min-width: 0; }
-  html, body { margin: 0; background: var(--paper); color: var(--ink); font: 400 17px/1.5 var(--display); -webkit-font-smoothing: antialiased; }
+  html { background: var(--paper); }
+  /* The paper lives on html, never on body: a z-index:-1 child of body paints UNDER body's own
+     background, so a background here made the whole page wash invisible. */
+  html, body { margin: 0; color: var(--ink); font: 400 17px/1.5 var(--display); -webkit-font-smoothing: antialiased; }
   img { display: block; max-width: 100%; height: auto; }
   a { color: var(--indigo); }
   :focus-visible { outline: 2px solid var(--indigo); outline-offset: 3px; border-radius: 4px; }
@@ -40,12 +44,14 @@
   /* The hero: the accepted ground under live type, with two orbs of its own colours breathing over it.
      Kept faint: at half strength they pushed the ground's dark chroma from 56 to 62 and the gate refused it (the ident, 09-16). */
   .hero { position: relative; min-height: 88vh; overflow: hidden; display: grid; align-items: end; }
+  /* Ground, orbs and grain composite against each other inside one masked, isolated group,
+     then that whole group fades out into the page's wash. Nothing ends on an edge. */
+  .hero .bg { position: absolute; inset: 0; overflow: hidden; isolation: isolate;
+    -webkit-mask-image: var(--hero-fade); mask-image: var(--hero-fade); }
   .hero .ground { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 0%; }
   .hero .orb { width: 60vmax; height: 60vmax; filter: blur(40px); mix-blend-mode: soft-light; }
   .hero .orb.a { left: -18vmax; top: -22vmax; background: radial-gradient(circle, var(--indigo) 0%, rgba(75,59,232,0) 66%); opacity: .2; }
   .hero .orb.b { right: -16vmax; top: -10vmax; background: radial-gradient(circle, var(--rose) 0%, rgba(217,98,138,0) 66%); opacity: .18; }
-  /* Paper at the foot for the type, nothing over the top: the procedural ground carries its own falloff (#22). */
-  .hero .veil { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 0%, transparent 42%, rgba(250,250,248,.70) 100%); }
   .hero .mark { position: absolute; left: clamp(16px, 4.5vw, 72px); top: clamp(20px, 5vw, 64px); width: clamp(120px, 15vw, 236px); }
   /* Lockup rule: the header type starts on the mark's first apex line, 14.65% of the mark's width in from its left edge. */
   .hero .in { position: relative; padding: 32vh clamp(16px, 4.5vw, 72px) clamp(56px, 9vw, 96px) calc(clamp(16px, 4.5vw, 72px) + clamp(120px, 15vw, 236px) * 0.14651); max-width: 1100px; }
@@ -126,6 +132,11 @@
           transition: transform 200ms var(--ease-out), box-shadow 200ms var(--ease-out); }
   .tool:active { transform: scale(0.98); }
   @media (hover: hover) and (pointer: fine) { .tool:hover { transform: translateY(-2px); } }
+  /* One tool is private, so its card is not a link and must not pretend to be one. */
+  .tool.shut { cursor: default; }
+  .tool.shut:active { transform: none; }
+  @media (hover: hover) and (pointer: fine) { .tool.shut:hover { transform: none; } }
+  .tool .t small.shut { color: var(--graphite); }
   .tool img { border-radius: 10px; }
   .tool .t { padding: 14px 6px 4px; }
   .tool .t b { display: block; font: 800 20px/1.15 var(--display); letter-spacing: -0.02em; color: var(--ink); }
@@ -151,9 +162,11 @@
 <div class="wash" aria-hidden="true"><div class="orb a"></div><div class="orb b"></div><div class="grain"></div></div>
 
 <header class="hero">
-  <img class="ground" src="assets/ground-accepted.jpg" alt="" fetchpriority="high">
-  <div class="orb a" aria-hidden="true"></div><div class="orb b" aria-hidden="true"></div>
-  <div class="veil"></div><div class="grain"></div>
+  <div class="bg" aria-hidden="true">
+    <img class="ground" src="assets/ground-accepted.jpg" alt="" fetchpriority="high">
+    <div class="orb a"></div><div class="orb b"></div>
+    <div class="grain"></div>
+  </div>
   <img class="mark rise" src="assets/slice-mark.svg" alt="Handsel mark, six slices">
   <div class="in">
     <h1 class="rise">Handsel</h1>
@@ -240,11 +253,31 @@
 <section>
   <div class="eyebrow">the tools</div>
   <h3>Built for one person's work, then kept in public.</h3>
-  <p class="lede">Each one began as a problem in the studio's own work and was finished properly before it was left in public. The repos are the proof. More arrive here as they ship.</p>
+  <p class="lede">Six of them. Each began as a problem in the studio's own work and was finished properly before it was left in public, and five of the six are repos anyone can open. The sixth is the Swedish tool, which holds my own practice and stays private. Every face below is the tool actually running, at a scroll position it really has. Where a tool has no interface, the card is its own terminal output instead.</p>
   <div class="tools">
+    <a class="tool glass" href="https://handsel-gate.lovable.app/">
+      <img src="assets/tool-gate.jpg" srcset="assets/tool-gate-800.jpg 800w, assets/tool-gate.jpg 1600w" sizes="(min-width: 900px) 560px, 100vw" width="1600" height="1000" alt="Handsel Gate running: a surface list down the left, the accepted and refused hero side by side with their rule scores, and the editable rules panel on the right" loading="lazy">
+      <div class="t"><b>Handsel Gate</b><span>The review tool a brand team would actually sit in, wearing the brand it judges. Every surface, every score, and the sentence that produced it. Built on Lovable, then taken apart and put on the tokens.</span><small>handsel-gate.lovable.app</small></div>
+    </a>
     <a class="tool glass" href="https://github.com/prekabreki/ck3-llm-chronicler">
       <img src="assets/ck3-chronicle.jpg" srcset="assets/ck3-chronicle-800.jpg 800w, assets/ck3-chronicle.jpg 1600w" sizes="(min-width: 900px) 560px, 100vw" width="1600" height="1000" alt="A chronicle page in the ck3 chronicler: a drop-capped biography set on vellum, the character's arms and titles down the left margin" loading="lazy">
       <div class="t"><b>ck3 llm chronicler</b><span>Turns a Crusader Kings III campaign into a readable chronicle. Tails the saves, melts them, and writes biographies with a model that is forbidden to invent.</span><small>github.com/prekabreki/ck3-llm-chronicler</small></div>
+    </a>
+    <div class="tool glass shut">
+      <img src="assets/tool-swice.jpg" srcset="assets/tool-swice-800.jpg 800w, assets/tool-swice.jpg 1600w" sizes="(min-width: 900px) 560px, 100vw" width="1600" height="1000" alt="Swice Daily open on today's page: one suggested writing exercise with a time estimate, two alternatives beneath it, and the exercise menu down the left in Swedish" loading="lazy">
+      <div class="t"><b>Swice Daily</b><span>Fifteen minutes of Swedish a day, with the exercise already chosen so I cannot negotiate with myself about which one. Writing graded by a model, spaced repetition, and a listening feed off Swedish radio.</span><small class="shut">private repo, it holds my own practice</small></div>
+    </div>
+    <a class="tool glass" href="https://github.com/prekabreki/FetchForge">
+      <img src="assets/tool-fetchforge.jpg" srcset="assets/tool-fetchforge-800.jpg 800w, assets/tool-fetchforge.jpg 1600w" sizes="(min-width: 900px) 560px, 100vw" width="1600" height="1000" alt="FetchForge's conversion panel: a URL field, two encode presets side by side with their derived settings, and the advanced options beneath" loading="lazy">
+      <div class="t"><b>FetchForge</b><span>Downloads a video and transcodes it to H.265 on the GPU, reading the encoder settings off the source instead of asking me to pick them. Built because the channel's edit queue kept waiting on me.</span><small>github.com/prekabreki/FetchForge</small></div>
+    </a>
+    <a class="tool glass" href="https://github.com/prekabreki/ScoreScout">
+      <img src="assets/tool-scorescout.jpg" srcset="assets/tool-scorescout-800.jpg 800w, assets/tool-scorescout.jpg 1600w" sizes="(min-width: 900px) 560px, 100vw" width="1600" height="1000" alt="A ScoreScout report for Maple Leaf Rag: difficulty 4.2 out of 10 with key, tempo and note count as tiles, then a breakdown bar per difficulty axis" loading="lazy">
+      <div class="t"><b>ScoreScout</b><span>Reads a piano score and says how hard it is and which part of it is hard, then writes the note names and chords back onto the sheet. The report here is a real run over Maple Leaf Rag.</span><small>github.com/prekabreki/ScoreScout</small></div>
+    </a>
+    <a class="tool glass" href="https://github.com/prekabreki/DeciWaves">
+      <img src="assets/tool-deciwaves.jpg" srcset="assets/tool-deciwaves-800.jpg 800w, assets/tool-deciwaves.jpg 1600w" sizes="(min-width: 900px) 560px, 100vw" width="1600" height="1000" alt="The DeciWaves command line: its help output, the seven pipeline stages from catalog to render, and the three games it reads" loading="lazy">
+      <div class="t"><b>DeciWaves</b><span>Pulls the voice acting out of a game I own and puts it back in story order as MP3 reels, speaker and subtitle attached. No interface to show, so the card is its own help output. Ships code, never game content.</span><small>github.com/prekabreki/DeciWaves</small></div>
     </a>
   </div>
 </section>
@@ -266,7 +299,7 @@
   <figure class="glass"><img alt=""><figcaption><span class="t"></span><button type="button" autofocus>close</button></figcaption></figure>
 </dialog>
 
-<footer>Site under construction. Tools arrive here through September.</footer>
+<footer>Handsel is an invented brand, and every surface on this page was scored by the gate before it landed here.</footer>
 
 <script>
   // The three numbers come from the same function the one-pager prints them with (site/build_assets.py).

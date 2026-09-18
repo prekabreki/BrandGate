@@ -48,6 +48,20 @@ TOOLS = [
     ("https://raw.githubusercontent.com/prekabreki/ck3-llm-chronicler/HEAD/docs/images/chronicle.png",
      "ck3-chronicle", (1600, 800)),
 ]
+# The other five tool cards. Their repos ship no screenshot yet, so the captures live in
+# site/tools/ with their provenance in site/tools/README.md and are cut here the same way.
+# Every card face is 8:5, so the grid never shows six different aspects. The crop box is
+# what makes each capture 8:5 without padding; None means it already is.
+# (source PNG under site/tools, asset stem, crop box or None)
+SHOTS = [
+    # 96 px off the right and 60 off the foot: that corner held the Lovable badge.
+    ("shot-gate.png", "tool-gate", (0, 0, 1504, 940)),
+    ("shot-swice.png", "tool-swice", (0, 0, 1350, 844)),
+    ("shot-fetchforge.png", "tool-fetchforge", (0, 0, 1500, 938)),
+    ("shot-scorescout.png", "tool-scorescout", (0, 0, 1400, 875)),
+    ("shot-deciwaves.png", "tool-deciwaves", None),
+]
+SHOTS_DIR = os.path.join(ROOT, "site", "tools")
 
 
 def cut(src: str, name: str, width: int | None, quality: int = 86) -> str:
@@ -68,6 +82,20 @@ def fetch(url: str, stem: str, widths: tuple[int, ...]) -> None:
         im.resize((w, round(im.height * w / im.width)), Image.LANCZOS).save(
             out, "JPEG", quality=86, optimize=True, progressive=True)
         print(f"{name:26s} {os.path.getsize(out) // 1024:>5} KB  <- {url}")
+
+
+def shots() -> None:
+    """Cut site/tools/*.png to the 1600 and 800 wide JPEGs the tool cards load."""
+    for name, stem, box in SHOTS:
+        im = Image.open(os.path.join(SHOTS_DIR, name)).convert("RGB")
+        if box:
+            im = im.crop(box)
+        for w in (1600, 800):
+            asset = f"{stem}.jpg" if w == 1600 else f"{stem}-{w}.jpg"
+            out = os.path.join(ASSETS, asset)
+            im.resize((w, round(im.height * w / im.width)), Image.LANCZOS).save(
+                out, "JPEG", quality=86, optimize=True, progressive=True)
+            print(f"{asset:26s} {os.path.getsize(out) // 1024:>5} KB  <- site/tools/{name}")
 
 
 def sheet() -> None:
@@ -107,6 +135,7 @@ def main() -> int:
         print(f"{name:26s} {os.path.getsize(out) // 1024:>5} KB  <- {os.path.relpath(src, ROOT)}")
     for url, stem, widths in TOOLS:
         fetch(url, stem, widths)
+    shots()
     return 0
 
 

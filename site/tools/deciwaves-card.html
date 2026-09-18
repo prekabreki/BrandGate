@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>DeciWaves</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;800&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  /* A terminal card in Handsel's night palette. Every line below is real output from
+     deciwaves 0.1.0, captured on 2026-09-18. Nothing is invented: it stops at the
+     invocation rather than showing results for games this box does not have installed. */
+  :root { --night:#0D0B18; --paper:#FAFAF8; --graphite:#8B8899; --indigo:#7D6FFF; --rose:#D9628A; --mag:#B44C9E; }
+  * { box-sizing: border-box; margin: 0; }
+  html, body { background: var(--night); width: 1600px; height: 1000px; overflow: hidden; }
+  body { padding: 58px 72px; font: 400 21px/1.62 "IBM Plex Mono", Consolas, monospace; color: #D8D5E4; position: relative; }
+  .glowa, .glowb { position: absolute; border-radius: 50%; filter: blur(90px); pointer-events: none; }
+  .glowa { width: 900px; height: 900px; left: -320px; top: -300px; background: radial-gradient(circle, #4B3BE8 0%, rgba(75,59,232,0) 68%); opacity: .34; }
+  .glowb { width: 820px; height: 820px; right: -300px; bottom: -340px; background: radial-gradient(circle, var(--rose) 0%, rgba(217,98,138,0) 68%); opacity: .26; }
+  .head { position: relative; display: flex; align-items: baseline; gap: 18px; margin-bottom: 40px; }
+  .head b { font: 800 30px/1 "Archivo", sans-serif; letter-spacing: -0.02em; color: var(--paper); }
+  .head span { font-size: 17px; color: var(--graphite); letter-spacing: .04em; }
+  .t { position: relative; }
+  .p { color: var(--indigo); font-weight: 500; }
+  .dim { color: var(--graphite); }
+  .k { color: var(--paper); font-weight: 500; }
+  .stages { margin-top: 10px; }
+  .stages div { display: flex; gap: 0; }
+  .stages i { display: inline-block; width: 150px; font-style: normal; color: var(--mag); font-weight: 500; }
+  .gpu { color: var(--rose); }
+  .rule { height: 1px; background: linear-gradient(90deg, rgba(125,111,255,.55), rgba(217,98,138,.35), transparent); margin: 34px 0 26px; }
+  .foot { position: relative; font-size: 18px; color: var(--graphite); }
+  .foot b { color: var(--paper); font-weight: 500; }
+</style>
+</head>
+<body>
+<div class="glowa"></div><div class="glowb"></div>
+<div class="head"><b>DeciWaves</b><span>0.1.0 &middot; Windows CLI</span></div>
+<div class="t">
+<div><span class="p">&gt;</span> deciwaves --help</div>
+<div class="dim">usage: deciwaves [-h] [--version] [--debug] [--workspace WORKSPACE]</div>
+<div class="dim">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{setup,doctor,gui,<span class="k">ds</span>,<span class="k">hzd</span>,<span class="k">fw</span>,<span class="k">ds2</span>} ...</div>
+<div>&nbsp;</div>
+<div>DeciWaves <span class="dim">--</span> voice-audio extraction for Decima-engine games you own.</div>
+<div>&nbsp;</div>
+<div><span class="p">&gt;</span> deciwaves ds --help</div>
+<div class="dim">stages:</div>
+<div class="stages">
+  <div><i>catalog</i><span class="dim">Build the line catalog from your install</span></div>
+  <div><i>cutscenes</i><span class="dim">Resolve cutscene voice tracks</span></div>
+  <div><i>trim</i><span class="dim"><span class="gpu">[GPU]</span> Rebuild the speech-trim manifest</span></div>
+  <div><i>order</i><span class="dim">Build the story-ordered playlist</span></div>
+  <div><i>dump</i><span class="dim">Decode selected lines to WAV files</span></div>
+  <div><i>render</i><span class="dim">Render MP3 reels + tracklists</span></div>
+  <div><i>run</i><span class="dim">chain ds's stages end-to-end</span></div>
+</div>
+</div>
+<div class="rule"></div>
+<div class="t">
+<div><span class="p">&gt;</span> deciwaves &lt;game&gt; run <span class="dim">--out reels/</span></div>
+<div class="stages" style="margin-top:14px">
+  <div><i>ds</i><span class="dim">Death Stranding Director's Cut<span class="k"> &middot; no GPU</span></span></div>
+  <div><i>hzd</i><span class="dim">Horizon Zero Dawn Remastered</span></div>
+  <div><i>fw</i><span class="dim">Horizon Forbidden West</span></div>
+</div>
+</div>
+<div class="rule"></div>
+<div class="foot">Reads your own install, read-only, and puts the lines back in story order.
+  <b>Ships code, never game content.</b></div>
+</body>
+</html>
