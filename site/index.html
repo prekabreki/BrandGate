@@ -279,7 +279,7 @@
 <section>
   <div class="eyebrow">the tools</div>
   <h3>Built for one person's work, then kept in public.</h3>
-  <p class="lede">Seven of them. Each started as a problem in my own work and got finished properly before it was left in public. Four are repos anyone can open, one is a live app, and two are not public: the Swedish tool, which holds my own practice, and BrandGate, which goes public when this page does. Every face below is the tool actually running, at a scroll position it really has. Where a tool has no interface, the card is its own terminal output instead. Two of them are easier to watch than to describe, so they are here in use: one on a desktop, one on the phone it was built for.</p>
+  <p class="lede">Seven of them. Each started as a problem in my own work and got finished properly before it was left in public. Five are repos anyone can open and one is a live app. The seventh is the Swedish tool, which holds my own practice and stays private. Every face below is the tool actually running, at a scroll position it really has. Where a tool has no interface, the card is its own terminal output instead. Two of them are easier to watch than to describe, so they are here in use: one on a desktop, one on the phone it was built for.</p>
   <div class="inuse">
     <figure class="glass wide">
       <video controls preload="metadata" muted playsinline poster="assets/tool-ck3-poster.jpg"
@@ -298,10 +298,10 @@
   </div>
 
   <div class="tools">
-    <div class="tool glass shut">
+    <a class="tool glass" href="https://github.com/prekabreki/BrandGate">
       <img src="assets/tool-brandgate.jpg" srcset="assets/tool-brandgate-800.jpg 800w, assets/tool-brandgate.jpg 1600w" sizes="(min-width: 900px) 560px, 100vw" width="1600" height="1000" alt="BrandGate's terminal output: the gate refusing the rejected hero on gradient.03 with its reason in plain English, the rules that did not apply and why, then the CI re-score reporting every shipped surface still passing at the score it was accepted at" loading="lazy">
-      <div class="t"><b>BrandGate</b><span>The pipeline everything else on this page came out of. It generates grounds, scores every surface against rules written as plain sentences, and refuses the ones that miss, with the reason in the same English the rule was written in. CI re-scores what shipped on every push and goes red when one stops passing. The rules live in a markdown file a designer can edit without a deploy.</span><small class="shut">public at the flip</small></div>
-    </div>
+      <div class="t"><b>BrandGate</b><span>The pipeline everything else on this page came out of. It generates grounds, scores every surface against rules written as plain sentences, and refuses the ones that miss, with the reason in the same English the rule was written in. CI re-scores what shipped on every push and goes red when one stops passing. The rules live in a markdown file a designer can edit without a deploy.</span><small>github.com/prekabreki/BrandGate</small></div>
+    </a>
     <a class="tool glass" href="https://handsel-gate.lovable.app/">
       <img src="assets/tool-gate.jpg" srcset="assets/tool-gate-800.jpg 800w, assets/tool-gate.jpg 1600w" sizes="(min-width: 900px) 560px, 100vw" width="1600" height="1000" alt="Handsel Gate running: a surface list down the left, the accepted and refused hero side by side with their rule scores, and the editable rules panel on the right" loading="lazy">
       <div class="t"><b>Handsel Gate</b><span>Every surface, every score, and the sentence that produced it, with the rule editable in place. A weekend prototype built on Lovable, and the one piece here that is not production: its scores are fixtures typed by hand, and the real gate is a Python pipeline. What it tests is whether rules written as sentences can be the interface, and whether a generated app can be held to a brand by construction.</span><small>handsel-gate.lovable.app</small></div>
@@ -346,7 +346,7 @@
   <figure class="glass"><img alt=""><figcaption><span class="t"></span><button type="button" autofocus>close</button></figcaption></figure>
 </dialog>
 
-<footer>Handsel is an invented brand, and every surface on this page was scored by the gate before it landed here.</footer>
+<footer>Handsel is an invented brand, and every surface on this page was scored by the gate before it landed here. The brand, the rules, the gate and the runs are all in <a href="https://github.com/prekabreki/BrandGate">github.com/prekabreki/BrandGate</a>.</footer>
 
 <script>
   // The three numbers come from the same function the one-pager prints them with (site/build_assets.py).
