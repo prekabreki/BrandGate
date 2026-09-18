@@ -19,3 +19,7 @@ ck3's card face is not here.
 It comes from the chronicler's own repo (`docs/images/chronicle.png`) through the `TOOLS` list in `build_assets.py`, which is the better pattern: the site shows what the repo shows.
 The four other public tools ship no screenshot in their READMEs yet.
 Putting these captures there and fetching them the same way would retire this folder.
+
+`shot-brandgate.png` was added 2026-09-18, same rule and same reason as DeciWaves: the pipeline has no UI, so the card is its own terminal output.
+It is rendered from `brandgate-card.html` beside this file, and every line in it is real output captured on the box where cairo is present, so no rule errored and the counts are the true ones: `python -m pipeline.gate score surfaces/hero/rejected/hero.png` and `python -m pipeline.recheck`.
+The refusal is on the card rather than the pass, because a refusal you cannot see is a claim.

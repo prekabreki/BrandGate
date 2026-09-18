@@ -56,6 +56,7 @@ TOOLS = [
 SHOTS = [
     # Re-taken 2026-09-18 from the local build after the post-export pass: real mark,
     # real surface renders, the real sameness figure, and no Lovable badge to crop off.
+    ("shot-brandgate.png", "tool-brandgate", None),
     ("shot-gate.png", "tool-gate", None),
     ("shot-swice.png", "tool-swice", (0, 0, 1350, 844)),
     ("shot-fetchforge.png", "tool-fetchforge", (0, 0, 1500, 938)),

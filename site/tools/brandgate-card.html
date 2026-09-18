@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>BrandGate</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;800&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  /* A terminal card in Handsel's night palette. Every line below is real output from
+     this repo on 2026-09-18, captured on the box where cairo is present so no rule
+     errored out: `python -m pipeline.gate score surfaces/hero/rejected/hero.png`
+     followed by `python -m pipeline.recheck`. Nothing is invented, nothing is
+     reordered, and the refusal is shown rather than the pass, because a refusal you
+     cannot see is a claim. */
+  :root { --night:#0D0B18; --paper:#FAFAF8; --graphite:#8B8899; --indigo:#7D6FFF; --rose:#D9628A; --mag:#B44C9E; --ok:#5FD3A3; }
+  * { box-sizing: border-box; margin: 0; }
+  html, body { background: var(--night); width: 1600px; height: 1000px; overflow: hidden; }
+  body { padding: 62px 68px; font: 400 20px/1.72 "IBM Plex Mono", Consolas, monospace; color: #D8D5E4; position: relative; }
+  .glowa, .glowb { position: absolute; border-radius: 50%; filter: blur(90px); pointer-events: none; }
+  .glowa { width: 900px; height: 900px; left: -320px; top: -300px; background: radial-gradient(circle, #4B3BE8 0%, rgba(75,59,232,0) 68%); opacity: .34; }
+  .glowb { width: 820px; height: 820px; right: -300px; bottom: -340px; background: radial-gradient(circle, var(--rose) 0%, rgba(217,98,138,0) 68%); opacity: .26; }
+  .head { position: relative; display: flex; align-items: baseline; gap: 18px; margin-bottom: 34px; }
+  .head b { font: 800 30px/1 "Archivo", sans-serif; letter-spacing: -0.02em; color: var(--paper); }
+  .head span { font-size: 17px; color: var(--graphite); letter-spacing: .04em; }
+  .t { position: relative; }
+  .p { color: var(--indigo); font-weight: 500; }
+  .dim { color: var(--graphite); }
+  .k { color: var(--paper); font-weight: 500; }
+  .fail { color: var(--rose); font-weight: 500; }
+  .pass { color: var(--ok); font-weight: 500; }
+  .rule { display: flex; gap: 0; }
+  .rule i { display: inline-block; width: 34px; font-style: normal; }
+  .rule u { display: inline-block; width: 168px; padding-right: 22px; text-decoration: none; color: var(--mag); font-weight: 500; }
+  .rule s { display: inline-block; width: 78px; text-decoration: none; color: var(--paper); }
+  .rule em { font-style: normal; color: var(--graphite); }
+  .rule.x u { color: var(--rose); }
+  .rule.x em { color: #C9C4D8; }
+  .hr { height: 1px; background: linear-gradient(90deg, rgba(125,111,255,.55), rgba(217,98,138,.35), transparent); margin: 30px 0 24px; }
+  .foot { position: relative; font-size: 18px; color: var(--graphite); }
+  .foot b { color: var(--paper); font-weight: 500; }
+</style>
+</head>
+<body>
+<div class="glowa"></div><div class="glowb"></div>
+<div class="head"><b>BrandGate</b><span>the gate refusing a candidate, and CI re-scoring what shipped</span></div>
+<div class="t">
+<div><span class="p">&gt;</span> python -m pipeline.gate score surfaces/hero/rejected/hero.png</div>
+<div>&nbsp;</div>
+<div><span class="fail">FAIL</span>&nbsp;&nbsp;on-brand <span class="k">0.78</span>&nbsp;&nbsp;novelty <span class="k">0.14</span>&nbsp;&nbsp;<span class="dim">(5 scored, 7 n/a, 29 manual, 0 errored)</span></div>
+<div class="rule x"><i>x</i><u>gradient.03</u><s>0.00</s><em>the orbs separate: steepest edges 35.7, a bleed stays under 14; the wash is dull (mean chroma 29, a ground carries at least 30)</em></div>
+<div class="rule"><i>&nbsp;</i><u>colour.01</u><s>0.88</s><em>the ground is #FAFAF8</em></div>
+<div class="rule"><i>&nbsp;</i><u>colour.03</u><s>1.00</s><em>no forbidden colour holds a flat area (#B44C9E under 4%)</em></div>
+<div class="rule"><i>&nbsp;</i><u>motif.01</u><s>1.00</s><em>0 gestures on the surface</em></div>
+<div class="rule"><i>&nbsp;</i><u>motif.02</u><s>1.00</s><em>0 gestures on the surface</em></div>
+<div class="rule"><i>-</i><u>mark.01</u><s>--</s><em>no mark in the frame, so the mark rules do not apply</em></div>
+<div class="rule"><i>-</i><u>mark.05</u><s>--</s><em>no mark in the frame, so the mark rules do not apply</em></div>
+<div class="rule"><i>-</i><u>colour.02</u><s>--</s><em>no text region detected, nothing to measure</em></div>
+<div class="rule"><i>-</i><u>type.03</u><s>--</s><em>no text region detected, nothing to measure</em></div>
+<div class="hr"></div>
+<div><span class="p">&gt;</span> python -m pipeline.recheck&nbsp;&nbsp;<span class="dim"># what gate.yml runs on every push</span></div>
+<div>&nbsp;</div>
+<div><span class="pass">PASS</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="k">0.9884</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="dim">same</span>&nbsp;&nbsp;surfaces/hero/accepted/hero.png</div>
+<div><span class="pass">PASS</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="k">1.0000</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="dim">same</span>&nbsp;&nbsp;surfaces/print/accepted/onepager.png</div>
+<div><span class="pass">PASS</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="k">0.9883</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="dim">same</span>&nbsp;&nbsp;surfaces/social/accepted/story.png</div>
+<div class="dim">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;... 6 more, every one reproducing the score it was accepted at</div>
+</div>
+<div class="hr"></div>
+<div class="foot">The rules are prose in <b>brand/rules.md</b>. The gate reads the prose, measures the pixels, and writes the sentence back.</div>
+</body>
+</html>
